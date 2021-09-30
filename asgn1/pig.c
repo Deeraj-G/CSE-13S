@@ -17,22 +17,30 @@ int main() {
 	};
 
 	// Find the number of players
-	int playercount = 2;
+	int playercount = 0;
+	fprintf(stdout, "Enter the number of players: ");
 	scanf("%d", &playercount);
-	fprintf(stderr , "Invalid  number  of  players. Using 2 instead .\n");
+	if (playercount < 2 || playercount > 10) {	
+		fprintf(stderr , "Invalid  number  of  players. Using 2 instead .\n");
+		playercount = 2;
+	}
+	printf("%d\n", playercount);
 
 
 	// Get an initial seed that is valid
-	int SEED = 2021;
-	scanf("%d", &SEED);
-	fprintf(stderr , "Invalid  random  seed. Using  2021  instead .\n");
+	fprintf(stdout, "Enter an initial seed number: ");
+	unsigned int SEED = 0;
+	scanf("%u", &SEED);
+	if (SEED < 0 || SEED > UINT_MAX) {
+                fprintf(stderr, "Invalid  random  seed. Using  2021  instead .\n");
+		SEED = 2021;
+        }
+	printf("%u\n", SEED);
 
 
 	// Generate pseudorandom numbers
-	for(int i = 0; i < playercount; i++) {
-		srandom(SEED);
-	}	
-
+	srandom(SEED);
+		
 
 	// Initialize number of points for each player
 	int points[playercount];
@@ -41,54 +49,73 @@ int main() {
 	}
 
 
-	// Looping through each player's turn
 	// n is the turn incrementer
-	int n = 0;
 	// k is the points incrementer
+	int n = 0;
 	int k = 0;
-	// Condition to end game
-	while (points[n % playercount] < 100) {
-		// Print player's name
-		printf("%s", names[n]);
+	int condition = 1;
+	// Loop for all turns
+	while (condition == 1) {
 
 
-		// Skip turn and increment points variable if pig lands on side
-			if (pig[random() % 7] == pig[0] || pig[random() % 7] == pig[1]) {
-				n++;
-				k++;
-				// Print name of next player
-				printf("%s", names[n]);
+		// Condition for each turn
+		int minor = 1;
+
+
+		// Condition to end game
+		for (int h = 0; h < playercount; h++) {
+			if (points[h] >= 100) {
+				condition = 0;
 			}
+		}
+
+
+		// Variable to contain this round's die position
+		const Position position = pig[random() % 7];
+
+
+		// Print player's name
+		printf("It is %s turn\n", names[n]);
 			
 	
-			// Loop for each player's turn
-			while (pig[random() % 7] != pig[0] || pig[random() % 7] != pig[1]) {
-				
+		// Loop for each player's turn
+		while (minor == 1) {
+		
+
+			// End current iteration of loop if Pig lands on Side	
+                	if (position == pig[0] || position == pig[1]) {
+				printf("%s rolled the Side", names[n]);
+				minor = 0;
+                	}
+
+
+			// Razorback or Trotter
+			if (position == pig[2] || position == pig[3]) {
+				points[k] = points[k] + 10;
+				printf("%s rolled a Razorback or Trotter", names[n]);
+				printf("%d\n", points[k]);
+			}
 	
-				// Razorback or Trotter
-				if (pig[random() % 7] == pig[2] || pig[random() % 7] == pig[3]) {
-					points[k] = points[k] + 10;
-					printf("%d", points[k]);
-				}
+	
+			// Snouter
+			else if (position == pig[4]) {
+				points[k] = points[k] + 15;
+				printf("%s rolled a Snouter", names[n]);
+				printf("%d\n", points[k]);
+			}
 	
 	
-				// Snouter
-				else if (pig[random() % 7] == pig[4]) {
-					points[k] = points[k] + 15;
-					printf("%d", points[k]);
-				}
-	
-	
-				// Jowler
-				else if (pig[random() % 7] == pig[5] || pig[random() % 7] == pig[6]) {
-					points[k] = points[k] + 5;
-					printf("%d", points[k]);
-		}
-		n++;
-		k++;
+			// Jowler
+			else if (position == pig[5] || position == pig[6]) {
+				points[k] = points[k] + 5;
+				printf("%d\n", points[k]);
+				printf("%s rolled a Jowler", names[n]);
+			}
+			n++;
+			k++;
 	
 
-	}
+		}
 
 	}
 

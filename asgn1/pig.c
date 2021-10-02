@@ -51,11 +51,11 @@ int main() {
 
 	// n is the turn incrementer
 	// k is the points incrementer
-	// l is the player incrementor
 	int n = 0;
 	int k = 0;
-	//	int l = 0;
 	int condition = 1;
+	
+	
 	// Loop for all turns
 	while (condition == 1) {
 
@@ -67,16 +67,13 @@ int main() {
 		// Condition to end game
 		for (int h = 0; h < playercount; h++) {
 			if (points[h] >= 100) {
-				printf("%s won the game!\n", names[h]);
+				printf("%s wins with %d points!\n", names[h], points[h]);
 				condition = 0;
+				minor = 0;
 			}
 		}
 
 
-		// Print player's name
-		// printf("It is %s turn\n", names[n % playercount]);
-			
-	
 		// Loop for each player's turn
 		while (minor == 1) {
 			
@@ -84,13 +81,14 @@ int main() {
 			// Variable to contain this round's die position
                 	int position = pig[random() % 7];
 
+
 			// Print name of current player
 			printf("%s rolls the pig... ", names[n % playercount]);
 
 
 			// End current iteration of loop if Pig lands on Side	
                 	if (position == SIDE) {
-				printf("pig lands on side ");
+				printf("pig lands on side \n");
 				minor = 0;
 			}
 
@@ -102,6 +100,8 @@ int main() {
 				printf("%d points\n", points[k]);
 				if (points[k] >= 100) {
                                         printf("%s wins with %d points", names[n % playercount], points[k]);
+					condition = 0;
+					minor = 0;
 				}
 			}
 
@@ -112,34 +112,40 @@ int main() {
 				printf("%d points\n", points[k]); 
 				if (points[k] >= 100) {
                                         printf("%s wins with %d points", names[n % playercount], points[k]);
+					condition = 0;
+                                        minor = 0;
 				}
 			}
 
 			// Snouter
 			else if (position == SNOUTER) {
-				points[k] = points[k] + 15;
+				points[k] += 15;
 				printf("pig lands on snout ");
 				printf("%d points\n", points[k]);
 				if (points[k] >= 100) {
                                         printf("%s wins with %d points", names[n % playercount], points[k]);
+					condition = 0;
+                                        minor = 0;
 				}
 			}
 
 
 			// Jowler
 			else if (position == JOWLER) {
-				points[k] = points[k] + 5;
+				points[k] += 5;
 				printf("pig lands on ear ");
 				printf("%d points\n", points[k]);
 				if (points[k] >= 100) {
                                         printf("%s wins with %d points", names[n % playercount], points[k]);
+					condition = 0;
+                                        minor = 0;
 				}
 			}
-			n++;
-			k++;
 	
 
 		}
+		n++;
+		k++;
 
 	}
 

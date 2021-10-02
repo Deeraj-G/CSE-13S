@@ -87,7 +87,7 @@ int main() {
 
 
 			// End current iteration of loop if Pig lands on Side	
-                	if (position == SIDE) {
+			if (position == SIDE) {
 				printf("pig lands on side \n");
 				minor = 0;
 			}
@@ -105,6 +105,7 @@ int main() {
 				}
 			}
 
+
 			// Trotter
 			else if (position == TROTTER) {
 				points[k] += 10;
@@ -117,6 +118,7 @@ int main() {
 				}
 			}
 
+
 			// Snouter
 			else if (position == SNOUTER) {
 				points[k] += 15;
@@ -128,20 +130,19 @@ int main() {
                                         minor = 0;
 				}
 			}
-
-
+			
+			
 			// Jowler
 			else if (position == JOWLER) {
-				points[k] += 5;
-				printf("pig lands on ear ");
-				printf("%d points\n", points[k]);
-				if (points[k] >= 100) {
+                                points[k] += 5;
+                                printf("pig lands on ear ");
+                                printf("%d points\n", points[k]);
+                                if (points[k] >= 100) {
                                         printf("%s wins with %d points", names[n % playercount], points[k]);
-					condition = 0;
+                                        condition = 0;
                                         minor = 0;
-				}
-			}
-	
+                                }
+                        }
 
 		}
 		n++;

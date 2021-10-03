@@ -1,5 +1,5 @@
 #pragma once
-  
+
 const char *names[10] = {
     "Wilbur",
     "Charlotte",

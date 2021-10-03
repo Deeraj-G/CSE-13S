@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <stdbool.h>
-#include <ctype.h>
 // This program takes in user input to decide player count and the seed number, then plays the game Pass the Pigs
 int main() {
     // Initialize pig die options
@@ -26,8 +24,8 @@ int main() {
     
 
     // Get an initial seed that is valid
-    fprintf(stdout, "Random seed: ");
     int64_t SEED = 2021;
+    fprintf(stdout, "Random seed: ");
     scanf("%" SCNd64, &SEED);
     
     if (SEED < 0 || SEED > UINT_MAX) {

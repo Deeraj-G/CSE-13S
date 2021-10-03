@@ -15,25 +15,26 @@ int main() {
    
    
     // Find the number of players, handle all possible errors
-    int64_t playercount = 2;
+    int64_t playercount = 0;
     fprintf(stdout, "How many players? ");
     scanf("%" SCNd64, &playercount);
+
     if (playercount < 2 || playercount > 10) {
         fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
         playercount = 2;
-    } else if ((isdigit(playercount) == false) || (isalpha(playercount) == true)) {
-        fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
-        playercount = 2;
     }
+    
 
     // Get an initial seed that is valid
     fprintf(stdout, "Random seed: ");
     int64_t SEED = 2021;
     scanf("%" SCNd64, &SEED);
+    
     if (SEED < 0 || SEED > UINT_MAX) {
         fprintf(stderr, "Invalid  random  seed. Using  2021  instead.\n");
         SEED = 2021;
     }
+
 
     // Generate pseudorandom numbers
     srandom(SEED);
@@ -66,7 +67,7 @@ int main() {
         }
 
         // Print name of current player
-        printf("%s rolls the pig... ", names[n % playercount]);
+        printf("%s rolls the pig...", names[n % playercount]);
 
         // Loop for each player's turn, takes care of point tracking and ending a turn when the pig lands on its side
         while (minor == 1) {
@@ -76,14 +77,14 @@ int main() {
 
             // End current iteration of loop if Pig lands on Side
             if (position == SIDE) {
-                printf("pig lands on side \n");
+                printf(" pig lands on side\n");
                 minor = 0;
             }
 
             // Razorback
             else if (position == RAZORBACK) {
                 points[k % playercount] += 10;
-                printf("pig lands on back ");
+                printf(" pig lands on back");
                 if (points[k % playercount] >= 100) {
                     printf("\n%s wins with %d points!\n", names[n % playercount],
                         points[k % playercount]);
@@ -95,7 +96,7 @@ int main() {
             // Trotter
             else if (position == TROTTER) {
                 points[k % playercount] += 10;
-                printf("pig lands upright ");
+                printf(" pig lands upright");
                 if (points[k % playercount] >= 100) {
                     printf("\n%s wins with %d points!\n", names[n % playercount],
                         points[k % playercount]);
@@ -107,7 +108,7 @@ int main() {
             // Snouter
             else if (position == SNOUTER) {
                 points[k % playercount] += 15;
-                printf("pig lands on snout ");
+                printf(" pig lands on snout");
                 if (points[k % playercount] >= 100) {
                     printf("\n%s wins with %d points!\n", names[n % playercount],
                         points[k % playercount]);
@@ -119,7 +120,7 @@ int main() {
             // Jowler
             else if (position == JOWLER) {
                 points[k % playercount] += 5;
-                printf("pig lands on ear ");
+                printf(" pig lands on ear");
                 if (points[k % playercount] >= 100) {
                     printf("\n%s wins with %d points!\n", names[n % playercount],
                         points[k % playercount]);

@@ -5,18 +5,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// This program takes in user input to decide player count and the seed, and plays the game Pass the Pigs
+#include <stdbool.h>
+#include <ctype.h>
+// This program takes in user input to decide player count and the seed number, then plays the game Pass the Pigs
 int main() {
     // Initialize pig die options
     typedef enum { SIDE, RAZORBACK, TROTTER, SNOUTER, JOWLER } Position;
     const Position pig[7] = { SIDE, SIDE, RAZORBACK, TROTTER, SNOUTER, JOWLER, JOWLER };
-
-    // Find the number of players
-    int playercount = 0;
+   
+   
+    // Find the number of players, handle all possible errors
+    int64_t playercount = 2;
     fprintf(stdout, "How many players? ");
-    scanf("%d", &playercount);
+    scanf("%" SCNd64, &playercount);
     if (playercount < 2 || playercount > 10) {
-        fprintf(stderr, "Invalid  number  of  players. Using 2 instead .\n");
+        fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
+        playercount = 2;
+    } else if ((isdigit(playercount) == false) || (isalpha(playercount) == true)) {
+        fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
         playercount = 2;
     }
 
@@ -25,7 +31,7 @@ int main() {
     int64_t SEED = 2021;
     scanf("%" SCNd64, &SEED);
     if (SEED < 0 || SEED > UINT_MAX) {
-        fprintf(stderr, "Invalid  random  seed. Using  2021  instead .\n");
+        fprintf(stderr, "Invalid  random  seed. Using  2021  instead.\n");
         SEED = 2021;
     }
 
@@ -44,7 +50,7 @@ int main() {
     int k = 0;
     int condition = 1;
 
-    // Loop for all turns
+    // Loop that oversees all turns and points until the game is won
     while (condition == 1) {
 
         //Reset condition for each turn
@@ -62,7 +68,7 @@ int main() {
         // Print name of current player
         printf("%s rolls the pig... ", names[n % playercount]);
 
-        // Loop for each player's turn
+        // Loop for each player's turn, takes care of point tracking and ending a turn when the pig lands on its side
         while (minor == 1) {
 
             // Variable to contain this round's die position

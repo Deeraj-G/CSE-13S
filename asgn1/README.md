@@ -7,10 +7,10 @@ This program runs the game Pass the Pigs. The user inputs the number of players 
 Run this command:
 
 ```
-clang  -Wall -Wextra  -Werror  -Wpedantic  -o pig pig.c
+clang -Wall -Wextra -Werror -Wpedantic -o pig pig.c
 ```
 
-This command searches the program file `pig.c` for errors, and then compiles it.
+This command searches the program file `pig.c` for errors, and then compiles it if none are found.
 
 ## Running the Program
 
@@ -20,7 +20,7 @@ Run this command:
 ./pig
 ```
 
-This command runs the file `pig.c` after it's been compiled with the clang command. 
+This command runs the file `pig.c` after it has been compiled with the clang command. 
 
 ## Errors in Program
 

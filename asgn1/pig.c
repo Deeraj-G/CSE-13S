@@ -1,5 +1,6 @@
 #include "names.h"
 
+#include <ctype.h>
 #include <inttypes.h>
 #include <limits.h>
 #include <stdio.h>
@@ -12,12 +13,11 @@ int main() {
     const Position pig[7] = { SIDE, SIDE, RAZORBACK, TROTTER, SNOUTER, JOWLER, JOWLER };
 
     // Find the number of players, handle all possible errors
-    int64_t playercount = 0;
+    int playercount = 0;
     fprintf(stdout, "How many players? ");
-    scanf("%" SCNd64, &playercount);
-
+    scanf("%d", &playercount);
     if (playercount < 2 || playercount > 10) {
-        fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
+        fprintf(stderr, "Invalid number of players. Using 2 instead.\n");
         playercount = 2;
     }
 
@@ -25,9 +25,8 @@ int main() {
     int64_t SEED = 2021;
     fprintf(stdout, "Random seed: ");
     scanf("%" SCNd64, &SEED);
-
     if (SEED < 0 || SEED > UINT_MAX) {
-        fprintf(stderr, "Invalid  random  seed. Using  2021  instead.\n");
+        fprintf(stderr, "Invalid random seed. Using 2021 instead.\n");
         SEED = 2021;
     }
 

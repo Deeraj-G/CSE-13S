@@ -10,8 +10,7 @@ int main() {
     // Initialize pig die options
     typedef enum { SIDE, RAZORBACK, TROTTER, SNOUTER, JOWLER } Position;
     const Position pig[7] = { SIDE, SIDE, RAZORBACK, TROTTER, SNOUTER, JOWLER, JOWLER };
-   
-   
+
     // Find the number of players, handle all possible errors
     int64_t playercount = 0;
     fprintf(stdout, "How many players? ");
@@ -21,18 +20,16 @@ int main() {
         fprintf(stderr, "Invalid  number  of  players. Using 2 instead.\n");
         playercount = 2;
     }
-    
 
     // Get an initial seed that is valid
     int64_t SEED = 2021;
     fprintf(stdout, "Random seed: ");
     scanf("%" SCNd64, &SEED);
-    
+
     if (SEED < 0 || SEED > UINT_MAX) {
         fprintf(stderr, "Invalid  random  seed. Using  2021  instead.\n");
         SEED = 2021;
     }
-
 
     // Generate pseudorandom numbers
     srandom(SEED);

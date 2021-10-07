@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 		break;
 	case 'r': ;
 		break;
-	case "v': ;
+	case 'v': ;
 		break;
 	case 'n': ;
 		double n_diff = 0.0;
@@ -45,6 +45,20 @@ int main(int argc, char **argv) {
 		printf("e terms: %d, newton terms: %d\n", e_count, newt_terms);
 		break;
 	case 'h': ;
+		printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
+		printf("USAGE\n   ./mathlib-test [-aebmrvnsh]\n\n");
+		printf("OPTIONS\n  -a   Runs all tests.\n");
+		printf("  -e   Runs e test.\n");
+		printf("  -b   Runs BBP pi test.\n");
+		printf("  -m   Runs Madhava pi test.\n");
+		printf("  -r   Runs Euler pi test.\n");
+		printf("  -v   Runs Viete pi test.\n");
+		printf("  -n   Runs Newton square root tests.\n");
+		printf("  -s   Print verbose statistics.\n");
+		printf("  -h   Display program synopsis and usage.\n");
+		
+		
+		
 		break;
 	default:
 	    break;

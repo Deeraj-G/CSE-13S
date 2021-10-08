@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include "e.c"
 #include "newton.c"
+#include "madhava.c"
+#include "bbp.c"
+#include "viete.c"
+#include "euler.c"
 #define OPTIONS "aebmrvnsh"
 
 int main(int argc, char **argv) {
@@ -20,6 +24,11 @@ int main(int argc, char **argv) {
         	printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e_test, M_E, e_diff);
         	break;
 	case 'b': ;
+		double bbp_test;
+		bbp_test = pi_bbp();
+	       	double b_diff;
+		b_diff = absolute(bbp_test - M_PI);
+		printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", bbp_test, M_PI, b_diff);	
 		break;
 	case 'm': ;
 		break;
@@ -31,10 +40,10 @@ int main(int argc, char **argv) {
 		double n_diff = 0.0;
 		double newt_test;
 		double t = 0.0;
-		for (t; t < 10.0; t = t + 0.1) {
+		for (t; t <= 10.0; t = t + 0.1) {
 			newt_test = sqrt_newton(t);
 			n_diff = absolute(newt_test - sqrt(t));
-			printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", newt_test, t, sqrt(t), t, n_diff);
+			printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, newt_test, t, sqrt(t), n_diff);
 		}
 		break;
 	case 's': ;
@@ -42,7 +51,9 @@ int main(int argc, char **argv) {
 		e_count = e_terms();
 		int newt_terms;
 		newt_terms = sqrt_newton_iters();
-		printf("e terms: %d, newton terms: %d\n", e_count, newt_terms);
+		int b_count;
+		b_count = pi_bbp_terms();
+		printf("e() terms = %d, sqrt_newton() terms = %d, pi_bbp() terms = %d\n", e_count, newt_terms, b_count);
 		break;
 	case 'h': ;
 		printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
@@ -56,9 +67,6 @@ int main(int argc, char **argv) {
 		printf("  -n   Runs Newton square root tests.\n");
 		printf("  -s   Print verbose statistics.\n");
 		printf("  -h   Display program synopsis and usage.\n");
-		
-		
-		
 		break;
 	default:
 	    break;

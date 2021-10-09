@@ -1,21 +1,23 @@
 #include "mathlib.h"
 #include <stdio.h>
-static int count;
+static int i;
 
-// Computes euler's number and finds the number of terms that were computed
+// Computes euler's number
 double e(void) {
+    // Variable to store the factorial k for each iteration
     double factorial = 1.0;
+    // Variable to store the summation for each iteration of the loop
     double n = 1.0;
-    //I start with factorial = 1, so count must be initialized to 1
-    count = 1;
-    for (int i = 0; (1/factorial) > EPSILON; i++) {
-        factorial = factorial * (i + 1);
-        n = n + (1 / factorial);
-        count += 1;
+    
+    // I start with factorial = 1.0, so i must be initialized to 1
+    for (i = 1; (1/factorial) > EPSILON; i++) {
+        factorial *= i;
+        n += (1 / factorial);
     }
     return n;
 }
 
+// Finds the number of terms that were computed in e()
 int e_terms(void) {
-	return count;
+	return i;
 }

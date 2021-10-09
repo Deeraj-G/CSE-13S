@@ -1,6 +1,5 @@
 #include "mathlib.h"
 #include <stdio.h>
-#include <inttypes.h>
 static int f;
 
 double pi_euler(void) {
@@ -9,7 +8,8 @@ double pi_euler(void) {
 	double temp;
 
 	for (f = 1; current > EPSILON; f++) {
-		temp = f * f;
+		temp = f;
+		temp *= f;
 		current = 1.0 / temp;
 		sum += current;
 	}
@@ -19,8 +19,7 @@ double pi_euler(void) {
 	return sum;
 }
 
-
-
 int pi_euler_terms(void) {
-	return f;
+	//Started at f = 1,so I have to subtract total terms by 1
+	return f-1;
 }

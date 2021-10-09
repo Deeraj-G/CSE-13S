@@ -31,16 +31,30 @@ int main(int argc, char **argv) {
 		printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", bbp_test, M_PI, b_diff);	
 		break;
 	case 'm': ;
+		double m_test;
+		m_test = pi_madhava();
+		double m_diff;
+		m_diff = absolute(m_test - M_PI);
+		printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", m_test, M_PI, m_diff);
 		break;
 	case 'r': ;
+		double eul_test;
+		eul_test = pi_euler();
+		double eul_diff;
+		eul_diff = absolute(eul_test - M_PI);
+		printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", eul_test, M_PI, eul_diff);
 		break;
 	case 'v': ;
+		double v_test;
+		v_test = pi_viete();
+		double v_diff;
+		v_diff = absolute(v_test - M_PI);
+		printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", v_test, M_PI, v_diff);
 		break;
 	case 'n': ;
 		double n_diff = 0.0;
 		double newt_test;
-		double t = 0.0;
-		for (t; t <= 10.0; t = t + 0.1) {
+		for (double t = 0.0; t <= 10.0; t = t + 0.1) {
 			newt_test = sqrt_newton(t);
 			n_diff = absolute(newt_test - sqrt(t));
 			printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, newt_test, t, sqrt(t), n_diff);
@@ -53,7 +67,13 @@ int main(int argc, char **argv) {
 		newt_terms = sqrt_newton_iters();
 		int b_count;
 		b_count = pi_bbp_terms();
-		printf("e() terms = %d, sqrt_newton() terms = %d, pi_bbp() terms = %d\n", e_count, newt_terms, b_count);
+		int eul_count;
+		eul_count = pi_euler_terms();
+		int v_count;
+		v_count = pi_viete_factors();
+		int m_count;
+	        m_count	= pi_madhava_terms();
+		printf("e() terms = %d, sqrt_newton() terms = %d, pi_bbp() terms = %d, pi_euler() terms = %d, pi_viete() terms = %d, pi_madhava() terms = %d\n", e_count, newt_terms, b_count, eul_count, v_count, m_count);
 		break;
 	case 'h': ;
 		printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");

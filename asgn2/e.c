@@ -6,11 +6,12 @@ static int count;
 double e(void) {
     double factorial = 1.0;
     double n = 1.0;
-    count = 0;
+    //I start with factorial = 1, so count must be initialized to 1
+    count = 1;
     for (int i = 0; (1/factorial) > EPSILON; i++) {
         factorial = factorial * (i + 1);
         n = n + (1 / factorial);
-        count = i;
+        count += 1;
     }
     return n;
 }

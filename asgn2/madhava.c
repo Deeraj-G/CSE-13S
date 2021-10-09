@@ -19,8 +19,6 @@ double pi_madhava(void) {
 	return sum;
 }
 
-
-
 int pi_madhava_terms(void) {
 	return g;
 }

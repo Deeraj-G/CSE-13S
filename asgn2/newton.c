@@ -2,6 +2,7 @@
 #include <stdio.h>
 static int newt_count;
 
+// Used code from Darrell Long's Python code in asgn2.pdf doc
 double sqrt_newton(double x) {
 	double z = 0.0;
 	double y = 1.0;

@@ -49,7 +49,7 @@ mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
 
 clean:
-	rm -f e_test *.o *.exe
+	rm -f e_test bbp_test madhava_test euler_test viete_test newton_test mathlib-test *.o *.exe
 
 format:
 	clang-format -i -style=file *.c *.h

@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
     int v_flag = false;
     int n_flag = false;
     int s_flag = false;
+
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input = false;
 	switch (opt) {
@@ -52,51 +53,41 @@ int main(int argc, char **argv) {
 		n_flag = true;
 		break;
 	case 's': ;
-		int e_count;
-		e_count = e_terms();
-		int newt_terms;
-		newt_terms = sqrt_newton_iters();
-		int b_count;
-		b_count = pi_bbp_terms();
-		int eul_count;
-		eul_count = pi_euler_terms();
-		int v_count;
-		v_count = pi_viete_factors();
-		int m_count;
-	        m_count	= pi_madhava_terms();
-		printf("e() terms = %d, sqrt_newton() terms = %d, pi_bbp() terms = %d, pi_euler() terms = %d, pi_viete() terms = %d, pi_madhava() terms = %d\n", e_count, newt_terms, b_count, eul_count, v_count, m_count);
+		s_flag = true;
 		break;
 	default:
-	    break;
+		h_flag = true;
+		break;
         }
 
-    if (h_flag || no_input) {
-	printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
-	printf("USAGE\n   ./mathlib-test [-aebmrvnsh]\n\n");
-	printf("OPTIONS\n  -a   Runs all tests.\n");
-	printf("  -e   Runs e test.\n");
-	printf("  -b   Runs BBP pi test.\n");
-	printf("  -m   Runs Madhava pi test.\n");
-	printf("  -r   Runs Euler pi test.\n");
-	printf("  -v   Runs Viete pi test.\n");
-	printf("  -n   Runs Newton square root tests.\n");
-	printf("  -s   Print verbose statistics.\n");
-	printf("  -h   Display program synopsis and usage.\n");
-	return 0;
     }
 
-    else if (a_flag) {
+    if (a_flag) {
 	printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
 	if (s_flag) {
 		printf("e() terms = %d\n", e_terms());
 	}
 	printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI, absolute(pi_euler() - M_PI));
+	if (s_flag) {
+		printf("pi_euler() terms = %d\n", pi_euler_terms());
+	}
 	printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI, absolute(pi_bbp() - M_PI));
+	if (s_flag) {
+		printf("pi_bbp() terms = %d\n", pi_bbp_terms());
+        }
 	printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI, absolute(pi_madhava() - M_PI));
-	printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete - M_PI);
-        
-	for (double t = 0.0; t <= 10.0; t += 0.1) {
-		printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, sqrt_newton(t), t, sqrt(t), absolute(newt_test - sqrt(t));
+	if (s_flag) {
+		printf("pi_madhava() terms = %d\n", pi_madhava_terms());
+        }
+	printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
+        if (s_flag) {
+		printf("pi_viete() terms = %d\n", pi_viete_factors());
+        }
+	for (double t = 0.0; t <= 10.0; t += 0.1) {	
+		printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, sqrt_newton(t), t, sqrt(t), absolute(sqrt_newton(t) - sqrt(t)));
+		if (s_flag) {
+			printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
+        	}
 	}
     }
 
@@ -117,26 +108,45 @@ int main(int argc, char **argv) {
     else if (eul_flag) {
 	printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI, absolute(pi_euler() - M_PI));
     	if (s_flag) {
-		printf("pi_euler() terms = %d", pi_euler_terms());
+		printf("pi_euler() terms = %d\n", pi_euler_terms());
 	}
     }
 
     else if (b_flag) {
     	printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI, absolute(pi_bbp() - M_PI));
+    	if (s_flag) {
+		printf("pi_bbp() terms = %d\n", pi_bbp_terms());
     }
 
     else if (v_flag) {
-	printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete - M_PI);
+	printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
+    	if (s_flag) {
+		printf("pi_viete() terms = %d\n", pi_viete_factors());
+	}
     }
 
     else if (n_flag) {
 	for (double t = 0.0; t <= 10.0; t += 0.1) {
-                printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, sqrt_newton(t), t, sqrt(t), absolute(newt_test - sqrt(t));
+                printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, sqrt_newton(t), t, sqrt(t), absolute(sqrt_newton(t) - sqrt(t)));
+		if (s_flag) {
+			printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
+		}
 	}
     }
 
-    else if (s_flag) {
-
+    else if (h_flag || no_input) {
+        printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
+        printf("USAGE\n   ./mathlib-test [-aebmrvnsh]\n\n");
+        printf("OPTIONS\n  -a   Runs all tests.\n");
+        printf("  -e   Runs e test.\n");
+        printf("  -b   Runs BBP pi test.\n");
+        printf("  -m   Runs Madhava pi test.\n");
+        printf("  -r   Runs Euler pi test.\n");
+        printf("  -v   Runs Viete pi test.\n");
+        printf("  -n   Runs Newton square root tests.\n");
+        printf("  -s   Print verbose statistics.\n");
+        printf("  -h   Display program synopsis and usage.\n");
+        return 0;
     }
 
     return 0;

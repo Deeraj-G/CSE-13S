@@ -91,41 +91,41 @@ int main(int argc, char **argv) {
 	}
     }
 
-    else if (e_flag) {
+    if (e_flag) {
 	printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
     	if (s_flag) {
 		printf("e() terms = %d\n", e_terms());
 	}
     }
 
-    else if (m_flag) {
+    if (m_flag) {
         printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI, absolute(pi_madhava() - M_PI));
     	if (s_flag) {
 		printf("pi_madhava() terms = %d\n", pi_madhava_terms());
 	}
     }
 
-    else if (eul_flag) {
+    if (eul_flag) {
 	printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI, absolute(pi_euler() - M_PI));
     	if (s_flag) {
 		printf("pi_euler() terms = %d\n", pi_euler_terms());
 	}
     }
 
-    else if (b_flag) {
+    if (b_flag) {
     	printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI, absolute(pi_bbp() - M_PI));
     	if (s_flag) {
 		printf("pi_bbp() terms = %d\n", pi_bbp_terms());
     }
 
-    else if (v_flag) {
+    if (v_flag) {
 	printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
     	if (s_flag) {
 		printf("pi_viete() terms = %d\n", pi_viete_factors());
 	}
     }
 
-    else if (n_flag) {
+    if (n_flag) {
 	for (double t = 0.0; t <= 10.0; t += 0.1) {
                 printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t, sqrt_newton(t), t, sqrt(t), absolute(sqrt_newton(t) - sqrt(t)));
 		if (s_flag) {
@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
 	}
     }
 
-    else if (h_flag || no_input) {
+    if (h_flag || no_input) {
         printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
         printf("USAGE\n   ./mathlib-test [-aebmrvnsh]\n\n");
         printf("OPTIONS\n  -a   Runs all tests.\n");

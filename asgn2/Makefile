@@ -52,4 +52,4 @@ clean:
 	rm -f e_test *.o *.exe
 
 format:
-	clang-format -i -style=file *.[ch]
+	clang-format -i -style=file *.c *.h

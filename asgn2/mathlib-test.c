@@ -9,6 +9,7 @@
 
 int main(int argc, char **argv) {
     int opt = 0;
+    // Booleans to run program after while loop
     int no_input = true;
     int h_flag = false;
     int a_flag = false;
@@ -24,6 +25,7 @@ int main(int argc, char **argv) {
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input = false;
         switch (opt) {
+	// If any of the cases are in the command line arguments, their booleans will become true
         case 'h': h_flag = true; break;
         case 'a': a_flag = true; break;
         case 'e': e_flag = true; break;
@@ -34,6 +36,7 @@ int main(int argc, char **argv) {
         case 'n': n_flag = true; break;
         case 's':
             s_flag = true;
+	    // This is to print the help message when only -s is passed in the command line
             if ((a_flag == false) && (e_flag == false) && (b_flag == false) && (m_flag == false)
                 && (r_flag == false) && (v_flag == false) && (n_flag == false)
                 && (h_flag == false)) {
@@ -44,6 +47,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Only prints the help message if -h is specified anywhere in the command line argument
     if (h_flag || no_input) {
         printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
         printf("USAGE\n   ./mathlib-test [-aebmrvnsh]\n\n");
@@ -68,6 +72,7 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    // Prints the help message if -s is the only command line argument
     if (s_true) {
         s_flag = false;
         printf("SYNOPSIS\n   A test harness for the small numerical library.\n\n");
@@ -84,6 +89,8 @@ int main(int argc, char **argv) {
         //return 0;
     }
 
+    // If -s is specified, then all of the following tests will print out the terms properly
+    // Prints every test if -a is specified
     if (a_flag) {
         printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
         if (s_flag) {
@@ -118,6 +125,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Prints the test for e.c, only if -a is not included
     if (e_flag && (a_flag == false)) {
         printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
         if (s_flag) {
@@ -125,6 +133,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Prints the test for bbp.c, only if -a is not included
     if (b_flag && (a_flag == false)) {
         printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI,
             absolute(pi_bbp() - M_PI));
@@ -133,6 +142,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Prints the test for madhava.c if -a is not included
     if (m_flag && (a_flag == false)) {
         printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI,
             absolute(pi_madhava() - M_PI));
@@ -149,6 +159,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Prints the test for viete.c if -a isn't included
     if (v_flag && (a_flag == false)) {
         printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI,
             absolute(pi_viete() - M_PI));
@@ -157,6 +168,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Prints the test for newton.c if -a isn't included
     if (n_flag && (a_flag == false)) {
         for (double t = 0.0; t <= 10.0; t += 0.1) {
             printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t,

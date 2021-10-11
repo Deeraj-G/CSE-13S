@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #define OPTIONS "aebmrvnsh"
-//test
+
 int main(int argc, char **argv) {
     int opt = 0;
     int no_input = true;
@@ -24,15 +24,15 @@ int main(int argc, char **argv) {
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input = false;
         switch (opt) {
-        case 'h':; h_flag = true; break;
-        case 'a':; a_flag = true; break;
-        case 'e':; e_flag = true; break;
-        case 'b':; b_flag = true; break;
-        case 'm':; m_flag = true; break;
-        case 'r':; r_flag = true; break;
-        case 'v':; v_flag = true; break;
-        case 'n':; n_flag = true; break;
-        case 's':;
+        case 'h': h_flag = true; break;
+        case 'a': a_flag = true; break;
+        case 'e': e_flag = true; break;
+        case 'b': b_flag = true; break;
+        case 'm': m_flag = true; break;
+        case 'r': r_flag = true; break;
+        case 'v': v_flag = true; break;
+        case 'n': n_flag = true; break;
+        case 's':
             s_flag = true;
             if ((a_flag == false) && (e_flag == false) && (b_flag == false) && (m_flag == false)
                 && (r_flag == false) && (v_flag == false) && (n_flag == false)
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
                 s_true = true;
             }
             break;
-        default:; break;
+        default: printf("Error"); break;
         }
     }
 
@@ -131,41 +131,41 @@ int main(int argc, char **argv) {
         if (s_flag) {
             printf("pi_bbp() terms = %d\n", pi_bbp_terms());
         }
-
-        if (m_flag && (a_flag == false)) {
-            printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(),
-                M_PI, absolute(pi_madhava() - M_PI));
-            if (s_flag) {
-                printf("pi_madhava() terms = %d\n", pi_madhava_terms());
-            }
-        }
-
-        if (r_flag && (a_flag == false)) {
-            printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI,
-                absolute(pi_euler() - M_PI));
-            if (s_flag) {
-                printf("pi_euler() terms = %d\n", pi_euler_terms());
-            }
-        }
-
-        if (v_flag && (a_flag == false)) {
-            printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI,
-                absolute(pi_viete() - M_PI));
-            if (s_flag) {
-                printf("pi_viete() terms = %d\n", pi_viete_factors());
-            }
-        }
-
-        if (n_flag && (a_flag == false)) {
-            for (double t = 0.0; t <= 10.0; t += 0.1) {
-                printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t,
-                    sqrt_newton(t), t, sqrt(t), absolute(sqrt_newton(t) - sqrt(t)));
-                if (s_flag) {
-                    printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
-                }
-            }
-        }
-
-        return 0;
     }
+
+    if (m_flag && (a_flag == false)) {
+        printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI,
+            absolute(pi_madhava() - M_PI));
+        if (s_flag) {
+            printf("pi_madhava() terms = %d\n", pi_madhava_terms());
+        }
+    }
+
+    if (r_flag && (a_flag == false)) {
+        printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI,
+            absolute(pi_euler() - M_PI));
+        if (s_flag) {
+            printf("pi_euler() terms = %d\n", pi_euler_terms());
+        }
+    }
+
+    if (v_flag && (a_flag == false)) {
+        printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI,
+            absolute(pi_viete() - M_PI));
+        if (s_flag) {
+            printf("pi_viete() terms = %d\n", pi_viete_factors());
+        }
+    }
+
+    if (n_flag && (a_flag == false)) {
+        for (double t = 0.0; t <= 10.0; t += 0.1) {
+            printf("sqrt_newton(%f) =  %16.15f, sqrt(%f) = %16.15f, diff = %16.15lf\n", t,
+                sqrt_newton(t), t, sqrt(t), absolute(sqrt_newton(t) - sqrt(t)));
+            if (s_flag) {
+                printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
+            }
+        }
+    }
+
+    //    return 0;
 }

@@ -13,7 +13,7 @@ make all
 make format
 ```
 
-These commands search the program file `mathlib-test.c` as well as the other 6 .c files for errors, builds all executables, cleans the generated files, and formats all source code files.
+These commands search the program file `mathlib-test.c` as well as the other 6 .c files for errors. They also build all executables, clean the generated files, and format all source code files.
 
 ## Running the Program
 
@@ -48,8 +48,6 @@ As a summary of the tests:
 -s: Enable printing of statistics to see computed terms and factors for each tested function
 
 -h: Display a help message detailing program usage.
-
-This command parses through mathlib-test.c and prints a variety of tests depending on the argument specified.
 
 ## Errors in Program
 

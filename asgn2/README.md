@@ -32,13 +32,21 @@ Followed by:
 As a summary of the tests:
 
 -a: Runs all tests
+
 -e: Runs e approximation test
+
 -b: Runs Bailey-Borwein-Plouffe π approximation test
+
 -m: Runs Madhava π approximation test
+
 -r: Runs Euler sequence π approximation test
+
 -v: Runs Viète π approximation test
+
 -n: Runs Newton-Raphson square root approximation tests
+
 -s: Enable printing of statistics to see computed terms and factors for each tested function
+
 -h: Display a help message detailing program usage.
 
 This command parses through mathlib-test.c and prints a variety of tests depending on the argument specified.

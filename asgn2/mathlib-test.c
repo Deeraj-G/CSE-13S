@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input = false;
         switch (opt) {
-	// If any of the cases are in the command line arguments, their booleans will become true
+        // If any of the cases are in the command line arguments, their booleans will become true
         case 'h': h_flag = true; break;
         case 'a': a_flag = true; break;
         case 'e': e_flag = true; break;
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         case 'n': n_flag = true; break;
         case 's':
             s_flag = true;
-	    // This is to print the help message when only -s is passed in the command line
+            // This is to print the help message when only -s is passed in the command line
             if ((a_flag == false) && (e_flag == false) && (b_flag == false) && (m_flag == false)
                 && (r_flag == false) && (v_flag == false) && (n_flag == false)
                 && (h_flag == false)) {

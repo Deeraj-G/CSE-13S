@@ -23,7 +23,7 @@ Run this command:
 ./mathlib-test
 ```
 
-Followed by:
+Followed by any combination of the following:
 
 ```
 -a -e -b -m -r -v -n -s -h

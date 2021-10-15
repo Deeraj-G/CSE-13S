@@ -2,9 +2,10 @@
 #include <stdint.h>
 #include "stats.h"
 #include <inttypes.h>
+#include <stdio.h>
 
 // Implement the quick sort algorithm
-void quick_sort(Stats *stats, uint32_t *A, uint32_t n) {
+void insertion_sort(Stats *stats, uint32_t *A, uint32_t n) {
 	uint32_t j;
 	uint32_t temp;
 	// We compare the current element to the previous element, so i must start at 1

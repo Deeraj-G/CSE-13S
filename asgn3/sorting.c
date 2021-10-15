@@ -24,7 +24,7 @@ int main(void) {
 		A[i] = random(); // Do the bitmask here
 	}
 
-	quick_sort(&stats, A, 100);
+	insertion_sort(&stats, A, 100);
 
 	printf("[");
 	for (uint32_t i = 0; i < 100; i++) {

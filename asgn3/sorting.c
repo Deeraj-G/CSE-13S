@@ -6,9 +6,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "shell.c"
+#include "shell.h"
+#include <math.h>
 
 typedef enum { INSERTION, HEAP, NUM_SORTS } Sorts;
-const char *names[] = { "insertion sort", "heap sort" };
+const char *names[] = { "shell sort", "insertion sort", "heap sort" };
 
 
 int main(void) {
@@ -18,18 +21,20 @@ int main(void) {
 	uint32_t seed = 13371453;	
 	
 	srandom(seed);	
-
+	uint32_t mask = 0xFFFFFF30;
+	
+	
 	uint32_t *A = (uint32_t *)calloc(100, sizeof(uint32_t));
 	for (uint32_t i = 0; i < 100; i++) {
-		A[i] = random(); // Do the bitmask here
+		A[i] = random() & mask; // Do the bitmask here
 	}
 
-	insertion_sort(&stats, A, 100);
+	shell_sort(&stats, A, 100);
 
 	printf("[");
 	for (uint32_t i = 0; i < 100; i++) {
 		printf("%" PRIu32, A[i]);
-		if ( i + 1 != 5) {
+		if ( i + 1 != 100) {
 			printf(", ");
 		}
 	}
@@ -38,7 +43,7 @@ int main(void) {
 	printf("moves = %" PRIu64 "\n", stats.moves);
 	printf("compares = %" PRIu64 "\n", stats.compares);
 	
-	reset(&stats);
+	//reset(&stats);
 	}
 
 

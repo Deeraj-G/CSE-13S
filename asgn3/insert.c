@@ -4,6 +4,8 @@
 #include <inttypes.h>
 #include <stdio.h>
 
+// I used the python pseudocode from Dr. Long to write this code
+
 // Implement the quick sort algorithm
 void insertion_sort(Stats *stats, uint32_t *A, uint32_t n) {
 	uint32_t j;

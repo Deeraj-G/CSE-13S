@@ -9,62 +9,62 @@
 #include "shell.c"
 #include "shell.h"
 #include <math.h>
+#include "quick.h"
+#include "quick.c"
+#include "heap.c"
+#include "heap.h"
+#define OPTIONS "haeisqnpr"
 
-typedef enum { INSERTION, HEAP, NUM_SORTS } Sorts;
-const char *names[] = { "shell sort", "insertion sort", "heap sort" };
+
+typedef enum { INSERTION, SHELL, HEAP, QUICK, NUM_SORTS } Sorts;
+const char *names[] = { "shell sort", "insertion sort", "heap sort", "quick sort" };
 
 
-int main(void) {
+int main(int argc, char **argv) {
 	Stats stats;
 	stats.moves = 0;
 	stats.compares = 0;
 	uint32_t seed = 13371453;	
-	
-	srandom(seed);	
-	uint32_t mask = 0xFFFFFF30;
-	
-	
+	uint32_t elements = 100;
+	uint32_t mask = 0xFFFFFFFE;
+
+	srandom(seed);
+
 	uint32_t *A = (uint32_t *)calloc(100, sizeof(uint32_t));
-	for (uint32_t i = 0; i < 100; i++) {
+	for (uint32_t i = 0; i < elements; i++) {
 		A[i] = random() & mask; // Do the bitmask here
 	}
-
-	shell_sort(&stats, A, 100);
-
-	printf("[");
-	for (uint32_t i = 0; i < 100; i++) {
-		printf("%" PRIu32, A[i]);
-		if ( i + 1 != 100) {
-			printf(", ");
-		}
-	}
-	printf("]\n");
 	
-	printf("moves = %" PRIu64 "\n", stats.moves);
-	printf("compares = %" PRIu64 "\n", stats.compares);
-	
-	//reset(&stats);
-	}
-
-
-
-
-	//Stats stats;
-
-
-	/*
 	Set s = empty_set();
-
 	
 	int opt = 0;
-	while ((opt = getopt(argc, argv, "hi")) != -1) {
+	while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
 		switch(opt) {
-		case 'h':
+		case 'a':
+                        s = insert_set(INSERTION, s);
+			s = insert_set(SHELL, s);
 			s = insert_set(HEAP, s);
-			break;
+			s = insert_set(QUICK, s);
+                        break;
 		case 'i':
 			s = insert_set(INSERTION, s);
+			insertion_sort(&stats, A, elements);
 			break;
+		case 's':
+                        s = insert_set(SHELL, s);
+			shell_sort(&stats, A, elements);
+                        break;
+		case 'e':
+                        s = insert_set(HEAP, s);
+			heap_sort(&stats, A, elements);
+                        break;
+		case 'q':
+			s = insert_set(QUICK, s);
+			quick_sort(&stats, A, elements);
+			break;
+		case 'n':
+			break;
+
 		}
 	}
 
@@ -76,11 +76,4 @@ int main(void) {
 
 	return 0;
 		
-
-
-
-	int ins = insertion_sort();
-	for (int j = 0; j < sizeof(A); j++) {
-		printf("insert() = %d", ins);
-	}
-*/
+}

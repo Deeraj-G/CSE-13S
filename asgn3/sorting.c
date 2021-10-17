@@ -15,6 +15,7 @@
 #include "heap.h"
 #define OPTIONS "haeisqnpr"
 
+// Copied the general structure for this code from TA Eugene's section video
 
 typedef enum { ALL, HEAP, SHELL, INSERTION, QUICK, HELP, NUM_SORTS } Sorts;
 const char *names[] = { "shell sort", "insertion sort", "heap sort", "quick sort" };

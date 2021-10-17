@@ -33,7 +33,7 @@ heap.o: heap.c stats.h
 euler.o: quick.c stats.h
 	$(CC) $(CFLAGS) -c quick.c
 
-sorting_test.o: sorting.c stats.h
+sorting.o: sorting.c stats.h
 	$(CC) $(CFLAGS) -c sorting.c
 
 clean:

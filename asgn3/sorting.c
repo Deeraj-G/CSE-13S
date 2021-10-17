@@ -16,7 +16,7 @@
 #define OPTIONS "haeisqnpr"
 
 
-typedef enum { ALL, INSERTION, SHELL, HEAP, QUICK, HELP, NUM_SORTS } Sorts;
+typedef enum { ALL, HEAP, SHELL, INSERTION, QUICK, HELP, NUM_SORTS } Sorts;
 const char *names[] = { "shell sort", "insertion sort", "heap sort", "quick sort" };
 
 
@@ -28,15 +28,14 @@ int main(int argc, char **argv) {
 	uint32_t elements = 100;
 	uint32_t mask = 0x3FFFFFFF;
 
+	Set s = empty_set();
 	srandom(seed);
 
 	uint32_t *A = (uint32_t *)calloc(100, sizeof(uint32_t));
 	for (uint32_t i = 0; i < elements; i++) {
-		A[i] = random() & mask; // Do the bitmask here
+		A[i] = random() & mask;
 	}
-	
-	Set s = empty_set();
-	
+
 	int opt = 0;
 	while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
 		switch(opt) {
@@ -44,25 +43,21 @@ int main(int argc, char **argv) {
 			reset(&stats);
 			s = insert_set(ALL, s);
                         break;
+		case 'e':
+                        reset(&stats);
+                        s = insert_set(HEAP, s);
+                        break;
+		case 's':
+                        reset(&stats);
+                        s = insert_set(SHELL, s);
+                        break;
 		case 'i':
 			reset(&stats);
 			s = insert_set(INSERTION, s);
-			insertion_sort(&stats, A, elements);
 			break;
-		case 's':
-			reset(&stats);
-                        s = insert_set(SHELL, s);
-			shell_sort(&stats, A, elements);
-                        break;
-		case 'e':
-			reset(&stats);
-                        s = insert_set(HEAP, s);
-			heap_sort(&stats, A, elements);
-                        break;
 		case 'q':
 			reset(&stats);
 			s = insert_set(QUICK, s);
-			quick_sort(&stats, A, elements);
 			break;
 		case 'h':
 			printf("SYNOPSIS\n");
@@ -82,7 +77,10 @@ int main(int argc, char **argv) {
 			break;
 		case 'n':
 			break;
-
+		case 'p':
+			break;
+		case 'r':
+			break;
 		}
 	}
 
@@ -90,28 +88,39 @@ int main(int argc, char **argv) {
 		if (member_set(x, s)) {
 			
 			if (x == INSERTION) {
+				insertion_sort(&stats, A, elements);
 				printf("Insertion Sort, ");
 			}
 			else if (x == SHELL) {
+				shell_sort(&stats, A, elements);
 				printf("Shell Sort, ");
 			}
 			else if (x == HEAP) {
+				heap_sort(&stats, A, elements);
 				printf("Heap Sort, ");
 			}
 			else if (x == QUICK) {
+				quick_sort(&stats, A, elements);
 				printf("Quick Sort, ");
 			}
 
 			printf("%d elements, ", elements);
-			printf("%" PRIu64 " moves, ", stats.moves);
-			printf("%"  PRIu64 " compares\n", stats.compares);
+                        printf("%" PRIu64 " moves, ", stats.moves);
+                        printf("%" PRIu64 " compares\n", stats.compares);
 			
 			for (uint32_t i = 0; i < elements; i++) {
          		       printf("%13" PRIu32 "\t", A[i]);
          		       if ((i + 1) % 5 == 0) {
 				       printf("\n");
-                }
-        }
+			       }
+        		}
+			
+			reset(&stats);
+                        srandom(seed);
+			
+			for (uint32_t i = 0; i < elements; i++) {
+                              A[i] = random() & mask;
+                        }
 		}
 	}
 	free(A);

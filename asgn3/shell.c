@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <math.h>
 
+// I used the python pseudocode from Dr. Long to write this code
+
 void shell_sort(Stats *stats, uint32_t *A, uint32_t n) {
 	
 	// Defining the maximum gap length that is possible	

@@ -13,11 +13,12 @@ void insertion_sort(Stats *stats, uint32_t *A, uint32_t n) {
 		
 		j = i;
 		temp = A[i];
-		
+		move(stats, temp);
+
 		// j must be > 0 because it would give an out of range error otherwise
 		// If temp < A[j - 1] then the current element must be moved back in the array
 		
-		while ( (j > 0) && (cmp(stats, temp, A[j - 1]) < 0)) {
+		while ((j > 0) && (cmp(stats, temp, A[j - 1])) < 0) {
 
 			// Set the current element equal to the larger value	
 			A[j] = A[j - 1];

@@ -26,7 +26,6 @@ void fix_heap(Stats *stats, uint32_t *A, uint32_t first, uint32_t last) {
 		if ((cmp(stats, A[mother - 1], A[great - 1])) < 0) {
 			swap(stats, &A[mother - 1], &A[great - 1]);
 			mother = great;
-			move(stats, mother);
 			great = max_child(stats, A, mother, last);
 		}
 		else {
@@ -51,7 +50,6 @@ void heap_sort(Stats *stats, uint32_t *A, uint32_t n) {
 
 	for (leaf = last; leaf > first; leaf -= 1) {
 		swap(stats, &A[first - 1], &A[leaf - 1]);
-		//move(stats, A[first - 1]);
 		fix_heap(stats, A, first, leaf - 1);
 	}
 }

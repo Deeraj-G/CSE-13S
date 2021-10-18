@@ -6,7 +6,6 @@
 #include "stats.h"
 
 #include <inttypes.h>
-#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +21,7 @@ int main(int argc, char **argv) {
 
     // Calls the stats struct
     Stats stats;
-    // Initialize the moces and compares to 0, set the seed, n, and print elements values to their default values
+    // Initialize the moves and compares to 0, set the seed, n, and print elements values to their default values
     stats.moves = 0;
     stats.compares = 0;
     uint64_t seed = 13371453;

@@ -16,57 +16,64 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#define OPTIONS "haeisqnpr"
+#define OPTIONS "haeisqn:p:r:"
 
 // Copied the general structure for this code from TA Eugene's section video
 
-typedef enum { HELP, HEAP, SHELL, INSERTION, QUICK, NUM_SORTS } Sorts;
+typedef enum { HELP, HEAP, SHELL, INSERTION, QUICK, NO_INPUT, NUM_SORTS } Sorts;
 const char *names[] = { "Shell Sort", "Insertion Sort", "Heap Sort", "Quick Sort" };
 
 int main(int argc, char **argv) {
     Stats stats;
     stats.moves = 0;
     stats.compares = 0;
-    uint32_t seed = 13371453;
+    uint64_t seed = 13371453;
     uint32_t print_elements = 100;
     uint32_t actual_elements = 100;
     uint32_t mask = 0x3FFFFFFF;
-
+    bool no_input = true;
     Set s = empty_set();
-    
+
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'a':
-            reset(&stats);
+            no_input = false;
             s = insert_set(HEAP, s);
             s = insert_set(SHELL, s);
             s = insert_set(INSERTION, s);
             s = insert_set(QUICK, s);
             break;
         case 'e':
-            reset(&stats);
+            no_input = false;
             s = insert_set(HEAP, s);
             break;
         case 's':
-            reset(&stats);
+            no_input = false;
             s = insert_set(SHELL, s);
             break;
         case 'i':
-            reset(&stats);
+            no_input = false;
             s = insert_set(INSERTION, s);
             break;
         case 'q':
-            reset(&stats);
+            no_input = false;
             s = insert_set(QUICK, s);
             break;
         case 'h':
-            reset(&stats);
+            no_input = false;
             s = insert_set(HELP, s);
             break;
-        case 'n': actual_elements = atoi(optarg); break;
-        case 'p': print_elements = atoi(optarg); break;
-        case 'r': seed = atoi(optarg); break;
+        case 'n':
+            actual_elements = atoi(optarg);
+            break;
+        case 'p':
+            print_elements = atoi(optarg);
+            break;
+        case 'r':
+            seed = atoi(optarg);
+            break;
+        default: printf("Invalid input"); break;
         }
     }
 
@@ -79,7 +86,10 @@ int main(int argc, char **argv) {
 
     for (Sorts x = HELP; x < NUM_SORTS; x++) {
         if (member_set(x, s)) {
-            if (x == HELP) {
+            if (x == HELP || x == NO_INPUT) {
+                if (no_input == true) {
+                    printf("Select at least one sort to perform.\n");
+                }
                 printf("SYNOPSIS\n");
                 printf("   A collection of comparison-based sorting algorithms.\n\n");
                 printf("USAGE\n");

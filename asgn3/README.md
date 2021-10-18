@@ -53,3 +53,11 @@ As a summary of the tests:
 ## Errors in Program
 
 If I run `./sorting -q -sr`, the quick sort runs rather than display the help message.
+
+## Credit
+
+Used Dr. Long's python pseudocode for all of the sorting algorithms 
+
+Used TA Eugene's `enum`, `calloc`, and general structure for the sorting.c file 
+
+Used Tutor Brian Mak's `atoi(optarg)` suggestion to read inputs for the command line options

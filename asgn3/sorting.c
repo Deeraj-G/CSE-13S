@@ -1,13 +1,8 @@
-#include "heap.c"
 #include "heap.h"
-#include "insert.c"
 #include "insert.h"
-#include "quick.c"
 #include "quick.h"
 #include "set.h"
-#include "shell.c"
 #include "shell.h"
-#include "stats.c"
 #include "stats.h"
 
 #include <inttypes.h>
@@ -64,16 +59,10 @@ int main(int argc, char **argv) {
             no_input = false;
             s = insert_set(HELP, s);
             break;
-        case 'n':
-            actual_elements = atoi(optarg);
-            break;
-        case 'p':
-            print_elements = atoi(optarg);
-            break;
-        case 'r':
-            seed = atoi(optarg);
-            break;
-        default: printf("Invalid input"); break;
+        case 'n': actual_elements = atoi(optarg); break;
+        case 'p': print_elements = atoi(optarg); break;
+        case 'r': seed = atoi(optarg); break;
+        default: printf("Invalid input\n"); break;
         }
     }
 
@@ -84,12 +73,27 @@ int main(int argc, char **argv) {
         A[i] = random() & mask;
     }
 
+    if (no_input == true) {
+        printf("Select at least one sort to perform.\n");
+        printf("SYNOPSIS\n");
+        printf("   A collection of comparison-based sorting algorithms.\n\n");
+        printf("USAGE\n");
+        printf("   ./sorting [-haeisqn:p:r:] [-n length] [-p elements] [-r seed]\n\n");
+        printf("OPTIONS\n");
+        printf("   -h              display program help and usage.\n");
+        printf("   -a              enable all sorts.\n");
+        printf("   -e              enable Heap Sort.\n");
+        printf("   -i              enable Insertion Sort.\n");
+        printf("   -s              enable Shell Sort.\n");
+        printf("   -q              enable Quick Sort.\n");
+        printf("   -n length       specify number of array elements (default: 100).\n");
+        printf("   -p elements     specify number of elements to print (default: 100).\n");
+        printf("   -r seed         specify random seed (default: 13371453).\n");
+    }
+
     for (Sorts x = HELP; x < NUM_SORTS; x++) {
         if (member_set(x, s)) {
-            if (x == HELP || x == NO_INPUT) {
-                if (no_input == true) {
-                    printf("Select at least one sort to perform.\n");
-                }
+            if (x == HELP) {
                 printf("SYNOPSIS\n");
                 printf("   A collection of comparison-based sorting algorithms.\n\n");
                 printf("USAGE\n");

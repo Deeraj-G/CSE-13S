@@ -9,7 +9,7 @@ struct Graph {
      bool undirected;
      bool visited[VERTICES];
      uint32_t matrix[VERTICES][VERTICES];
-}
+};
 
 Graph *graph_create(uint32_t vertices, bool undirected) {
 	Graph *G = (Graph *)calloc(1, sizeof(Graph));
@@ -30,17 +30,15 @@ uint32_t graph_vertices(Graph *G) {
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
     
-    G->matrix[i][j] = k;
-    
-    if (G->undirected == true) {
-        G->matrix[j][i] = k;
-    }
-
-    // Add condition to check if undirected edge was successfully added
-    if ((i >= 0 && i < G->vertices) && (j >= 0 && j < G->vertices) && (G->matrix[i][j] == k)) {
-        return false;
-    else {
+    if ((i >= 0 && i < G->vertices) && (j >= 0 && j < G->vertices)) {
+        G->matrix[i][j] = k;
+        if (G->undirected == true) {
+            G->matrix[j][i] = k;
+        }
         return true;
+    }
+    else {
+        return false;
     }
 }
 
@@ -90,11 +88,11 @@ void graph_mark_unvisited(Graph *G, uint32_t v) {
 }
 
 void graph_print(Graph *G) {
-    uint32_t row = 0;
-    uint32_t column = 0;
-    for (row; row < G->vertices; row++) {
-        for (column; column < G->vertices; column++) {
-            printf("%d", G->matrix[row][column]);
+    uint32_t row;
+    uint32_t column;
+    for (row = 0; row < G->vertices; row++) {
+        for (column = 0; column < G->vertices; column++) {
+            printf("%d ", G->matrix[row][column]);
         }
         printf("\n");
     }

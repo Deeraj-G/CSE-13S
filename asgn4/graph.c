@@ -7,7 +7,7 @@
 struct Graph {
      uint32_t vertices;
      bool undirected;
-     bool verified[VERTICES];
+     bool visited[VERTICES];
      uint32_t matrix[VERTICES][VERTICES];
 }
 
@@ -29,26 +29,52 @@ uint32_t graph_vertices(Graph *G) {
 }
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
+    
     G->matrix[i][j] = k;
+    
     if (G->undirected == true) {
         G->matrix[j][i] = k;
     }
     
+    // Add condition to check if undirected edge was successfully added
+    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] == k)) {
+        return false;
+    else {
+        return true;
+    }
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
-
-
+    
+    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] > 0)) {
+        return true;
+    }
+    
+    else {
+        return false;
+    }
 }
 
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
-
-
+    
+    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] > 0)) {
+        return G->matrix[i][j];
+    }
+    
+    else {
+        return 0;
+    }
 }
 
 bool graph_visited(Graph *G, uint32_t v) {
-
-
+    
+    if (G->visited[v] == true) {
+        return true;
+    }
+    
+    else {
+        return false;
+    }
 }
 
 void graph_mark_visited(Graph *G, uint32_t v) {

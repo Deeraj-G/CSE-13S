@@ -37,7 +37,7 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
     }
     
     // Add condition to check if undirected edge was successfully added
-    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] == k)) {
+    if ((i >= 0 && i <= 25) && (j >= 0 && j <= 25) && (G->matrix[i][j] == k)) {
         return false;
     else {
         return true;
@@ -46,7 +46,7 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
     
-    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] > 0)) {
+    if ((i >= 0 && i <= 25) && (j >= 0 && j <= 25) && (G->matrix[i][j] > 0)) {
         return true;
     }
     
@@ -57,7 +57,7 @@ bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
 
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
     
-    if ((i >= 0 || i <= 25) && (j >= 0 || j <= 25) && (G->matrix[i][j] > 0)) {
+    if ((i >= 0 && i <= 25) && (j >= 0 && j <= 25) && (G->matrix[i][j] > 0)) {
         return G->matrix[i][j];
     }
     
@@ -78,13 +78,15 @@ bool graph_visited(Graph *G, uint32_t v) {
 }
 
 void graph_mark_visited(Graph *G, uint32_t v) {
-
-
+    if (v >=0 && v <= 25) {
+        G->visited[v] = true;
+    }
 }
 
 void graph_mark_unvisited(Graph *G, uint32_t v) {
-
-
+    if (v >=0 && v <= 25) {
+        G->visited[v] = false;
+    }
 }
 
 void graph_print(Graph *G) {

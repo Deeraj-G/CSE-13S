@@ -1,11 +1,14 @@
 #include "stack.h"
-#include "vertices.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <inttypes.h>
 
-// I used code made by Dr. Long in the asgn4.pdf
-// I based my code off of the descriptions for the functions in asgn4.pdf by Dr. Long
+#include "vertices.h"
+
+#include <inttypes.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// I used code made by Dr. Long in the asgn4.pdf for some of the functions
+// I based a few functions off of the descriptions for the functions in asgn4.pdf by Dr. Long
 
 struct Stack {
     uint32_t top;
@@ -37,22 +40,22 @@ void stack_delete(Stack **s) {
 }
 
 bool stack_empty(Stack *s) {
-    
+
     if (s->top == 0) {
         return true;
     }
-    
+
     else {
         return false;
     }
 }
 
 bool stack_full(Stack *s) {
-    
+
     if (s->top == s->capacity) {
         return true;
     }
-    
+
     else {
         return false;
     }
@@ -63,13 +66,13 @@ uint32_t stack_size(Stack *s) {
 }
 
 bool stack_push(Stack *s, uint32_t x) {
-    
+
     if (s->top == s->capacity) {
         return false;
     }
-    
+
     else {
-        
+
         s->items[s->top] = x;
         s->top = s->top + 1;
         return true;
@@ -77,11 +80,11 @@ bool stack_push(Stack *s, uint32_t x) {
 }
 
 bool stack_pop(Stack *s, uint32_t *x) {
-    
+
     if (s->top == 0) {
         return false;
     }
-    
+
     else {
         s->top = s->top - 1;
         *x = s->items[s->top];
@@ -90,11 +93,11 @@ bool stack_pop(Stack *s, uint32_t *x) {
 }
 
 bool stack_peek(Stack *s, uint32_t *x) {
-    
+
     if (s->top == 0) {
         return false;
     }
-    
+
     else {
         *x = s->items[s->top - 1];
         return true;
@@ -102,21 +105,20 @@ bool stack_peek(Stack *s, uint32_t *x) {
 }
 
 void stack_copy(Stack *dst, Stack *src) {
-    
+
     if (dst->capacity <= src->capacity) {
-        for (uint32_t i = 0; i < dst->capacity; i++) {
+        for (uint32_t i = 0; i < stack_size(dst); i++) {
             dst->items[i] = src->items[i];
         }
     }
 
     else if (dst->capacity > src->capacity) {
-        for (uint32_t i = 0; i < src->capacity; i++) {
+        for (uint32_t i = 0; i < stack_size(src); i++) {
             dst->items[i] = src->items[i];
         }
     }
-    
-    dst->top = src->top;
 
+    dst->top = src->top;
 }
 
 void stack_print(Stack *s, FILE *outfile, char *cities[]) {

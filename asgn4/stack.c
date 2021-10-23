@@ -69,7 +69,9 @@ bool stack_push(Stack *s, uint32_t x) {
     }
     
     else {
-        s->items[x];
+        
+        s->items[s->top] = x;
+        s->top = s->top + 1;
         return true;
     }
 }
@@ -96,6 +98,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
     else {
         *x = s->items[s->top];
         return true;
+    }
 }
 
 void stack_copy(Stack *dst, Stack *src) {

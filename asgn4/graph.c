@@ -4,7 +4,7 @@
 #include "vertices.h"
 #include "graph.h"
 
-// I used code made my Dr. Long in the asgn4.pdf
+// I used code made by Dr. Long in the asgn4.pdf
 // I based my code off of the descriptions for the functions in asgn4.pdf by Dr. Long
 
 struct Graph {

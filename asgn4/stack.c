@@ -59,7 +59,7 @@ bool stack_full(Stack *s) {
 }
 
 uint32_t stack_size(Stack *s) {
-    return s->capacity;
+    return s->top;
 }
 
 bool stack_push(Stack *s, uint32_t x) {
@@ -82,16 +82,32 @@ bool stack_pop(Stack *s, uint32_t *x) {
     
     else {
         *x = s->items[s->top];
+        s->top = s->top - 1;
         return true;
     }
 }
 
 bool stack_peek(Stack *s, uint32_t *x) {
-
+    
+    if (s->top == 0) {
+        return false;
+    }
+    
+    else {
+        *x = s->items[s->top];
+        return true;
 }
 
 void stack_copy(Stack *dst, Stack *src) {
+    
+    if (dst->capacity <= src->capacity) {
+        
+        for (uint32_t i = 0; i < src->capacity; i++) {
+            dst->items[i] = src->items[i];
+        }
 
+        dst->top = src->top;
+    } 
 }
 
 void stack_print(Stack *s, FILE *outfile, char *cities[]) {

@@ -37,24 +37,53 @@ void stack_delete(Stack **s) {
 }
 
 bool stack_empty(Stack *s) {
-
-
+    
+    if (s->top == 0) {
+        return true;
+    }
+    
+    else {
+        return false;
+    }
 }
 
 bool stack_full(Stack *s) {
-
+    
+    if (s->top == s->capacity) {
+        return true;
+    }
+    
+    else {
+        return false;
+    }
 }
 
 uint32_t stack_size(Stack *s) {
-
+    return s->capacity;
 }
 
 bool stack_push(Stack *s, uint32_t x) {
-
+    
+    if (s->top == s->capacity) {
+        return false;
+    }
+    
+    else {
+        s->items[x];
+        return true;
+    }
 }
 
 bool stack_pop(Stack *s, uint32_t *x) {
-
+    
+    if (s->top == 0) {
+        return false;
+    }
+    
+    else {
+        *x = s->items[s->top];
+        return true;
+    }
 }
 
 bool stack_peek(Stack *s, uint32_t *x) {

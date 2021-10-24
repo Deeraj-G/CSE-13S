@@ -99,7 +99,7 @@ bool stack_pop(Stack *s, uint32_t *x) {
     }
 
     else {
-        // Decrement the top value 
+        // Decrement the top value
         s->top = s->top - 1;
         // Setting the value of x
         *x = s->items[s->top];
@@ -116,7 +116,7 @@ bool stack_peek(Stack *s, uint32_t *x) {
     }
 
     else {
-        // Set x equal to the decremented top value 
+        // Set x equal to the decremented top value
         *x = s->items[s->top - 1];
         return true;
     }

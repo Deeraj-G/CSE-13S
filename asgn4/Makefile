@@ -1,12 +1,11 @@
 CC = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
-LFLAGS = -lm
 
 all: tsp
 
 
 tsp: tsp.o graph.o path.o stack.o
-	$(CC) $(CFLAGS) -o tsp tsp.o graph.o path.o stack.o $(LFLAGS)
+	$(CC) $(CFLAGS) -o tsp tsp.o graph.o path.o stack.o
 
 graph.o: graph.c
 	$(CC) $(CFLAGS) -c graph.c

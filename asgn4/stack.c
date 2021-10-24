@@ -10,12 +10,14 @@
 // I used code made by Dr. Long in the asgn4.pdf for some of the functions
 // I based a few functions off of the descriptions for the functions in asgn4.pdf by Dr. Long
 
+// Create a Stack structure with various values
 struct Stack {
     uint32_t top;
     uint32_t capacity;
     uint32_t *items;
 };
 
+// 
 Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
@@ -106,14 +108,8 @@ bool stack_peek(Stack *s, uint32_t *x) {
 
 void stack_copy(Stack *dst, Stack *src) {
 
-    if (dst->capacity <= src->capacity) {
-        for (uint32_t i = 0; i < stack_size(dst); i++) {
-            dst->items[i] = src->items[i];
-        }
-    }
-
-    else if (dst->capacity > src->capacity) {
-        for (uint32_t i = 0; i < stack_size(src); i++) {
+    if (dst->capacity == src->capacity) {
+        for (uint32_t i = 0; i < src->capacity; i++) {
             dst->items[i] = src->items[i];
         }
     }

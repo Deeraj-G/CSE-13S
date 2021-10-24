@@ -41,7 +41,7 @@ void path_delete(Path **p) {
 bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 
     uint32_t x = 0;
-    
+
     // Check if stack is empty
     if (stack_empty(p->vertices) == true) {
         // stack_push checks if stack is full, make sure the graph has an edge
@@ -80,7 +80,7 @@ bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     else {
         p_top = stack_size(p->vertices);
 
-        // Check if the stack is empty 
+        // Check if the stack is empty
         if (stack_peek(p->vertices, &x) == true) {
             // Pop if there's a viable value
             stack_pop(p->vertices, &x);
@@ -109,16 +109,8 @@ void path_copy(Path *dst, Path *src) {
     dst->length = src->length;
 }
 
-/*
 // Print out the values of the path to the outfile
 void path_print(Path *p, FILE *outfile, char *cities[]) {
-    for (uint32_t i = 0; i < p->vertices->top; i++) {
-        fprintf(outfile, "%s", cities[p->vertices->items[i]]);
-        if (i + 1 != p->vertices->top) {
-            fprintf(outfile, " -> ");
-        }
-    }
-    fprintf(outfile, "\n");    
+    stack_print(p->vertices, outfile, cities);
 }
 
-*/

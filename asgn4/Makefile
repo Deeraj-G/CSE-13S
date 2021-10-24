@@ -18,7 +18,7 @@ stack.o: stack.c
 	$(CC) $(CFLAGS) -c stack.c
 
 clean:
-	rm -f sorting *.o
+	rm -f tsp *.o
 
 format:
 	clang-format -i -style=file *.c *.h

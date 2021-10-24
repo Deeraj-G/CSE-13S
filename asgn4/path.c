@@ -27,7 +27,7 @@ Path *path_create(void) {
     return p;
 }
 
-// Delete the path and free up allocated memory
+// Delete the path and free up the path's allocated memory
 void path_delete(Path **p) {
     if (*p && (*p)->vertices) {
         free((*p)->vertices);
@@ -113,4 +113,3 @@ void path_copy(Path *dst, Path *src) {
 void path_print(Path *p, FILE *outfile, char *cities[]) {
     stack_print(p->vertices, outfile, cities);
 }
-

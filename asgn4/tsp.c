@@ -5,10 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <unistd.h>
 #define OPTIONS "hvui:o:"
 
-//#include "graph.c"
+// #include "graph.c"
 #include "graph.h"
 //#include "path.c"
 #include "path.h"

@@ -54,4 +54,6 @@ Implemented TA Christian Ocon's examples to structure my main()
 
 Copied the error messages and help messages from the resources repo
 
+Used code from TA Eugene's section to get the vertex and edge weight
+
 Used TA Omar's code for input scanning

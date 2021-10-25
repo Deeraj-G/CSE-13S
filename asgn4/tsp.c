@@ -1,3 +1,8 @@
+
+// Implemented TA Christian Ocon's examples to structure my main()
+// Used TA Omar's code for input scanning
+// Used code from TA Eugene's section to get the vertex and edge weight
+
 #include <assert.h>
 #include <inttypes.h>
 #include <stdbool.h>
@@ -16,9 +21,8 @@
 static FILE *input = NULL;
 static FILE *output = NULL;
 
-// Implemented TA Christian Ocon's examples to structure my main()
-// Used TA Omar's code for input scanning
-
+// Read through the command line options and specify variables
+// Also read through the input file and add specified vertices and edges into the graph and path
 int main(int argc, char **argv) {
     char *cities[VERTICES];
     char *input_file = NULL;
@@ -29,13 +33,9 @@ int main(int argc, char **argv) {
     bool help = false;
     uint32_t vertices = 0;
     char *atm = NULL;
-    //    char* again = NULL;
-    char *one = NULL;
-    char *two = NULL;
-    char *three = NULL;
-    uint32_t one_cp = 0;
-    uint32_t two_cp = 0;
-    uint32_t three_cp = 0;
+    uint32_t i = 0;
+    uint32_t j = 0;
+    uint32_t k = 0;
     Graph *G = graph_create(vertices, undirected);
 
     // Use the switch cases to check the command line inputs
@@ -67,7 +67,8 @@ int main(int argc, char **argv) {
 
     input = stdin;
     output = stdout;
-
+    
+    // Print out the help message if there's no input
     if (no_input == true) {
         printf("SYNOPSIS\n");
         printf("  Traveling Salesman Problem using DFS.\n\n");
@@ -81,6 +82,7 @@ int main(int argc, char **argv) {
         printf("  -o outfile     Output of computed path (default: stdout)\n");
     }
 
+    // Print out the help message if -h is specified
     if (help == true) {
         no_input = false;
         printf("SYNOPSIS\n");
@@ -96,35 +98,28 @@ int main(int argc, char **argv) {
     }
 
     // The next part of this code was adapted from TA Omar's section video
+    // Goes through the input file and reads the given info into variables to create the graph and add the vertices
     input = fopen(input_file, "r");
     char buffer[1024];
     fgets(buffer, 1024, input);
     vertices = atoi(buffer);
 
+    // Make sure the number of vertices is valid
     if (vertices <= VERTICES) {
+        // Puts the locations into the cities[] array
         for (uint32_t i = 0; i < vertices; ++i) {
             fgets(buffer, 1024, input);
             char *atm = strdup(buffer);
             cities[i] = atm;
         }
 
-        while (NULL != fgets(buffer, 1024, input)) {
-            //char* token = strtok(again, " ");
-
-            sscanf(buffer, "%d %d %d", &one_cp, &two_cp, &three_cp);
-            one = strtok(buffer, " ");
-            two = strtok(buffer, " ");
-            three = strtok(buffer, " ");
-            printf("%s\n", one);
-            one_cp = atoi(one);
-            two_cp = atoi(two);
-            three_cp = atoi(three);
-            //                printf("%d", "%d", "%d", one, two, three);
-            graph_add_edge(G, one_cp, two_cp, three_cp);
-            graph_print(G);
-        }
+        // Got this part from TA Eugene's section 
+        // Read the vertex and edge weight inputs and split them up to be added to the graph
+        while ((fscanf(input, "%" SCNu32 "%" SCNu32 "%" SCNu32 "\n", &i, &j, &k)) != EOF) {
+            graph_add_edge(G, i, j, k);
+        } 
+        graph_print(G);
     }
-
     else {
         printf("ERROR TOO MANY VERTICES");
     }
@@ -133,7 +128,6 @@ int main(int argc, char **argv) {
 }
 
 /*
-    }
     void dfs(Graph * G, uint32_t v, Path * curr, Path * shortest, char *cities[], FILE *outfile, bool verbose) {
         input = fopen(input_file_name, "r");
         char buffer[1025];
@@ -161,5 +155,3 @@ int main(int argc, char **argv) {
         }
     }
     */
-
-//int main() {}

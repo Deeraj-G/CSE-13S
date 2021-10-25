@@ -54,6 +54,6 @@ Used C code from Dr. Long in the asgn4.pdf
 
 Based my code off of the function descriptions in the asgn4.pdf by Dr. Long
 
-Implemented TA Christian Ocan's examples to structure my main()
+Implemented TA Christian Ocon's examples to structure my main()
 
 Copied the error messages and help messages from the resources repo

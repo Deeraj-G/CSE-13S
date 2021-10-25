@@ -29,9 +29,10 @@ int main(int argc, char **argv) {
     bool help = false;
     uint32_t vertices = 0;
     char* atm = NULL;
-    char* one = NULL;
-    char* two = NULL;
-    char* three = NULL;
+    char* again = NULL;
+//    char* one = NULL;
+  //  char* two = NULL;
+    //char* three = NULL;
     uint32_t one_cp = 0;
     uint32_t two_cp = 0;
     uint32_t three_cp = 0;
@@ -94,6 +95,7 @@ int main(int argc, char **argv) {
         printf("  -o outfile     Output of computed path (default: stdout)\n");
     }
     
+    // The next part of this code was adapted from TA Omar's section video
         input = fopen(input_file, "r");
         char buffer[1024];
         fgets(buffer, 1024, input);
@@ -107,11 +109,16 @@ int main(int argc, char **argv) {
             }
 
             while (NULL != fgets(buffer, 1024, input)) {
-                sscanf(buffer, "%s %s %s", one, two, three);
-                one_cp = atoi(one);
-                two_cp = atoi(two);
-                three_cp = atoi(three);
-                printf("%" PRIu32, one_cp);
+                again = strdup(buffer);
+                //char* token = strtok(again, " ");
+
+                sscanf(again, "%d %d %d", &one_cp, &two_cp, &three_cp);
+
+//                one = atoi(one_cp);
+  //              two = atoi(two_cp);
+    //            three = atoi(three_cp);
+//                printf("%d", "%d", "%d", one, two, three);                
+                //printf("%" PRIu32, one_cp);
                 graph_add_edge(G, one_cp, two_cp, three_cp);
             }
         }
@@ -121,13 +128,9 @@ int main(int argc, char **argv) {
         }
     free(atm);
     atm = NULL;
-    free(one);
-    one = NULL;
-    free(two);
-    two = NULL;
-    free(three);
-    three = NULL;
-}
+    free(again);
+    again = NULL;
+    }
 
         /*
     }

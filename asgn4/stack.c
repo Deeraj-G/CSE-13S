@@ -126,11 +126,11 @@ bool stack_peek(Stack *s, uint32_t *x) {
 void stack_copy(Stack *dst, Stack *src) {
 
     // If the stack capacity's are the same size then set dst equal to src
-    if (dst->capacity == src->capacity) {
-        for (uint32_t i = 0; i < src->capacity; i++) {
-            dst->items[i] = src->items[i];
-        }
+    //if (dst->capacity <= src->capacity) {
+    for (uint32_t i = 0; i < src->capacity; i++) {
+        dst->items[i] = src->items[i];
     }
+    //}
 
     // Match the top values of dst and src
     dst->top = src->top;

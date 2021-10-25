@@ -32,10 +32,9 @@ int main(int argc, char **argv) {
     bool help = false;
     uint32_t vertices = 0;
     char *atm = NULL;
-    uint32_t i = 0;
-    uint32_t j = 0;
-    uint32_t k = 0;
-    Graph *G = graph_create(vertices, undirected);
+    uint32_t i;
+    uint32_t j;
+    uint32_t k;
 
     // Use the switch cases to check the command line inputs
     int opt = 0;
@@ -101,7 +100,9 @@ int main(int argc, char **argv) {
     input = fopen(input_file, "r");
     char buffer[1024];
     fgets(buffer, 1024, input);
+    // Set the number of vertices to the first number in the input file
     vertices = atoi(buffer);
+    Graph *G = graph_create(vertices, undirected);
 
     // Make sure the number of vertices is valid
     if (vertices <= VERTICES) {
@@ -117,10 +118,14 @@ int main(int argc, char **argv) {
         while ((fscanf(input, "%" SCNu32 "%" SCNu32 "%" SCNu32 "\n", &i, &j, &k)) != EOF) {
             graph_add_edge(G, i, j, k);
         }
+        // Graph is created properly
         graph_print(G);
-    } else {
+    }
+
+    else {
         printf("ERROR TOO MANY VERTICES");
     }
+    // Free the allocated memory of atm
     free(atm);
     atm = NULL;
 }

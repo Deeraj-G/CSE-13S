@@ -1,6 +1,6 @@
 
 // Implemented TA Christian Ocon's examples to structure my main()
-// Used TA Omar's code for input scanning
+// Used TA Omar's code for input scanning and general structure for the input portion
 // Used code from TA Eugene's section to get the vertex and edge weight
 
 #include <assert.h>
@@ -131,23 +131,21 @@ int main(int argc, char **argv) {
 
 // Didn't finish my dfs function so I commented it out
 //void dfs(Graph * G, uint32_t v, Path * curr, Path * shortest, char *cities[], FILE *outfile, bool verbose) {
-        
-    //uint32_t city = fgets(input_file, "%s", cities);
 
-    //if (city > VERTICES) {
-        //printf("Error, too many vertices");
-    //}
+//uint32_t city = fgets(input_file, "%s", cities);
 
-        
+//if (city > VERTICES) {
+//printf("Error, too many vertices");
+//}
 
-    //path_push_vertex(curr, v, G);
-    //graph_mark_visited(G, v);
+//path_push_vertex(curr, v, G);
+//graph_mark_visited(G, v);
 
-    //for (uint32_t w = 0; graph_has_edge(G, v, w); w++) {
-        //if (graph_visited(G, v) == false) {
+//for (uint32_t w = 0; graph_has_edge(G, v, w); w++) {
+//if (graph_visited(G, v) == false) {
 
-            //calls += 1;
-            //dfs(G, w, curr, shortest, cities, outfile, verbose);
-        //}
-    //}
+//calls += 1;
+//dfs(G, w, curr, shortest, cities, outfile, verbose);
+//}
+//}
 //}

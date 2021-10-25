@@ -18,7 +18,10 @@
 #include "vertices.h"
 
 static FILE *input = NULL;
-static FILE *output = NULL;
+// I didn't get to the output portion so I'm commenting this part out
+//static FILE *output = NULL;
+static bool undirected = false;
+static bool verbose = false;
 
 // Read through the command line options and specify variables
 // Also read through the input file and add specified vertices and edges into the graph and path
@@ -26,8 +29,6 @@ int main(int argc, char **argv) {
     char *cities[VERTICES];
     char *input_file = NULL;
     char *output_file = NULL;
-    static bool undirected = false;
-    static bool verbose = false;
     bool no_input = true;
     bool help = false;
     uint32_t vertices = 0;
@@ -62,9 +63,6 @@ int main(int argc, char **argv) {
             break;
         }
     }
-
-    input = stdin;
-    output = stdout;
 
     // Print out the help message if there's no input
     if (no_input == true) {

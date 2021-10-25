@@ -5,15 +5,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <unistd.h>
 #define OPTIONS "hvui:o:"
 
-#include "graph.c"
+//#include "graph.c"
 #include "graph.h"
-#include "path.c"
+//#include "path.c"
 #include "path.h"
-#include "stack.c"
+//#include "stack.c"
 #include "stack.h"
 #include "vertices.h"
+
 /*
 static uint32_t calls = 0;
 static FILE *infile = NULL;

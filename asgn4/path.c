@@ -47,7 +47,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
         // stack_push checks if stack is full, make sure the graph has an edge
         if (stack_push(p->vertices, v) == true && graph_has_edge(G, x, v)) {
             // Add the edge weight to the path length
-            p->length = p->length + graph_edge_weight(G, 0, v);
+            p->length = p->length + graph_edge_weight(G, x, v);
             return true;
         } else {
             return false;

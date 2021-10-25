@@ -7,22 +7,22 @@
 #include <unistd.h>
 #define OPTIONS "hvui:o:"
 
-//#include "graph.c"
+#include "graph.c"
 #include "graph.h"
-//#include "path.c"
+#include "path.c"
 #include "path.h"
-//#include "stack.c"
+#include "stack.c"
 #include "stack.h"
 #include "vertices.h"
-/*
+
 static uint32_t calls = 0;
 static FILE *infile = NULL;
 static FILE *outfile = NULL;
-bool undirected = false;
-bool verbose = false;
+static bool undirected = false;
+static bool verbose = false;
 bool no_input = true;
 
-// Implemented parts of TA Christian Ocan's code from his section video
+// Implemented TA Christian Ocan's examples to structure my main()
 
 int main(int argc, char **argv) {
 
@@ -98,6 +98,5 @@ void dfs(
         }
     }
 }
-*/
-int main() {
-}
+
+//int main() {}

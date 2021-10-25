@@ -28,15 +28,15 @@ int main(int argc, char **argv) {
     bool no_input = true;
     bool help = false;
     uint32_t vertices = 0;
-    char* atm = NULL;
-    char* again = NULL;
-//    char* one = NULL;
-  //  char* two = NULL;
-    //char* three = NULL;
+    char *atm = NULL;
+    //    char* again = NULL;
+    char *one = NULL;
+    char *two = NULL;
+    char *three = NULL;
     uint32_t one_cp = 0;
     uint32_t two_cp = 0;
     uint32_t three_cp = 0;
-    Graph *G = graph_create(vertices, undirected); 
+    Graph *G = graph_create(vertices, undirected);
 
     // Use the switch cases to check the command line inputs
     int opt = 0;
@@ -94,45 +94,45 @@ int main(int argc, char **argv) {
         printf("  -i infile      Input containing graph (default: stdin)\n");
         printf("  -o outfile     Output of computed path (default: stdout)\n");
     }
-    
+
     // The next part of this code was adapted from TA Omar's section video
-        input = fopen(input_file, "r");
-        char buffer[1024];
-        fgets(buffer, 1024, input);
-        vertices = atoi(buffer);
-        
-        if (vertices <= VERTICES) {
-            for (uint32_t i = 0; i < vertices; ++i) {
-                fgets(buffer, 1024, input);
-                char* atm = strdup(buffer);
-                cities[i] = atm;
-            }
+    input = fopen(input_file, "r");
+    char buffer[1024];
+    fgets(buffer, 1024, input);
+    vertices = atoi(buffer);
 
-            while (NULL != fgets(buffer, 1024, input)) {
-                again = strdup(buffer);
-                //char* token = strtok(again, " ");
-
-                sscanf(again, "%d %d %d", &one_cp, &two_cp, &three_cp);
-
-//                one = atoi(one_cp);
-  //              two = atoi(two_cp);
-    //            three = atoi(three_cp);
-//                printf("%d", "%d", "%d", one, two, three);                
-                //printf("%" PRIu32, one_cp);
-                graph_add_edge(G, one_cp, two_cp, three_cp);
-            }
+    if (vertices <= VERTICES) {
+        for (uint32_t i = 0; i < vertices; ++i) {
+            fgets(buffer, 1024, input);
+            char *atm = strdup(buffer);
+            cities[i] = atm;
         }
-        
-        else {
-            printf("ERROR TOO MANY VERTICES");
+
+        while (NULL != fgets(buffer, 1024, input)) {
+            //char* token = strtok(again, " ");
+
+            sscanf(buffer, "%d %d %d", &one_cp, &two_cp, &three_cp);
+            one = strtok(buffer, " ");
+            two = strtok(buffer, " ");
+            three = strtok(buffer, " ");
+            printf("%s\n", one);
+            one_cp = atoi(one);
+            two_cp = atoi(two);
+            three_cp = atoi(three);
+            //                printf("%d", "%d", "%d", one, two, three);
+            graph_add_edge(G, one_cp, two_cp, three_cp);
+            graph_print(G);
         }
-    free(atm);
-    atm = NULL;
-    free(again);
-    again = NULL;
     }
 
-        /*
+    else {
+        printf("ERROR TOO MANY VERTICES");
+    }
+    free(atm);
+    atm = NULL;
+}
+
+/*
     }
     void dfs(Graph * G, uint32_t v, Path * curr, Path * shortest, char *cities[], FILE *outfile, bool verbose) {
         input = fopen(input_file_name, "r");
@@ -161,6 +161,5 @@ int main(int argc, char **argv) {
         }
     }
     */
-    
 
-    //int main() {}
+//int main() {}

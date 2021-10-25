@@ -14,7 +14,7 @@
 #include "stack.c"
 #include "stack.h"
 #include "vertices.h"
-
+/*
 static uint32_t calls = 0;
 static FILE *infile = NULL;
 static FILE *outfile = NULL;
@@ -98,5 +98,6 @@ void dfs(
         }
     }
 }
-
-//int main() {}
+*/
+int main() {
+}

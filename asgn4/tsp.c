@@ -18,26 +18,26 @@
 #include "vertices.h"
 
 static FILE *input = NULL;
-// I didn't get to the output portion so I'm commenting this part out
+// I didn't get to the output portion so I'm commenting the next line out
 //static FILE *output = NULL;
 static bool undirected = false;
 static bool verbose = false;
 
 // Read through the command line options and specify variables
-// Also read through the input file and add specified vertices and edges into the graph and path
+// Also read through the input file and add specified vertices and edges into the graph
 int main(int argc, char **argv) {
     char *cities[VERTICES];
     char *input_file = NULL;
     char *output_file = NULL;
-    bool no_input = true;
-    bool help = false;
-    uint32_t vertices = 0;
     char *atm = NULL;
     uint32_t i;
     uint32_t j;
     uint32_t k;
+    uint32_t vertices = 0;
+    bool no_input = true;
+    bool help = false;
 
-    // Use the switch cases to check the command line inputs
+    // Use the switch cases to check the command line options
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -130,11 +130,6 @@ int main(int argc, char **argv) {
 
 /*
     void dfs(Graph * G, uint32_t v, Path * curr, Path * shortest, char *cities[], FILE *outfile, bool verbose) {
-        input = fopen(input_file_name, "r");
-        char buffer[1025];
-        sscanf(buffer, 1024, input);
-        vertices = atoi(buffer);
-        printf("%" PRIu32, vertices);
         
         uint32_t city = fgets(input_file, "%s", cities);
 

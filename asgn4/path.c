@@ -27,7 +27,7 @@ Path *path_create(void) {
     return p;
 }
 
-// Delete the path and free up the path's allocated memory
+// Delete the path and free up the allocated memory
 void path_delete(Path **p) {
     if (*p && (*p)->vertices) {
         free((*p)->vertices);

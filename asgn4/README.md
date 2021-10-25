@@ -44,10 +44,6 @@ As a summary of the command line options:
 
 -u: Specifies that the graph is undirected
 
-## Errors in Program
-
-None found so far
-
 ## Credit
 
 Used C code from Dr. Long in the asgn4.pdf
@@ -57,3 +53,5 @@ Based my code off of the function descriptions in the asgn4.pdf by Dr. Long
 Implemented TA Christian Ocon's examples to structure my main()
 
 Copied the error messages and help messages from the resources repo
+
+Used TA Omar's code for input scanning

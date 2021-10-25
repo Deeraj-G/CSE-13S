@@ -126,6 +126,7 @@ int main(int argc, char **argv) {
     // Free the allocated memory of atm
     free(atm);
     atm = NULL;
+    return 0;
 }
 
 /*

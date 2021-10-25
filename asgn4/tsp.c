@@ -17,7 +17,6 @@
 #include "stack.h"
 #include "vertices.h"
 
-//static uint32_t calls = 0;
 static FILE *input = NULL;
 static FILE *output = NULL;
 
@@ -67,7 +66,7 @@ int main(int argc, char **argv) {
 
     input = stdin;
     output = stdout;
-    
+
     // Print out the help message if there's no input
     if (no_input == true) {
         printf("SYNOPSIS\n");
@@ -113,14 +112,13 @@ int main(int argc, char **argv) {
             cities[i] = atm;
         }
 
-        // Got this part from TA Eugene's section 
+        // Got this part from TA Eugene's section
         // Read the vertex and edge weight inputs and split them up to be added to the graph
         while ((fscanf(input, "%" SCNu32 "%" SCNu32 "%" SCNu32 "\n", &i, &j, &k)) != EOF) {
             graph_add_edge(G, i, j, k);
-        } 
+        }
         graph_print(G);
-    }
-    else {
+    } else {
         printf("ERROR TOO MANY VERTICES");
     }
     free(atm);

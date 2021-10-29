@@ -1,3 +1,7 @@
+#include <inttypes.h>
+#include "node.h"
+#include "defines.h"
+
 typedef struct Node Node; 
 
 struct Node {
@@ -8,14 +12,26 @@ struct Node {
 };
 
 Node *node_create(uint8_t symbol, uint64_t frequency) {
-
+    Node *n = (Node *) malloc(sizeof(Node));
+    Node *left = (Node *) malloc(sizeof(Node));
+    Node *right = (Node *) malloc(sizeof(Node));
+    n->symbol = symbol;
+    n->frequency = frequency;
 }
 
 void node_delete(Node **n) {
+    if (*n && (*n)->*left && (*n)->*right) {
+        free((*n)->*left);
+        free((*n)->*right);
+        free(*n);
+        *n = NULL;
+
+    }
 
 }
 
 Node *node_join(Node *left, Node *right) {
+    Node parent = node_create($, left->frequency + right->frequency);
 
 }
 

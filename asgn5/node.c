@@ -1,8 +1,9 @@
 #include <inttypes.h>
 #include "node.h"
 #include "defines.h"
+#include <stdint.h>
 
-typedef struct Node Node; 
+typedef struct Node Node;
 
 struct Node {
     Node *left;

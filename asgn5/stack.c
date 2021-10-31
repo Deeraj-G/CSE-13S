@@ -5,6 +5,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+typedef struct Stack Stack;
 
 // Create a Stack structure with various values
 struct Stack {
@@ -21,8 +24,8 @@ Stack *stack_create(uint32_t capacity) {
         s->top = 0;
         s->capacity = capacity;
         // Free memory of size uint32_t for the items
-        s->items = (uint32_t *) calloc(capacity, sizeof(uint32_t));
-        if (!s->items) {
+        s->*items = (uint32_t *) calloc(capacity, sizeof(uint32_t));
+        if (!s->*items) {
             free(s);
             s = NULL;
         }
@@ -32,8 +35,8 @@ Stack *stack_create(uint32_t capacity) {
 
 // Delete the stack and free allocated memory
 void stack_delete(Stack **s) {
-    if (*s && (*s)->items) {
-        free((*s)->items);
+    if (*s && (*s)->*items) {
+        free((*s)->*items);
         free(*s);
         *s = NULL;
     }

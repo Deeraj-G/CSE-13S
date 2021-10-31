@@ -2,15 +2,8 @@
 #include "node.h"
 #include "defines.h"
 #include <stdint.h>
-
-typedef struct Node Node;
-
-struct Node {
-    Node *left;
-    Node *right;
-    uint8_t symbol;
-    uint64_t frequency;
-};
+#include <stdlib.h>
+#include <stdio.h>
 
 Node *node_create(uint8_t symbol, uint64_t frequency) {
     Node *n = (Node *) malloc(sizeof(Node));
@@ -19,22 +12,15 @@ Node *node_create(uint8_t symbol, uint64_t frequency) {
 }
 
 void node_delete(Node **n) {
-    if (*n && (*n)->*left && (*n)->*right) {
-        //free((*n)->*left);
-        //free((*n)->*right);
-        free(*n);
-        *n = NULL;
-
-    }
-
+    free(*n);
+    *n = NULL;
 }
 
 Node *node_join(Node *left, Node *right) {
-    Node parent = node_create("$", left->frequency + right->frequency);
+    Node *parent = node_create('$', (left->frequency + right->frequency));
 }
 
 void node_print(Node *n) {
-    printf("parent: %d, %d\n", n->symbol, n->frequency);
-    printf("left: %d, %d\n", left->symbol, left->frequency);
-    printf("right: %d, %d\n", right->symbol, right->frequency);
+    printf("The symbol ASCII is: " "%" PRIu8 "\n", n->symbol);
+    printf("The frequency is: " "%" PRIu64 "\n", n->frequency);
 }

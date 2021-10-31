@@ -95,7 +95,12 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     }
 }
 
-void code_print(Code *c);
+void code_print(Code *c) {
+    for (uint8_t i = 0; i < c->top; i++) {
+        printf("%d\n", c->top); 
+        printf("%d\n", c->bits[i]);
+    }
+}
 
 
 

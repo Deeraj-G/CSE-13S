@@ -4,18 +4,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <inttypes.h>
-
-typedef struct {
-    uint32_t top;
-    uint8_t bits[MAX_CODE_SIZE];
-} Code;
+#include <stdlib.h>
+#include <stdio.h>
 
 Code code_init(void) {
-    Code->top = 0;
-    for (uint8_t i = 0; i < Code->top; i++) {
-        Code->bits[i] = 0;
+    Code d;
+    d.top = 0;
+    for (uint8_t i = 0; i < d.top; i++) {
+        d.bits[i] = 0;
     }
-    return Code;
+    return d;
 }
 
 uint32_t code_size(Code *c) {
@@ -80,8 +78,10 @@ bool code_push_bit(Code *c, uint8_t bit) {
         return false;
     }
     else {
-        c->bits[top + 1] = bit;
+        c->bits[c->top] = bit;
+        c->top = c->top + 1;
         return true;
+    }
 }
 
 bool code_pop_bit(Code *c, uint8_t *bit) {
@@ -90,7 +90,8 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
         return false;
     }
     else {
-        *bit = c->bits[top - 1];
+        c->top = c->top - 1;
+        *bit = c->bits[c->top];
         return true;
     }
 }

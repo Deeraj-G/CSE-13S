@@ -46,11 +46,11 @@ bool code_full(Code *c) {
 
 bool code_set_bit(Code *c, uint32_t i) {
     
-    if (i < 0 || i > ALPHABET) {
+    if (i > ((c->top)*8)) {
         return false;
     }
     else {
-        c->bits[i] |= (0x1 << i % ALPHABET);
+        c->bits[i/8] |= (0x1 << i % 8);
         return true;
     }
 }
@@ -60,18 +60,19 @@ bool code_clr_bit(Code *c, uint32_t i) {
         return false;
     }
     else {
-        c->bits[i] &= ~(0x1 << i % ALPHABET);
+        c->bits[i/8] &= ~(0x1 << i % 8);
         return true;
     }
 }
 
 bool code_get_bit(Code *c, uint32_t i) {
     
-    if (i < 0 || i > ALPHABET || c->bits[i] == 0) {
+    if (i < 0 || i > ALPHABET || c->bits[i/8] == 0) {
         return false;
     }
-    else {
-        return (c->bits[i] >> i % ALPHABET) & 0x1;    
+    else if (c->bits[i/8] == 1)  {
+        (c->bits[i/8] >> i % 8) & 0x1;    
+        return true;
     }
 }
 
@@ -80,9 +81,18 @@ bool code_push_bit(Code *c, uint8_t bit) {
     if (c->top == ALPHABET) {
         return false;
     }
-    else {
-        c->bits[c->top] = bit;
-        c->top = c->top + 1;
+
+    else if (bit > 0)  {
+        code_set_bit(c, c->top);
+        c->top += 1;
+        return true;
+        //c->bits[c->top] = bit;
+        //c->top = c->top + 1;
+    }
+
+    else if (bit == 0) {
+        code_clr_bit(c, c->top);
+        c->top += 1;
         return true;
     }
 }

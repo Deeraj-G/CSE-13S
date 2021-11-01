@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Used the code for code_set_bit, code_clr_bit, and code_get_bit from the 
+// example provided by Dr. Long in the CSE 13S Code Comments bv8.h file
+
 Code code_init(void) {
     Code d;
     d.top = 0;
@@ -47,7 +50,7 @@ bool code_set_bit(Code *c, uint32_t i) {
         return false;
     }
     else {
-        c->bits[i] = 1;
+        c->bits[i] |= (0x1 << i % ALPHABET);
         return true;
     }
 }
@@ -57,7 +60,7 @@ bool code_clr_bit(Code *c, uint32_t i) {
         return false;
     }
     else {
-        c->bits[i] = 0;
+        c->bits[i] &= ~(0x1 << i % ALPHABET);
         return true;
     }
 }
@@ -67,8 +70,8 @@ bool code_get_bit(Code *c, uint32_t i) {
     if (i < 0 || i > ALPHABET || c->bits[i] == 0) {
         return false;
     }
-    else if (c->bits[i] == 1) {
-        return true;
+    else {
+        return (c->bits[i] >> i % ALPHABET) & 0x1;    
     }
 }
 
@@ -97,8 +100,8 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
 }
 
 void code_print(Code *c) {
+    printf("%d\n", c->top);
     for (uint8_t i = 0; i < c->top; i++) {
-        printf("%d\n", c->top); 
         printf("%d\n", c->bits[i]);
     }
 }

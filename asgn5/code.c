@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// Used the code for code_set_bit, code_clr_bit, and code_get_bit from the 
-// example provided by Dr. Long in the CSE 13S Code Comments bv8.h file
+// Used the bitwise operators and shifts code for code_set_bit, code_clr_bit, and code_get_bit from the 
+// example provided by Dr. Long in the CSE 13S Code Comments bv8.h file, though I've made a couple modifications
 
 Code code_init(void) {
     Code d;
@@ -43,10 +43,9 @@ bool code_full(Code *c) {
     }
 }
 
-
 bool code_set_bit(Code *c, uint32_t i) {
     
-    if (i > ((c->top)*8)) {
+    if (i < 0 || i > ((c->top)*8)) {
         return false;
     }
     else {
@@ -56,7 +55,8 @@ bool code_set_bit(Code *c, uint32_t i) {
 }
 
 bool code_clr_bit(Code *c, uint32_t i) {
-    if (i < 0 || i > ALPHABET) {
+    
+    if (i < 0 || i > (c->top) * 8) {
         return false;
     }
     else {
@@ -67,7 +67,7 @@ bool code_clr_bit(Code *c, uint32_t i) {
 
 bool code_get_bit(Code *c, uint32_t i) {
     
-    if (i < 0 || i > ALPHABET || c->bits[i/8] == 0) {
+    if (i < 0 || i > (c->top) * 8 || c->bits[i/8] == 0) {
         return false;
     }
     else if (c->bits[i/8] == 1)  {
@@ -85,16 +85,13 @@ bool code_push_bit(Code *c, uint8_t bit) {
     else if (bit > 0)  {
         code_set_bit(c, c->top);
         c->top += 1;
-        return true;
-        //c->bits[c->top] = bit;
-        //c->top = c->top + 1;
     }
 
     else if (bit == 0) {
         code_clr_bit(c, c->top);
         c->top += 1;
-        return true;
     }
+    return true;
 }
 
 bool code_pop_bit(Code *c, uint8_t *bit) {
@@ -104,7 +101,7 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     }
     else {
         c->top = c->top - 1;
-        *bit = c->bits[c->top];
+        *bit = code_get_bit(c, c->top);
         return true;
     }
 }

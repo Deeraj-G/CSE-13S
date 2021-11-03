@@ -24,3 +24,12 @@ void node_print(Node *n) {
     printf("The symbol ASCII is: " "%" PRIu8 "\n", n->symbol);
     printf("The frequency is: " "%" PRIu64 "\n", n->frequency);
 }
+
+// Helper functions
+uint64_t frequency(Node *n) {
+    return n->frequency;
+}
+
+uint8_t symbol(Node *n) {
+    return n->symbol;
+}

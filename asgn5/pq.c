@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Used code from TA Christian Ocon's section
+// Used coding ideas from TA Christian Ocon's section to create struct members
+// Used two functions from the stats.c file in asgn3 created by Dr. Long
 
 typedef struct PriorityQueue PriorityQueue;
 
@@ -20,11 +21,11 @@ struct PriorityQueue {
 
 PriorityQueue *pq_create(uint32_t capacity) {
     PriorityQueue *q = (PriorityQueue *) malloc(sizeof(PriorityQueue));
+    q->items = (Node **) malloc(capacity * sizeof(Node));
     q->capacity = capacity;
     q->size = 0;
     q->head = 0;
     q->tail = 0;
-    q->items = (Node **) malloc(capacity * sizeof(Node));
 }
 
 void pq_delete(PriorityQueue **q) {
@@ -58,92 +59,86 @@ uint32_t pq_size(PriorityQueue *q) {
     return q->size;
 }
 
-bool enqueue(PriorityQueue *q, Node *n) {
+// Received the following two functions from the stats.c file created by Dr. Long for asgn3
+int cmp(Node *x, Node *y) {
+    if (frequency(x) < frequency(y)) {
+        return -1;
+    } else if (x > y) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
-    // This function returns the greater child between the arguments first and last
-    uint32_t min_child(uint32_t *A, uint32_t first, uint32_t last) {
+void swap(Node *x, Node *y) {
+    Node *t = x;
+    *x = *y;
+    *y = t;
+}
 
-        uint32_t left = 2 * first;
-        uint32_t right = left + 1;
+// Copied parts of my code from heap.c in asgn3 for the following 2 functions
+// This function returns the smaller child between the arguments first and last
+uint32_t min_child(Node *n, PriorityQueue *q, Node *first, Node *last) {
 
-        // Checks if the right value is <= last and checks if the right value is greater than the left value
-        if (right >= last && (A[right - 1] < A[left - 1])) {
+    uint32_t left = 2 * first;
+    uint32_t right = left + 1;
+
+    // Checks if the right value is >= last and checks if the right value is less than the left value
+    if (right <= last && ((cmp(A[right - 1], A[left - 1])) > 0)) {
+
+    //if (right >= last && (A[right - 1] < A[left - 1])) {
+        return right;
+    }   
+    
+    else {
+        return left;
+    }   
+} 
+
+// This function fixes the heap so it obeys the constraints of a heap after the smallest element has been removed
+void fix_heap(Node *n, PriorityQueue *q, Node *first, Node *last) {
+
+    bool found = false;
+    Node *mother = first;
+    
+    // This variable is set equal to the greater value between mother and last
+    uint32_t great = min_child(n, q, mother, last);
+
+    // This loop checks if the array elements at mother is less than great, and swaps the two elements if it is true
+    while (mother <= (last / 2) && (found == false)) {
+        
+        // Check if the array value at mother is less than the array value at great
+        if ((cmp(A[mother - 1], A[great - 1])) < 0) {
+        
+            // Swap the elements of mother and great
+            swap(&A[mother - 1], &A[great - 1]);
             
-            // If the conditions are met, return right
-            return right;
+            // Sets mother equal to great
+            mother = great;
+            
+            // Recalculates great now that mother is equal to the previous value of great
+            great = min_child(n, q, mother, last);
         } 
         else {
-            return left;
+            found = true;
         }
     }
+}   
 
-    // This function fixes the heap so it obeys the constraints of a heap after the largest element has been removed
-    void fix_heap(uint32_t *A, uint32_t first, uint32_t last) {
+bool enqueue(PriorityQueue *q, Node *n) {
 
-        bool found = false;
-        uint32_t copy;
-        uint32_t mother = first;
-        
-        // This variable is set equal to the greater value between mother and last
-        uint32_t great = max_child(A, mother, last);
-        
-        // This loop checks if the array elements at mother is less than great, and swaps the two elements if it is true
-        while (mother <= (last / 2) && (found == false)) {
-            
-            // Check if the array value at mother is less than the array value at great
-            if (A[mother - 1] < A[great - 1]) {
-                
-                // Swap the elements of mother and great
-                copy = A[mother - 1];
-                A[mother - 1] = A[great - 1];
-                A[great - 1] = copy;
-                
-                // Sets mother equal to great
-                mother = great;
-                
-                // Recalculates great now that mother is equal to the previous value of great
-                great = min_child(A, mother, last);
-            } 
-            else {
-                found = true;
-            }
-        }
+    if (p->size == p->capacity) {
+        return false;
     }
 
-    // This function orders the array elements so it obeys the constraints of a max heap
-    void build_heap(uint32_t *A, uint32_t first, uint32_t last) {
-        
-        uint32_t father;
-
-        // This loop goes through the first half of the array A and orders the elements
-        for (father = (last / 2); father > first - 1; father -= 1) {
-            
-            // Fixes the heap
-            fix_heap(A, father, last);
-        }
+    else {
+        q->items[q->tail] = n;
+        q->size += 1;
+        fix_heap(n, q, q->head, q->tail);
+        q->tail += 1;
+        return true;
     }
 
-    // This function calls the various functions defined in this file and runs the heap sort
-    void heap_sort(uint32_t *A, uint32_t n) {
-
-        // Define the arguments
-        uint32_t first = 1;
-        uint32_t last = n;
-        uint32_t leaf;
-        uint32_t copy;
-
-        // Builds the heap using the values in array A
-        build_heap(A, first, last);
-
-        // Goes through all values in array A and sorts them in order
-        for (leaf = last; leaf > first; leaf -= 1) {
-            // Swaps the values of first and leaf
-            copy = A[first - 1];
-            A[first - 1] = A[leaf - 1];
-            A[leaf - 1] = copy;
-            fix_heap(A, first, leaf - 1);
-        }
-    }
 
 
 }

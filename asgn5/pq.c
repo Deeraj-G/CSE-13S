@@ -4,6 +4,7 @@
 #include "pq.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "node.c"
 
 // Used coding ideas from TA Christian Ocon's section to create struct members
 // Used two functions from the stats.c file in asgn3 created by Dr. Long
@@ -71,20 +72,21 @@ int cmp(Node *x, Node *y) {
 }
 
 void swap(Node *x, Node *y) {
+    // FIX SWAP
     Node *t = x;
     *x = *y;
-    *y = t;
+    *y = *t;
 }
 
 // Copied parts of my code from heap.c in asgn3 for the following 2 functions
 // This function returns the smaller child between the arguments first and last
-uint32_t min_child(Node *n, PriorityQueue *q, Node *first, Node *last) {
+uint32_t min_child(Node *n, PriorityQueue *q, uint32_t first, uint32_t last) {
 
     uint32_t left = 2 * first;
     uint32_t right = left + 1;
 
     // Checks if the right value is >= last and checks if the right value is less than the left value
-    if (right <= last && ((cmp(A[right - 1], A[left - 1])) > 0)) {
+    if (right <= last && ((cmp(q->items[right - 1], q->items[left - 1])) > 0)) {
 
     //if (right >= last && (A[right - 1] < A[left - 1])) {
         return right;
@@ -95,11 +97,12 @@ uint32_t min_child(Node *n, PriorityQueue *q, Node *first, Node *last) {
     }   
 } 
 
+
 // This function fixes the heap so it obeys the constraints of a heap after the smallest element has been removed
-void fix_heap(Node *n, PriorityQueue *q, Node *first, Node *last) {
+void fix_heap(Node *n, PriorityQueue *q, uint32_t first, uint32_t last) {
 
     bool found = false;
-    Node *mother = first;
+    uint32_t mother = first;
     
     // This variable is set equal to the greater value between mother and last
     uint32_t great = min_child(n, q, mother, last);
@@ -108,10 +111,10 @@ void fix_heap(Node *n, PriorityQueue *q, Node *first, Node *last) {
     while (mother <= (last / 2) && (found == false)) {
         
         // Check if the array value at mother is less than the array value at great
-        if ((cmp(A[mother - 1], A[great - 1])) < 0) {
+        if ((cmp(q->items[mother - 1], q->items[great - 1])) < 0) {
         
             // Swap the elements of mother and great
-            swap(&A[mother - 1], &A[great - 1]);
+            swap(q->items[first - 1], q->items[great - 1]);
             
             // Sets mother equal to great
             mother = great;
@@ -125,9 +128,10 @@ void fix_heap(Node *n, PriorityQueue *q, Node *first, Node *last) {
     }
 }   
 
+
 bool enqueue(PriorityQueue *q, Node *n) {
 
-    if (p->size == p->capacity) {
+    if (q->size == q->capacity) {
         return false;
     }
 

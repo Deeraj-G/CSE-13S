@@ -82,54 +82,52 @@ void swap(Node **x, Node **y) {
 
 // Copied parts of my code from heap.c in asgn3 for the following 2 functions
 // This function returns the smaller child between the arguments first and last
-uint32_t min_child(PriorityQueue *q, Node *n, uint32_t first, uint32_t last) {
-
+uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last) {
+    
     uint32_t left = 2 * first;
     uint32_t right = left + 1;
 
     // Checks if the right value is >= last and checks if the right value is greater than the left value
-    if (right >= last && ((cmp(q->items[right], q->items[left])) > 0)) {
-
-        // If the if statement is fulfilled, the right node is greater, so we should return the left child for min_child
-        return left;
-        
+    if (right <= last && frequency(q->items[right - 1]) < frequency(q->items[left - 1])) {
+        return right;
     }   
     
     else {
-        printf("right value is: %d\n", right);
-        return right;
+        return left;
     }   
 } 
 
-// This function fixes the heap so it obeys the constraints of a heap after the smallest element has been removed
-void fix_heap(PriorityQueue *q, Node *n, uint32_t first, uint32_t last) {
+void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
 
     bool found = false;
     uint32_t mother = first;
-    
-    // This variable is set equal to the greater value between mother and last
-    uint32_t great = min_child(q, n, mother, last);
+    Node *temp;
 
-    // This loop checks if the array elements at mother is less than great, and swaps the two elements if it is true
+    // This variable is set equal to the lesser value between mother and last
+    uint32_t least = min_child(q, mother, last);
+
+    // This loop checks if the array elements at mother is less than least, and swaps the two elements if it is true
     while (mother <= (last / 2) && (found == false)) {
         
-        // Check if the array value at mother is less than the array value at great
-        if ((cmp(q->items[mother - 1], q->items[great - 1])) < 0) {
-        
-            // Swap the elements of mother and great
-            swap(&(q->items[first - 1]), &(q->items[great - 1]));
+        // Check if the array value at mother is less than the array value at least
+        if (frequency(q->items[mother - 1]) > frequency(q->items[least - 1])) {
             
-            // Sets mother equal to great
-            mother = great;
+            // Swap the node values of mother and least
+            temp = q->items[mother - 1];
+            q->items[mother - 1] = q->items[least - 1];
+            q->items[least - 1] = temp;
+
+            // Sets mother equal to least
+            mother = least;
             
-            // Recalculates great now that mother is equal to the previous value of great
-            great = min_child(q, n, mother, last);
+            // Recalculates least now that mother is equal to the previous value of least
+            least = min_child(q, mother, last);
         } 
         else {
             found = true;
         }
     }
-}   
+}
 
 bool enqueue(PriorityQueue *q, Node *n) {
 
@@ -140,7 +138,7 @@ bool enqueue(PriorityQueue *q, Node *n) {
     else {
         q->items[q->tail] = n;
         q->size += 1;
-        fix_heap(q, n, q->head, q->tail);
+        fix_heap(q, q->head, q->tail);
         q->tail += 1;
         return true;
     }

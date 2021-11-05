@@ -99,9 +99,9 @@ void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
 
             // Sets mother equal to least
             mother = least;
-            
+
             // Recalculates least now that mother is equal to the previous value of least
-            //least = min_child(q, mother, last);
+            least = min_child(q, mother, last);            
         } 
         else {
             found = true;
@@ -110,6 +110,8 @@ void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
 }
 
 bool enqueue(PriorityQueue *q, Node *n) {
+    uint32_t k;
+    uint32_t parent;
 
     if (q->size == q->capacity) {
         return false;
@@ -119,12 +121,12 @@ bool enqueue(PriorityQueue *q, Node *n) {
     }
 
     q->size += 1;
-    q->head += 1;
-    uint32_t k = q->size;
+    k = q->size;
 
     // Got the basic pseudocode for the while loop from TA Eugene's section
+    // Fix the heap after enqueueing
     while (k > 1) {
-        uint32_t parent = k / 2;
+        parent = k / 2;
         fix_heap(q, parent, q->size);
         k = parent;
     }
@@ -134,7 +136,8 @@ bool enqueue(PriorityQueue *q, Node *n) {
 
 bool dequeue(PriorityQueue *q, Node **n) {
     Node *temp2;
-    
+    uint32_t k;
+    uint32_t parent;
     // If the queue is empty, there's nothing to dequeue
     if (q->size == 0) {
         return false;
@@ -151,9 +154,16 @@ bool dequeue(PriorityQueue *q, Node **n) {
     // Decrement the size to effectively get rid of the dequeued element
     q->size -= 1;
     
-    // Fix the heap
-    fix_heap(q, 1, q->size);
+    k = q->size;
 
+    // Got the basic pseudocode for the while loop from TA Eugene's section
+    // Fix the heap after dequeueing
+    while (k > 1) {
+        parent = k / 2;
+        fix_heap(q, parent, q->size);
+        k = parent;
+    } 
+    
     return true;
 }
 

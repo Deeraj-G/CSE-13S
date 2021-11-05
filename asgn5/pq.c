@@ -8,6 +8,7 @@
 
 // Used coding ideas from TA Christian Ocon's section to create struct members
 // Used two functions from the stats.c file in asgn3 created by Dr. Long
+// Used the pseudocode for the while loop in enqueue from TA Eugene's section
 
 typedef struct PriorityQueue PriorityQueue;
 
@@ -67,10 +68,6 @@ uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last) {
     uint32_t left = 2 * first;
     uint32_t right = left + 1;
 
-//    printf("left: %d, frequency: %ld\n", left, frequency(q->items[left - 1]));
-//    printf("right: %d, frequency: %ld\n", right, frequency(q->items[right - 1]));
-
-
     // Checks if the right value is >= last and checks if the right value is greater than the left value
     if ((right <= last) && frequency(q->items[right - 1]) < frequency(q->items[left - 1])) {
         return right;
@@ -125,7 +122,7 @@ bool enqueue(PriorityQueue *q, Node *n) {
     q->head += 1;
     uint32_t k = q->size;
 
-
+    // Got the basic pseudocode for the while loop from TA Eugene's section
     while (k > 1) {
         uint32_t parent = k / 2;
         fix_heap(q, parent, q->size);
@@ -136,10 +133,50 @@ bool enqueue(PriorityQueue *q, Node *n) {
 }
 
 bool dequeue(PriorityQueue *q, Node **n) {
+    Node *temp2;
+    
+    // If the queue is empty, there's nothing to dequeue
+    if (q->size == 0) {
+        return false;
+    }
 
+    // Swap the first and last elements in q->items
+    temp2 = q->items[q->size - 1];
+    q->items[q->size - 1] = q->items[q->tail];
+    q->items[q->tail] = temp2;
+
+    // Store the dequeued element in the pointer
+    *n = q->items[q->size];
+    
+    // Decrement the size to effectively get rid of the dequeued element
+    q->size -= 1;
+    
+    // Fix the heap
+    fix_heap(q, 1, q->size);
+
+    return true;
 }
 
 void pq_print(PriorityQueue *q) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

@@ -70,8 +70,7 @@ bool read_bit(int infile, uint8_t *bit) {
     }
 
     // Return a bit out of the buffer
-    // Do something like *x = get_bit(buffer);
-    *x = buffer[index];
+    *bit = buffer[index / 8] & (1 << (index % 8));
     index += 1;
 
     // Reset index if it reaches the end of the buffer
@@ -112,11 +111,77 @@ bool read_byte(int infile, uint8_t *x) {
     return index != end;    
 }
 
-void write_code(int outfile, Code *c) {
-
-}
-
 void flush_codes(int outfile) {
-
+    // Flush bits out of buffer if it isn't empty
+    if (index > 0) {
+        // Convert index into bytes
+        write_bytes(outfile, c);
+    }
 }
+
+void write_code(int outfile, Code *c) {
+    // Buffers a code
+    // Buffer is written when filled
+    // Buffer each bit into the buffer
+    for (int i = 0; i < code_size(c); i++) {
+        uint8_t bit = code_get_bit(c, i);
+        
+        if (bit == 1) {
+            // Set the bit at index
+            code_set_bit(c, index);
+        }
+        else {
+            code_clr_bit(c, index);
+        }
+
+        index += 1;
+
+        // How to know if the buffer is filled
+        if (index != end) {
+            flush_codes(outfile);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

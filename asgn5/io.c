@@ -1,4 +1,6 @@
 #include "code.h"
+#include "defines.h"
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <inttypes.h>
@@ -9,6 +11,7 @@ extern uint64_t bytes_read;
 extern uint64_t bytes_written;
 
 // Got the code for read_bytes and write_bytes from TA Eugene's section
+// Got the code for most of read_bit from TA Eugene's section
 
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
     int bytes = 0;
@@ -36,7 +39,6 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 
     // Write the bytes from buf into the outfile until bytes is less than 1
     do {
-
         // Advance the buf pointer by bytes_write number of bytes each time write() is called
         // Subtract nbytes by bytes_write to write the correct number of bytes to the buffer
         bytes = write(outfile, buf + bytes_write, nbytes - bytes_write);
@@ -50,7 +52,64 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 }
 
 bool read_bit(int infile, uint8_t *bit) {
+    static uint8_t buffer[BLOCK];
 
+    // Tracks bit position in buffer
+    static int index = 0;
+    // Tracks last valid bit
+    static int end = -1;
+
+    // Fill buffer if empty
+    if (index == 0) {
+        bytes = read_bytes(infile, buffer, BLOCK);
+        // Ends if the number of bytes remaining is less than the BLOCK
+        if (bytes < BLOCK) {
+            // Set the end as 1 after the last valid bit
+            end = (bytes * 8) + 1;
+        }
+    }
+
+    // Return a bit out of the buffer
+    // Do something like *x = get_bit(buffer);
+    *x = buffer[index];
+    index += 1;
+
+    // Reset index if it reaches the end of the buffer
+    if (index == BLOCK * 8) {
+        index = 0;
+    }
+
+    // Return a boolean depending on if there's a valid byte to return
+    return index != end;
+}
+
+bool read_byte(int infile, uint8_t *x) {
+    static uint8_t buffer[BLOCK];
+    static int index = 0; // tracks position in buffer
+    static int end = -1; // tracks the index after the last valid byte
+    int bytes;
+
+    // Fill buffer if empty
+    if (index == 0) {
+        bytes = read_bytes(infile, buffer, BLOCK);
+        // Ends if the number of bytes remaining is less than the BLOCK
+        if (bytes < BLOCK) {
+            // Set the end as 1 after the last valid byte
+            end = (bytes * 8) + 1;
+        }
+    }
+
+    // Return a byte out of the buffer
+    *x = buffer[index];
+    index += 1;
+    
+    // Reset index if it reaches the end of the buffer
+    if (index == BLOCK) {
+        index = 0;
+    }
+
+    // Return a boolean depending on if there's a valid byte to return
+    return index != end;    
 }
 
 void write_code(int outfile, Code *c) {

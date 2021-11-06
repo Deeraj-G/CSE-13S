@@ -1,14 +1,16 @@
 #include "code.h"
 #include "defines.h"
-
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <inttypes.h>
 #include <unistd.h>
-#include <fcntil.h>
+#include <fcntl.h>
 
 extern uint64_t bytes_read;
 extern uint64_t bytes_written;
+static int index = 0;
+static int end = -1;
 
 // Got the code for read_bytes and write_bytes from TA Eugene's section
 // Got the code for most of read_bit from TA Eugene's section
@@ -61,7 +63,7 @@ bool read_bit(int infile, uint8_t *bit) {
 
     // Fill buffer if empty
     if (index == 0) {
-        bytes = read_bytes(infile, buffer, BLOCK);
+        int bytes = read_bytes(infile, buffer, BLOCK);
         // Ends if the number of bytes remaining is less than the BLOCK
         if (bytes < BLOCK) {
             // Set the end as 1 after the last valid bit
@@ -71,6 +73,7 @@ bool read_bit(int infile, uint8_t *bit) {
 
     // Return a bit out of the buffer
     *bit = buffer[index / 8] & (1 << (index % 8));
+
     index += 1;
 
     // Reset index if it reaches the end of the buffer
@@ -78,37 +81,8 @@ bool read_bit(int infile, uint8_t *bit) {
         index = 0;
     }
 
-    // Return a boolean depending on if there's a valid byte to return
+    // Return a boolean depending on if there's a valid bit to return
     return index != end;
-}
-
-bool read_byte(int infile, uint8_t *x) {
-    static uint8_t buffer[BLOCK];
-    static int index = 0; // tracks position in buffer
-    static int end = -1; // tracks the index after the last valid byte
-    int bytes;
-
-    // Fill buffer if empty
-    if (index == 0) {
-        bytes = read_bytes(infile, buffer, BLOCK);
-        // Ends if the number of bytes remaining is less than the BLOCK
-        if (bytes < BLOCK) {
-            // Set the end as 1 after the last valid byte
-            end = (bytes * 8) + 1;
-        }
-    }
-
-    // Return a byte out of the buffer
-    *x = buffer[index];
-    index += 1;
-    
-    // Reset index if it reaches the end of the buffer
-    if (index == BLOCK) {
-        index = 0;
-    }
-
-    // Return a boolean depending on if there's a valid byte to return
-    return index != end;    
 }
 
 void flush_codes(int outfile) {
@@ -142,46 +116,3 @@ void write_code(int outfile, Code *c) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

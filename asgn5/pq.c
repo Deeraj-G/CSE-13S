@@ -169,24 +169,5 @@ bool dequeue(PriorityQueue *q, Node **n) {
 
 void pq_print(PriorityQueue *q) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

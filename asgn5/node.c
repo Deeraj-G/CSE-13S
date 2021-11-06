@@ -21,7 +21,7 @@ Node *node_join(Node *left, Node *right) {
 }
 
 void node_print(Node *n) {
-    printf("The symbol ASCII is: " "%" PRIu8 "\n", n->symbol);
+//    printf("The symbol ASCII is: " "%" PRIu8 "\n", n->symbol);
     printf("The frequency is: " "%" PRIu64 "\n", n->frequency);
 }
 

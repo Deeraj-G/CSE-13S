@@ -1,6 +1,6 @@
 #include "stack.h"
 #include "defines.h"
-
+#include <stdio.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -108,13 +108,10 @@ bool stack_pop(Stack *s, Node **n) {
 // Print the values of the stack
 void stack_print(Stack *s) {
     // Go through all elements of the stack
+    printf("capacity: %d\n", s->capacity);
+    printf("top: %d\n", s->top);
     for (uint32_t i = 0; i < s->top; i++) {
-        // Print the cities that correspond to the items to the outfile
-        fprintf(outfile, "%s", cities[s->items[i]]);
-        if (i + 1 != s->top) {
-            fprintf(outfile, " -> ");
-        }
+        printf("%d\n", frequency(s->*items[i]));
     }
-    fprintf(outfile, "\n");
 }
 

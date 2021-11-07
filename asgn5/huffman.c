@@ -6,11 +6,14 @@
 #include <inttypes.h>
 #include <stddef.h>
 #include "pq.h"
-//#include "node.c"
-//#include "pq.c"
+#include "io.h"
 
 // Used TA Eugene's pseudocode for build_tree from his section
-// Used Dr. Long's python pseudocode for build_codes 
+// Based my build_codes function off of  Dr. Long's python pseudocode
+// Based my dump_tree function off of Dr. Long's python pseudocode
+
+static Code c;
+static bool init = false;
 
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     int count;
@@ -53,8 +56,12 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 
 // Used Dr. Long's pseudocode for this function
 void build_codes(Node *root, Code table[static ALPHABET]) {
-    Code c = code_init();
     uint8_t *bit;
+
+    if (init == false) {
+        Code c = code_init();
+        init = true;
+    }
 
     if (root != NULL) {
         
@@ -74,24 +81,28 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
     }
 }
 
-// Based this function off of the build_codes pseudocode
+// Based this function off of Dr. Long's python pseudocode
 void dump_tree(int outfile, Node *root) {
 
-    if (root != NULL) {
+    uint8_t *l = "L";
+    uint8_t *i = "I";
+    
+    if (root) {
+        
+        // Recursively call dump_tree on the left and right nodes
+        dump_tree(outfile, root->left);
+        dump_tree(outfile, root->right);
 
         if (root->left == NULL && root->right == NULL) {
-            // Write an L and the leaf's symbol to the outfile
-            write();
+            // Write an L to the outfile
+            write_bytes(outfile, l, 1);
+            // Write the leaf's symbol to the outfile
+            write_bytes(outfile, &root->symbol, 1);
         }
 
         else {
             // Write an I to the outfile
-            write();
-            dump_tree(outfile, root->left);
-            
-            // Write an I to the outfile
-            write();
-            dump_tree(outfile, root->right);
+            write_bytes(outfile, i, 1);
         }
     }
 }

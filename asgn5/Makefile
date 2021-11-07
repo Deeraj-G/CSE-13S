@@ -1,29 +1,40 @@
 CC = clang
-CFLAGS = -Wall -Wpedantic -Werror -Wextra
-LFLAGS = -lm
+CFLAGS = -Wall -Wextra -Werror -Wpedantic
 
-all: sorting
+all: encode decode
 
+encode: encode.o node.o pq.o code.o io.o stack.o huffman.o
+	$(CC) $(CFLAGS) -o encode encode.o node.o pq.o code.o io.o stack.o huffman.o
 
-sorting: sorting.o insert.o shell.o heap.o quick.o stats.o
-	$(CC) $(CFLAGS) -o sorting sorting.o insert.o shell.o heap.o quick.o stats.o $(LFLAGS)
-insert.o: insert.c
-	$(CC) $(CFLAGS) -c insert.c
+decode: decode.o
+	$(CC) $(CFLAGS) -o decode decode.o
 
-shell.o: shell.c
-	$(CC) $(CFLAGS) -c shell.c
+encode.o: encode.c
+	$(CC) $(CFLAGS) -c encode.c
 
-heap.o: heap.c
-	$(CC) $(CFLAGS) -c heap.c
+decode.o: decode.c
+	$(CC) $(CFLAGS) -c decode.c
 
-quick.o: quick.c
-	$(CC) $(CFLAGS) -c quick.c
+stack.o: stack.c
+	$(CC) $(CFLAGS) -c stack.c
 
-stats.o: stats.c
-	$(CC) $(CFLAGS) -c stats.c
+code.o: code.c
+	$(CC) $(CFLAGS) -c code.c
+
+node.o: node.c
+	$(CC) $(CFLAGS) -c node.c
+
+io.o: io.c
+	$(CC) $(CFLAGS) -c io.c
+
+pq.o: pq.c
+	$(CC) $(CFLAGS) -c pq.c
+
+huffman.o: huffman.c
+	$(CC) $(CFLAGS) -c huffman.c
 
 clean:
-	rm -f sorting *.o
+	rm -f encode decode *.o
 
 format:
 	clang-format -i -style=file *.c *.h

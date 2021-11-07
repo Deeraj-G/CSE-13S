@@ -85,7 +85,7 @@ Used the bitwise shifts and operators code for `code_set_bit`, `code_clr_bit`, a
 
 Used the `stack.c` code from my asgn 4 `stack.c`. I used the python pseudocode from Dr. Long in asgn4 to create the functions.
 
-Used TA Eugene's pseudocode for `build_tree` in huffman.c from his section
+Used TA Eugene's pseudocode from his section for `build_tree` in my `huffman.c`
 
 Based my `build_codes` function off of  Dr. Long's python pseudocode
 

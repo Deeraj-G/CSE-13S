@@ -73,11 +73,11 @@ bool code_clr_bit(Code *c, uint32_t i) {
 // Get a bit from the bits array
 bool code_get_bit(Code *c, uint32_t i) {
 
-    if (i < 0 || i > (c->top) * 8 || c->bits[i / 8] == 0) {
+    if (i < 0 || i > ALPHABET || ((c->bits[i / 8] >> i % 8) & 0x1) != 0) {
         return false;
-    } else if (c->bits[i / 8] == 1) {
+    } else if (((c->bits[i / 8] >> i % 8) & 0x1) == 1) {
         // Got this from the bv8.h file by Dr. Long
-        return (c->bits[i / 8] >> i % 8) & 0x1;
+        return true;
     }
     return false;
 }

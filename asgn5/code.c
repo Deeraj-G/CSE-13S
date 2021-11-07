@@ -109,8 +109,8 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     if (c->top == 0) {
         return false;
     } else {
-        c->top = c->top - 1;
         *bit = code_get_bit(c, c->top);
+        c->top = c->top - 1;
         return true;
     }
 }

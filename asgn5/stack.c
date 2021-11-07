@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "node.h"
 #include "defines.h"
 #include <stdio.h>
 #include <inttypes.h>
@@ -23,8 +24,8 @@ Stack *stack_create(uint32_t capacity) {
         s->top = 0;
         s->capacity = capacity;
         // Free memory of size uint32_t for the items
-        s->*items = (uint32_t *) calloc(capacity, sizeof(uint32_t));
-        if (!s->*items) {
+        s->items = (Node **) calloc(capacity, sizeof(Node *));
+        if (!s->items) {
             free(s);
             s = NULL;
         }
@@ -34,8 +35,8 @@ Stack *stack_create(uint32_t capacity) {
 
 // Delete the stack and free allocated memory
 void stack_delete(Stack **s) {
-    if (*s && (*s)->*items) {
-        free((*s)->*items);
+    if (*s && (*s)->items) {
+        free((*s)->items);
         free(*s);
         *s = NULL;
     }
@@ -111,6 +112,6 @@ void stack_print(Stack *s) {
     printf("capacity: %d\n", s->capacity);
     printf("top: %d\n", s->top);
     for (uint32_t i = 0; i < s->top; i++) {
-        printf("%d\n", frequency(s->*items[i]));
+        printf("%ld\n", s->items[i]->frequency);
     }
 }

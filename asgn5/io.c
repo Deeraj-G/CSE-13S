@@ -11,6 +11,7 @@ extern uint64_t bytes_read;
 extern uint64_t bytes_written;
 static int index = 0;
 static int end = -1;
+static uint8_t buffer[BLOCK];
 
 // Got the code for read_bytes and write_bytes from TA Eugene's section
 // Got the code for most of read_bit from TA Eugene's section
@@ -54,7 +55,6 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 }
 
 bool read_bit(int infile, uint8_t *bit) {
-    static uint8_t buffer[BLOCK];
 
     // Tracks bit position in buffer
     static int index = 0;

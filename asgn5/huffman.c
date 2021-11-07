@@ -18,8 +18,8 @@ static Code c;
 static bool init = false;
 
 Node *build_tree(uint64_t hist[static ALPHABET]) {
-    int count;
     Node *n;
+    int count = 0;
     // Loop through the histogram to initialize the priority queue's size
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
@@ -59,11 +59,11 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 
 // Based this function off of Dr. Long's python pseudocode
 void build_codes(Node *root, Code table[static ALPHABET]) {
-    uint8_t *bit;
+    uint8_t *bit = 0;
 
     // Initialize the Code c once
     if (init == false) {
-        Code c = code_init();
+        c = code_init();
         init = true;
     }
 
@@ -95,8 +95,8 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
 // Based this function off of Dr. Long's python pseudocode
 void dump_tree(int outfile, Node *root) {
 
-    uint8_t *l = "L";
-    uint8_t *i = "I";
+    uint8_t l = 'L';
+    uint8_t i = 'I';
 
     if (root) {
 
@@ -106,14 +106,14 @@ void dump_tree(int outfile, Node *root) {
 
         if (root->left == NULL && root->right == NULL) {
             // Write an L to the outfile
-            write_bytes(outfile, l, 1);
+            write_bytes(outfile, &l, 1);
             // Write the leaf's symbol to the outfile
             write_bytes(outfile, &root->symbol, 1);
         }
 
         else {
             // Write an I to the outfile
-            write_bytes(outfile, i, 1);
+            write_bytes(outfile, &i, 1);
         }
     }
 }
@@ -155,8 +155,6 @@ void delete_tree(Node **root) {
         delete_tree(&(*root)->left);
         delete_tree(&(*root)->right);
 
-        if ((*root)->left == NULL && (*root)->right == NULL) {
-            node_delete(root);
-        }
+        node_delete(root);
     }
 }

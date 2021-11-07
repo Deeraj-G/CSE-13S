@@ -77,9 +77,9 @@ bool code_get_bit(Code *c, uint32_t i) {
         return false;
     } else if (c->bits[i / 8] == 1) {
         // Got this from the bv8.h file by Dr. Long
-        (c->bits[i / 8] >> i % 8) & 0x1;
-        return true;
+        return (c->bits[i / 8] >> i % 8) & 0x1;
     }
+    return false;
 }
 
 // Push a bit onto the Code

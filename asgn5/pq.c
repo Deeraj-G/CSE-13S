@@ -4,7 +4,6 @@
 #include "pq.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "node.c"
 
 // Used coding ideas from TA Christian Ocon's section to create struct members
 // Used two functions from the stats.c file in asgn3 created by Dr. Long
@@ -73,7 +72,7 @@ uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last) {
     uint32_t right = left + 1;
 
     // Checks if the right value is >= last and checks if the right value is greater than the left value
-    if ((right <= last) && frequency(q->items[right - 1]) < frequency(q->items[left - 1])) {
+    if ((right <= last) && q->items[right - 1]->frequency < q->items[left - 1]->frequency) {
         return right;
     }
 
@@ -94,7 +93,7 @@ void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
     // This loop checks if the array elements at mother is less than least, and swaps the two elements if it is true
     while ((mother <= (last / 2)) && found == false) {
         // Check if the array value at mother is less than the array value at least
-        if (frequency(q->items[mother - 1]) > frequency(q->items[least - 1])) {
+        if (q->items[mother - 1]->frequency > q->items[least - 1]->frequency) {
 
             // Swap the node values of mother and least
             temp = q->items[mother - 1];
@@ -170,6 +169,6 @@ bool dequeue(PriorityQueue *q, Node **n) {
 
 void pq_print(PriorityQueue *q) {
     for (uint32_t i = 0; i < q->size; i++) {
-        printf("Priority Queue contents: %d\n", q->items[i]);
+        printf("Priority Queue contents: %ld\n", q->items[i]->frequency);
     }
 }

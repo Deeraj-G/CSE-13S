@@ -3,6 +3,8 @@
 #include "defines.h"
 #include <stdint.h>
 
+// Used TA Eugene's pseudocode for build_tree from his section
+
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     int count;
     // Create a priority queue of nodes whose frequency is non-zero

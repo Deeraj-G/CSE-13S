@@ -144,9 +144,9 @@ bool dequeue(PriorityQueue *q, Node **n) {
     }
 
     // Swap the first and last elements in q->items
-    temp2 = q->items[q->size];
-    q->items[q->size] = q->items[q->tail];
-    q->items[q->tail] = temp2;
+    temp2 = q->items[q->size - 1];
+    q->items[q->size - 1] = q->items[0];
+    q->items[0] = temp2;
 
     // Store the dequeued element in the pointer
     *n = q->items[q->size];

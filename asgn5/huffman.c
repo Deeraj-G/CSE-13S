@@ -5,8 +5,10 @@
 #include "huffman.h"
 #include <inttypes.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include "pq.h"
 #include "io.h"
+#include "stack.h"
 
 // Used TA Eugene's pseudocode for build_tree from his section
 // Based my build_codes function off of  Dr. Long's python pseudocode
@@ -118,53 +120,45 @@ void dump_tree(int outfile, Node *root) {
 
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]) {
 
-    
+    Stack *s = stack_create(nbytes);
+
+    // Loop thorugh
+    for (uint64_t i = 0; i < nbytes; i++) {
+
+        if (tree[i] == 'L') {
+            Node *leaf = node_create(tree[i + 1], 0);
+            stack_push(s, leaf);
+        }
+
+        else if (tree[i] == 'I') {
+            Node *interior;
+            stack_pop(s, &interior);
+
+            Node *right = interior;
+            stack_pop(s, &interior);
+            
+            Node *left = interior;
+            Node *parent = node_join(left, right);
+            stack_push(s, parent);
+        }
+    }
+
+    Node *root;
+    stack_pop(s, &root);
+    return root;
 }
 
 void delete_tree(Node **root) {
 
+    if (*root) {
 
+        delete_tree(&(*root)->left);
+        delete_tree(&(*root)->right);
 
+        if ((*root)->left == NULL && (*root)->right == NULL) {
+            node_delete(root);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
+

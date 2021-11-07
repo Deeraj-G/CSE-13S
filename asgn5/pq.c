@@ -32,7 +32,7 @@ PriorityQueue *pq_create(uint32_t capacity) {
 
 void pq_delete(PriorityQueue **q) {
     free((*q)->items);
-    (*q)->items = NULL;
+//    (*q)->items = NULL;
     free(*q);
     *q = NULL;
 }

@@ -89,6 +89,7 @@ void flush_codes(int outfile) {
     // Flush bits out of buffer if it isn't empty
     int nbytes;
     if (index > 0) {
+        // Get the ceiling number of bytes
         nbytes = index / 8 * (index % 8 != 0); 
         write_bytes(outfile, buffer, nbytes);
     }

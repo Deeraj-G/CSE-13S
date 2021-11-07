@@ -43,6 +43,8 @@ As a summary of the command line options:
 
 -h: Prints out a help message describing the purpose of the program and the command-line options it accepts
 
+##
+
 Run this command:
 
 ```

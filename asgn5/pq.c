@@ -138,13 +138,14 @@ bool dequeue(PriorityQueue *q, Node **n) {
     Node *temp2;
     uint32_t k;
     uint32_t parent;
+
     // If the queue is empty, there's nothing to dequeue
     if (q->size == 0) {
         return false;
     }
 
     // Store the dequeued element in the pointer
-    *n = q->items[q->size];
+    *n = q->items[0];
 
     // Swap the first and last elements in q->items
     temp2 = q->items[0];

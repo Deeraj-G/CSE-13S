@@ -18,7 +18,7 @@ static bool init = false;
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     int count;
     Node *n;
-    // Create a priority queue of nodes whose frequency is non-zero
+    // Loop through the histogram to initialize the priority queue's size
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
             count += 1;
@@ -27,6 +27,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 
     PriorityQueue *q = pq_create(count);
 
+    // Enqueue the node's symbol and frequency of the current histogram element 
     for (int i = 0; i < ALPHABET; i++) {
         // Create a node with the current symbol and frequency    
         n = node_create(i, hist[i]);
@@ -54,26 +55,34 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     return root;
 }
 
-// Used Dr. Long's pseudocode for this function
+// Based this function off of Dr. Long's python pseudocode
 void build_codes(Node *root, Code table[static ALPHABET]) {
     uint8_t *bit;
 
+    // Initialize the Code c once
     if (init == false) {
         Code c = code_init();
         init = true;
     }
 
+    // Check if the root exists
     if (root != NULL) {
         
+        // If the node doesn't have a left or right child then it's a leaf
         if (root->left == NULL && root->right == NULL) {
+            // The current Code c represent the path to the node and is the code for the node's symbol
             table[root->symbol] = c;
         }
 
+        // The current node must be an interior node
         else {
+
+            // Push a 0 to the code and recurse the left node
             code_push_bit(&c, 0);
             build_codes(root->left, &table[ALPHABET]);
             code_pop_bit(&c, bit);
 
+            // Push a 1 to the code and recurse the right node
             code_push_bit(&c, 1);
             build_codes(root->right, &table[ALPHABET]);
             code_pop_bit(&c, bit);
@@ -109,6 +118,7 @@ void dump_tree(int outfile, Node *root) {
 
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]) {
 
+    
 }
 
 void delete_tree(Node **root) {

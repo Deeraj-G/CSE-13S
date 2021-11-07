@@ -4,16 +4,17 @@
 #include <stdint.h>
 #include "huffman.h"
 #include <inttypes.h>
-
-#include "node.c"
-#include "pq.c"
+#include <stddef.h>
+#include "pq.h"
+//#include "node.c"
+//#include "pq.c"
 
 // Used TA Eugene's pseudocode for build_tree from his section
 // Used Dr. Long's python pseudocode for build_codes 
 
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     int count;
-
+    Node *n;
     // Create a priority queue of nodes whose frequency is non-zero
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
@@ -21,11 +22,11 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         }
     }
 
-    PriorityQueue *q = pq_create(total);
+    PriorityQueue *q = pq_create(count);
 
     for (int i = 0; i < ALPHABET; i++) {
         // Create a node with the current symbol and frequency    
-        Node *n = node_create(i, hist[i]);
+        n = node_create(i, hist[i]);
         // Enqueue the node to the PriorityQueue
         enqueue(q, n);
     }
@@ -50,30 +51,49 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     return root;
 }
 
+// Used Dr. Long's pseudocode for this function
 void build_codes(Node *root, Code table[static ALPHABET]) {
     Code c = code_init();
     uint8_t *bit;
 
-    if (root != 0) {
+    if (root != NULL) {
         
-        if (!(root->left) && !(root->right)) {
-            table[symbol(root)] = c;
+        if (root->left == NULL && root->right == NULL) {
+            table[root->symbol] = c;
         }
 
         else {
-            code_push_bit(c, 0);
-            build_codes(root->left, Code table[static ALPHABET]);
-            code_pop_bit(c, bit);
+            code_push_bit(&c, 0);
+            build_codes(root->left, &table[ALPHABET]);
+            code_pop_bit(&c, bit);
 
-            code_push_bit(c, 1);
-            build_codes(root->right, Code table[static ALPHABET]);
-            code_pop_bit(c, bit);
+            code_push_bit(&c, 1);
+            build_codes(root->right, &table[ALPHABET]);
+            code_pop_bit(&c, bit);
         }
     }
 }
 
+// Based this function off of the build_codes pseudocode
 void dump_tree(int outfile, Node *root) {
 
+    if (root != NULL) {
+
+        if (root->left == NULL && root->right == NULL) {
+            // Write an L and the leaf's symbol to the outfile
+            write();
+        }
+
+        else {
+            // Write an I to the outfile
+            write();
+            dump_tree(outfile, root->left);
+            
+            // Write an I to the outfile
+            write();
+            dump_tree(outfile, root->right);
+        }
+    }
 }
 
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]) {

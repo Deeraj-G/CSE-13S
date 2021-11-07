@@ -143,13 +143,13 @@ bool dequeue(PriorityQueue *q, Node **n) {
         return false;
     }
 
+    // Store the dequeued element in the pointer
+    *n = q->items[q->size];
+
     // Swap the first and last elements in q->items
     temp2 = q->items[q->size - 1];
     q->items[q->size - 1] = q->items[0];
     q->items[0] = temp2;
-
-    // Store the dequeued element in the pointer
-    *n = q->items[q->size];
 
     // Decrement the size to effectively get rid of the dequeued element
     q->size -= 1;

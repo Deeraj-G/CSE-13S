@@ -12,6 +12,7 @@
 
 typedef struct PriorityQueue PriorityQueue;
 
+// Initialized some more struct members
 struct PriorityQueue {
     uint32_t size;
     uint32_t capacity;
@@ -20,7 +21,7 @@ struct PriorityQueue {
     Node **items;
 };
 
-
+// Create a PriorityQueue
 PriorityQueue *pq_create(uint32_t capacity) {
     PriorityQueue *q = (PriorityQueue *) malloc(sizeof(PriorityQueue));
     q->items = (Node **) malloc(capacity * sizeof(Node));
@@ -28,35 +29,38 @@ PriorityQueue *pq_create(uint32_t capacity) {
     q->size = 0;
     q->head = 0;
     q->tail = 0;
+    return q;
 }
 
+// Delete a PriorityQueue and free up the allocated memory
 void pq_delete(PriorityQueue **q) {
     free((*q)->items);
-//    (*q)->items = NULL;
+    //    (*q)->items = NULL;
     free(*q);
     *q = NULL;
 }
 
+// Check if the PriorityQueue is empty
 bool pq_empty(PriorityQueue *q) {
-    
+
     if (q->size == 0) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
+// Check if the PriorityQueue is full
 bool pq_full(PriorityQueue *q) {
-    
+
     if (q->size == q->capacity) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
+// Return the size of the PriorityQueue
 uint32_t pq_size(PriorityQueue *q) {
     return q->size;
 }
@@ -64,19 +68,19 @@ uint32_t pq_size(PriorityQueue *q) {
 // Copied parts of my code from heap.c in asgn3 for the following 2 functions
 // This function returns the smaller child between the arguments first and last
 uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last) {
-    
+
     uint32_t left = 2 * first;
     uint32_t right = left + 1;
 
     // Checks if the right value is >= last and checks if the right value is greater than the left value
     if ((right <= last) && frequency(q->items[right - 1]) < frequency(q->items[left - 1])) {
         return right;
-    }   
-    
+    }
+
     else {
         return left;
-    }   
-} 
+    }
+}
 
 void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
 
@@ -91,7 +95,7 @@ void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
     while ((mother <= (last / 2)) && found == false) {
         // Check if the array value at mother is less than the array value at least
         if (frequency(q->items[mother - 1]) > frequency(q->items[least - 1])) {
-        
+
             // Swap the node values of mother and least
             temp = q->items[mother - 1];
             q->items[mother - 1] = q->items[least - 1];
@@ -101,9 +105,8 @@ void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last) {
             mother = least;
 
             // Recalculates least now that mother is equal to the previous value of least
-            least = min_child(q, mother, last);            
-        } 
-        else {
+            least = min_child(q, mother, last);
+        } else {
             found = true;
         }
     }
@@ -115,8 +118,7 @@ bool enqueue(PriorityQueue *q, Node *n) {
 
     if (q->size == q->capacity) {
         return false;
-    }
-    else {
+    } else {
         q->items[q->size] = n;
     }
 
@@ -131,7 +133,6 @@ bool enqueue(PriorityQueue *q, Node *n) {
         k = parent;
     }
     return true;
-
 }
 
 bool dequeue(PriorityQueue *q, Node **n) {
@@ -150,10 +151,10 @@ bool dequeue(PriorityQueue *q, Node **n) {
 
     // Store the dequeued element in the pointer
     *n = q->items[q->size];
-    
+
     // Decrement the size to effectively get rid of the dequeued element
     q->size -= 1;
-    
+
     k = q->size;
 
     // Got the basic pseudocode for the while loop from TA Eugene's section
@@ -162,12 +163,13 @@ bool dequeue(PriorityQueue *q, Node **n) {
         parent = k / 2;
         fix_heap(q, parent, q->size);
         k = parent;
-    } 
-    
+    }
+
     return true;
 }
 
 void pq_print(PriorityQueue *q) {
-
+    for (uint32_t i = 0; i < q->size; i++) {
+        printf("Priority Queue contents: %d\n", q->items[i]);
+    }
 }
-

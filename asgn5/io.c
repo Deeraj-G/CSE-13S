@@ -21,15 +21,15 @@ int read_bytes(int infile, uint8_t *buf, int nbytes) {
 
     // Read the bytes into buf until bytes is less than 1
     do {
-        
+
         // Advance the buf pointer by bytes_read number of bytes each time read() is called
         // Subtract nbytes by bytes_read to read the correct number of bytes to the buffer
         bytes = read(infile, buf + bytes_read, nbytes - bytes_read);
-        
+
         // Increment bytes_read by bytes to properly track how many bytes still nead to be read
         bytes_read += bytes;
 
-    } while(bytes > 0);
+    } while (bytes > 0);
 
     return bytes_read;
 }
@@ -48,7 +48,7 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
         // Increment bytes_write by bytes to properly track how many bytes still nead to be written
         bytes_write += bytes;
 
-    } while(bytes > 0);
+    } while (bytes > 0);
 
     return bytes_write;
 }
@@ -90,7 +90,7 @@ void flush_codes(int outfile) {
     int nbytes;
     if (index > 0) {
         // Get the ceiling number of bytes
-        nbytes = index / 8 * (index % 8 != 0); 
+        nbytes = index / 8 * (index % 8 != 0);
         write_bytes(outfile, buffer, nbytes);
     }
 }
@@ -101,12 +101,11 @@ void write_code(int outfile, Code *c) {
     // Buffer each bit into the buffer
     for (int i = 0; i < MAX_CODE_SIZE; i++) {
         uint8_t bit = code_get_bit(c, i);
-        
+
         if (bit == 1) {
             // Set the bit at index
             code_set_bit(c, i);
-        }
-        else {
+        } else {
             code_clr_bit(c, i);
         }
 

@@ -16,7 +16,7 @@ struct Stack {
 };
 
 // Create a Stack with an allocated memory of size Stack
-Stack *stack_create(uint32_t capacity) {    
+Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
         // Initialize the values
@@ -114,4 +114,3 @@ void stack_print(Stack *s) {
         printf("%d\n", frequency(s->*items[i]));
     }
 }
-

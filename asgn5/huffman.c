@@ -29,23 +29,23 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 
     PriorityQueue *q = pq_create(count);
 
-    // Enqueue the node's symbol and frequency of the current histogram element 
+    // Enqueue the node's symbol and frequency of the current histogram element
     for (int i = 0; i < ALPHABET; i++) {
-        // Create a node with the current symbol and frequency    
+        // Create a node with the current symbol and frequency
         n = node_create(i, hist[i]);
         // Enqueue the node to the PriorityQueue
         enqueue(q, n);
     }
-    
+
     while (pq_size(q) > 1) {
         // Dequeue a node and set Node *left equal to it
         dequeue(q, &n);
         Node *left = n;
-        
+
         // Dequeue a node and set Node *right equal to it
         dequeue(q, &n);
         Node *right = n;
-        
+
         // Enqueue the parent node of left and right to q
         Node *parent = node_join(left, right);
         enqueue(q, parent);
@@ -69,7 +69,7 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
 
     // Check if the root exists
     if (root != NULL) {
-        
+
         // If the node doesn't have a left or right child then it's a leaf
         if (root->left == NULL && root->right == NULL) {
             // The current Code c represent the path to the node and is the code for the node's symbol
@@ -97,9 +97,9 @@ void dump_tree(int outfile, Node *root) {
 
     uint8_t *l = "L";
     uint8_t *i = "I";
-    
+
     if (root) {
-        
+
         // Recursively call dump_tree on the left and right nodes
         dump_tree(outfile, root->left);
         dump_tree(outfile, root->right);
@@ -136,7 +136,7 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]) {
 
             Node *right = interior;
             stack_pop(s, &interior);
-            
+
             Node *left = interior;
             Node *parent = node_join(left, right);
             stack_push(s, parent);
@@ -158,7 +158,5 @@ void delete_tree(Node **root) {
         if ((*root)->left == NULL && (*root)->right == NULL) {
             node_delete(root);
         }
-
     }
 }
-

@@ -87,9 +87,10 @@ bool read_bit(int infile, uint8_t *bit) {
 
 void flush_codes(int outfile) {
     // Flush bits out of buffer if it isn't empty
+    int nbytes;
     if (index > 0) {
-        // Convert index into bytes
-        write_bytes(outfile, c);
+        nbytes = index / 8 * (index % 8 != 0); 
+        write_bytes(outfile, buffer, nbytes);
     }
 }
 
@@ -97,15 +98,15 @@ void write_code(int outfile, Code *c) {
     // Buffers a code
     // Buffer is written when filled
     // Buffer each bit into the buffer
-    for (int i = 0; i < code_size(c); i++) {
+    for (int i = 0; i < MAX_CODE_SIZE; i++) {
         uint8_t bit = code_get_bit(c, i);
         
         if (bit == 1) {
             // Set the bit at index
-            code_set_bit(c, index);
+            code_set_bit(c, i);
         }
         else {
-            code_clr_bit(c, index);
+            code_clr_bit(c, i);
         }
 
         index += 1;

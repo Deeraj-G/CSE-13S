@@ -36,8 +36,11 @@ Followed by any combination of the following:
 As a summary of the command line options:
 
 -i infile: Specifies the input file to write the compressed input to
+
 -o outfile: Specifies the output file to write the compressed output to
+
 -v: Prints the compression statistics to stderr
+
 -h: Prints out a help message describing the purpose of the program and the command-line options it accepts
 
 Run this command:
@@ -55,8 +58,11 @@ Followed by any combination of the following:
 As a summary of the command line options:
 
 -i infile: Specifies the input file to decode using Huffman coding
+
 -o outfile: Specifies the output file to write the decompressed input to
+
 -v: Prints the decompression statistics to stderr
+
 -h: Prints out a help message describing the purpose of the program and the command-line options it accepts
 
 ## Credit
@@ -73,7 +79,7 @@ Used the pseudocode for the while loop in `enqueue()` from TA Eugene's section
 
 Used coding ideas from TA Christian Ocon's section to create struct members in `pq.c`
 
-Used the bitwise shifts and operators code for `code_set_bit`, `code_clr_bit`, and `code_get_bit` from the example provided by Dr. Long in the CSE 13S Code Comments bv8.h file
+Used the bitwise shifts and operators code for `code_set_bit`, `code_clr_bit`, and `code_get_bit` from the example provided by Dr. Long in the CSE 13S Code Comments `bv8.h` file
 
 Used the `stack.c` code from my asgn 4 `stack.c`. I used the python pseudocode from Dr. Long in asgn4 to create the functions.
 

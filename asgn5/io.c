@@ -80,16 +80,6 @@ bool read_bit(int infile, uint8_t *bit) {
     return index != end;
 }
 
-void flush_codes(int outfile) {
-    // Flush bits out of buffer if it isn't empty
-    int nbytes;
-    if (index > 0) {
-        // Get the ceiling number of bytes
-        nbytes = index / 8 * (index % 8 != 0);
-        write_bytes(outfile, buffer, nbytes);
-    }
-}
-
 void write_code(int outfile, Code *c) {
     // Buffers a code
     // Buffer is written when filled
@@ -110,5 +100,15 @@ void write_code(int outfile, Code *c) {
         if (index != end) {
             flush_codes(outfile);
         }
+    }
+}
+
+void flush_codes(int outfile) {
+    // Flush bits out of buffer if it isn't empty
+    int nbytes;
+    if (index > 0) {
+        // Get the ceiling number of bytes
+        nbytes = index / 8 * (index % 8 != 0);
+        write_bytes(outfile, buffer, nbytes);
     }
 }

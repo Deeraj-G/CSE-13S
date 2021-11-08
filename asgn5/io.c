@@ -8,7 +8,7 @@
 #include <fcntl.h>
 
 extern uint64_t bytes_read;
-extern uint64_t bytes_write;
+extern uint64_t bytes_written;
 static int index = 0;
 static int end = -1;
 static uint8_t buffer[BLOCK];
@@ -38,20 +38,20 @@ int read_bytes(int infile, uint8_t *buf, int nbytes) {
 int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 
     int bytes = 0;
-    int bytes_write = 0;
+    int bytes_written = 0;
 
     // Write the bytes from buf into the outfile until bytes is less than 1
     do {
         // Advance the buf pointer by bytes_write number of bytes each time write() is called
         // Subtract nbytes by bytes_write to write the correct number of bytes to the buffer
-        bytes = write(outfile, buf + bytes_write, nbytes - bytes_write);
+        bytes = write(outfile, buf + bytes_written, nbytes - bytes_written);
 
         // Increment bytes_write by bytes to properly track how many bytes still nead to be written
-        bytes_write += bytes;
+        bytes_written += bytes;
 
     } while (bytes > 0);
 
-    return bytes_write;
+    return bytes_written;
 }
 
 bool read_bit(int infile, uint8_t *bit) {

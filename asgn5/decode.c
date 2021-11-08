@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     Header h = { 0, 0, 0, 0 };
     read_bytes(infile, (uint8_t *) &h, sizeof(h));
     if (h.magic != MAGIC) {
-        fprintf(stderr, "Error: Bad magic number");
+        fprintf(stderr, "Invalid magic number.");
         close(infile);
         close(outfile);
         exit(5);

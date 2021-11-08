@@ -93,3 +93,6 @@ Based my `dump_tree` function off of Dr. Long's python pseudocode
 
 Copied the error messages and help messages from the resources repo
 
+Based the structure and setup of the command line options off of Dr. Long's `tsp.c` in asgn4
+
+Got the idea to use `O_TRUNC` and `O_CREAT` from Elmer in Discord

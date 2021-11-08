@@ -6,8 +6,8 @@ all: encode decode
 encode: encode.o node.o pq.o code.o io.o stack.o huffman.o
 	$(CC) $(CFLAGS) -o encode encode.o node.o pq.o code.o io.o stack.o huffman.o
 
-decode: decode.o
-	$(CC) $(CFLAGS) -o decode decode.o
+decode: decode.o node.o pq.o code.o io.o stack.o huffman.o
+	$(CC) $(CFLAGS) -o decode decode.o node.o pq.o code.o io.o stack.o huffman.o
 
 encode.o: encode.c
 	$(CC) $(CFLAGS) -c encode.c

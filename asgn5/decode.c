@@ -21,6 +21,7 @@
 #define OPTIONS "i:o:vh"
 
 // Based the structure and setup of the command line options off of Dr. Long's tsp.c in asgn4
+// Got the code for the header permissions from TA Eric
 
 void usage(char *exec) {
 
@@ -69,6 +70,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Got the code for the header permissions from TA Eric
     Header h = { 0, 0, 0, 0 };
     read_bytes(infile, (uint8_t *) &h, sizeof(h));
     if (h.magic != MAGIC) {

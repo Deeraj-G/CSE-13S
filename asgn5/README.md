@@ -73,6 +73,8 @@ My `dump_tree` or `rebuild_tree` isn't working properly as the encoder writes a 
 
 There are many other errors as my encoder isn't working properly and I haven't implemented a working decoder yet
 
+I didn't get around to making the compression statistics command line option because my encoder and decoder don't work properly
+
 ## Credit
 
 Used the provided C code and pseudocode from the asgn5.pdf from Dr. Long

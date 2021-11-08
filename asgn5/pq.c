@@ -15,8 +15,8 @@ typedef struct PriorityQueue PriorityQueue;
 struct PriorityQueue {
     uint32_t size;
     uint32_t capacity;
-    uint32_t head;
-    uint32_t tail;
+    //    uint32_t head;
+    //    uint32_t tail;
     Node **items;
 };
 
@@ -26,8 +26,8 @@ PriorityQueue *pq_create(uint32_t capacity) {
     q->items = (Node **) malloc(capacity * sizeof(Node));
     q->capacity = capacity;
     q->size = 0;
-    q->head = 0;
-    q->tail = 0;
+    //    q->head = 0;
+    //    q->tail = 0;
     return q;
 }
 

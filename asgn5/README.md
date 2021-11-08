@@ -67,6 +67,12 @@ As a summary of the command line options:
 
 -h: Prints out a help message describing the purpose of the program and the command-line options it accepts
 
+## Errors in Code
+
+My `dump_tree` or `rebuild_tree` isn't working properly as the encoder writes a large amount of `^@` to the outfile
+
+There are many other errors as my encoder isn't working properly and I haven't implemented a working decoder yet
+
 ## Credit
 
 Used the provided C code and pseudocode from the asgn5.pdf from Dr. Long
@@ -94,5 +100,7 @@ Based my `dump_tree` function off of Dr. Long's python pseudocode
 Copied the error messages and help messages from the resources repo
 
 Based the structure and setup of the command line options off of Dr. Long's `tsp.c` in asgn4
+
+Used code from TA Eric to populate the histogram, set the file permissions, and build the codes
 
 Got the idea to use `O_TRUNC` and `O_CREAT` from Elmer in Discord

@@ -123,8 +123,8 @@ int main(int argc, char **argv) {
 
     flush_codes(outfile);
 
+    // Print the compression statistics if true
     if (statistics == true) {
-        // Print the stats
     }
 
     // Free the allocated memory and close the opened text files

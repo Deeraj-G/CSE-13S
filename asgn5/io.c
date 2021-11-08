@@ -18,7 +18,7 @@ static uint8_t buffer[BLOCK];
 
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
     int bytes = 0;
-    bytes_read = 0;
+    int bytes_read = 0;
 
     // Read the bytes into buf until bytes is less than 1
     do {
@@ -38,7 +38,7 @@ int read_bytes(int infile, uint8_t *buf, int nbytes) {
 int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 
     int bytes = 0;
-    bytes_write = 0;
+    int bytes_write = 0;
 
     // Write the bytes from buf into the outfile until bytes is less than 1
     do {

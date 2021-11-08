@@ -79,8 +79,4 @@ int main(int argc, char **argv) {
 
     // Build a code table using the root from build_tree and an initialize Code table
     build_codes(result, table);
-
-
-
-
 }

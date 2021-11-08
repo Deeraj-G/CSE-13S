@@ -78,4 +78,9 @@ int main(int argc, char **argv) {
         exit(5);
     }
     fchmod(outfile, h.permissions);
+
+    //Print decompression statistics
+    if (statistics == true) {
+        // I don't have any actual decoding code so I can't return any statistics
+    }
 }

@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     h.permissions = header.st_mode;
     h.tree_size = 3 * unique_syms - 1;
     h.file_size = header.st_size;
-    write_bytes(outfile, (uint8_t *) &h, sizeof(h));
+    int val = write_bytes(outfile, (uint8_t *) &h, sizeof(h));
 
     // Build the tree
     Node *root = build_tree(hist);
@@ -123,8 +123,13 @@ int main(int argc, char **argv) {
 
     flush_codes(outfile);
 
+    double statss = 100 * (1 - (bytes_read / val));
+
     // Print the compression statistics if true
     if (statistics == true) {
+        printf("Uncompressed file size: %d\n", bytes_read);
+        printf("Compressed file size: %d\n", val);
+        printf("Space saving: %f\n", statss);
     }
 
     // Free the allocated memory and close the opened text files

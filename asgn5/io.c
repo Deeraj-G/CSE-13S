@@ -56,11 +56,6 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 
 bool read_bit(int infile, uint8_t *bit) {
 
-    // Tracks bit position in buffer
-    //    static int index = 0;
-    // Tracks last valid bit
-    //  static int end = -1;
-
     // Fill buffer if empty
     if (index == 0) {
         int bytes = read_bytes(infile, buffer, BLOCK);

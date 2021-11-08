@@ -8,15 +8,20 @@
 #include <inttypes.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "header.h"
 
 #define OPTIONS "i:o:vh"
 
 // Based the structure and setup of the command line options off of Dr. Long's tsp.c in asgn4
+// Used code from TA Eric to populate the histogram, set the file permissions, and build the codes
 
 void usage(char *exec) {
     fprintf(stderr,
@@ -38,45 +43,92 @@ void usage(char *exec) {
 int main(int argc, char **argv) {
 
     int opt = 0;
-    int infile;
-    int outfile;
+    int infile = STDIN_FILENO;
+    int outfile = STDOUT_FILENO;
+    bool statistics = false;
 
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'i':
-            // Got the idea to use O_TRUNC and O_CREAT from Elmer in Discord
-            if ((infile = open(optarg, O_RDONLY | O_TRUNC | O_CREAT) == -1)) {
+            infile = open(optarg, O_RDONLY);
+            if (infile == -1) {
                 fprintf(stderr, "Error: failed to open infile.\n");
                 return EXIT_FAILURE;
             }
             break;
         case 'o':
-            if ((outfile = open(optarg, O_WRONLY | O_CREAT | O_TRUNC) == -1)) {
+            // Got the idea to use O_TRUNC and O_CREAT from Elmer in Discord
+            outfile = open(optarg, O_WRONLY | O_CREAT | O_TRUNC);
+            if (outfile == -1) {
                 fprintf(stderr, "Error: failed to open outfile.\n");
                 return EXIT_FAILURE;
             }
             break;
-        case 'v':
-
+        case 'v': statistics = true; break;
         case 'h': usage(argv[0]); return EXIT_SUCCESS;
         default: usage(argv[0]); return EXIT_FAILURE;
         }
     }
 
-    uint64_t hist[ALPHABET];
-    uint8_t *buf = 0;
-    Code table[ALPHABET];
-    Node *result;
-
+    // This portion is from TA Eric
+    // Populate the histogram with the correct frequency for each symbol
+    uint64_t hist[ALPHABET] = { 0 };
+    uint32_t unique_syms = 0;
+    uint8_t buffer[BLOCK] = { 0 };
     hist[0] += 1;
     hist[ALPHABET - 1] += 1;
+    int bytes_read;
 
-    read_bytes(infile, buf, BLOCK);
-    write_bytes(hist, buf, BLOCK);
+    while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < bytes_read; i++) {
+            if (hist[buffer[i]] == 0) {
+                unique_syms += 1;
+            }
+            hist[buffer[i]] += 1;
+        }
+    }
 
-    // Build a tree using the initialize histogram and store the result in a Node
-    result = build_tree(hist);
+    // This portion is from TA Eric
+    // Set the permissions for the outfile
+    struct stat header;
+    fstat(infile, &header);
+    fchmod(outfile, header.st_mode);
+    Header h = { 0, 0, 0, 0 };
+    h.magic = MAGIC;
+    h.permissions = header.st_mode;
+    h.tree_size = 3 * unique_syms - 1;
+    h.file_size = header.st_size;
+    write_bytes(outfile, (uint8_t *) &h, sizeof(h));
 
-    // Build a code table using the root from build_tree and an initialize Code table
-    build_codes(result, table);
+    // Build the tree
+    Node *root = build_tree(hist);
+
+    // Initialize the Code table
+    Code table[ALPHABET] = { 0 };
+
+    // Build the Code table
+    build_codes(root, table);
+
+    // Dump the tree
+    dump_tree(outfile, root);
+
+    // This portion is from TA Eric
+    // Write the codes
+    lseek(infile, 0, SEEK_SET);
+    while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < bytes_read; i++) {
+            write_code(outfile, &table[buffer[i]]);
+        }
+    }
+
+    flush_codes(outfile);
+
+    if (statistics == true) {
+        // Print the stats
+    }
+
+    // Free the allocated memory and close the opened text files
+    delete_tree(&root);
+    close(infile);
+    close(outfile);
 }

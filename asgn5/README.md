@@ -103,6 +103,8 @@ Copied the error messages and help messages from the resources repo
 
 Based the structure and setup of the command line options off of Dr. Long's `tsp.c` in asgn4
 
-Used code from TA Eric to populate the histogram, set the file permissions, and build the codes
+Used code from TA Eric to populate the histogram, set the file permissions, and build the codes in encode.c
+
+Got the code for the header permissions in decode.c from TA Eric
 
 Got the idea to use `O_TRUNC` and `O_CREAT` from Elmer in Discord

@@ -18,15 +18,18 @@ static Code c;
 static bool init = false;
 
 Node *build_tree(uint64_t hist[static ALPHABET]) {
+    PriorityQueue *q = pq_create(ALPHABET);
+
     Node *n;
-    int count = 0;
+    //    int count = 0;
     // Loop through the histogram to initialize the priority queue's size
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
-            count += 1;
+            n = node_create(i, hist[i]);
+            enqueue(q, n);
         }
     }
-
+    /*
     PriorityQueue *q = pq_create(count);
 
     // Enqueue the node's symbol and frequency of the current histogram element
@@ -36,15 +39,16 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         // Enqueue the node to the PriorityQueue
         enqueue(q, n);
     }
+*/
 
     while (pq_size(q) > 1) {
         // Dequeue a node and set Node *left equal to it
-        dequeue(q, &n);
-        Node *left = n;
+        Node *left;
+        dequeue(q, &left);
 
         // Dequeue a node and set Node *right equal to it
-        dequeue(q, &n);
-        Node *right = n;
+        Node *right;
+        dequeue(q, &right);
 
         // Enqueue the parent node of left and right to q
         Node *parent = node_join(left, right);
@@ -52,8 +56,9 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     }
 
     // Dequeue the root node
-    dequeue(q, &n);
-    Node *root = n;
+    Node *root;
+    dequeue(q, &root);
+    pq_delete(&q);
     return root;
 }
 

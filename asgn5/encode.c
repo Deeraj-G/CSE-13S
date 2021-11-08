@@ -62,4 +62,25 @@ int main(int argc, char **argv) {
         default: usage(argv[0]); return EXIT_FAILURE;
         }
     }
+
+    uint64_t hist[ALPHABET];
+    uint8_t *buf = 0;
+    Code table[ALPHABET];
+    Node *result;
+
+    hist[0] += 1;
+    hist[ALPHABET - 1] += 1;
+
+    read_bytes(infile, buf, BLOCK);
+    write_bytes(hist, buf, BLOCK);
+
+    // Build a tree using the initialize histogram and store the result in a Node
+    result = build_tree(hist);
+
+    // Build a code table using the root from build_tree and an initialize Code table
+    build_codes(result, table);
+
+
+
+
 }

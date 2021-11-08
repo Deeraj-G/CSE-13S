@@ -1,14 +1,14 @@
 #include "node.h"
 #include "code.h"
 #include "defines.h"
-#include <stdint.h>
 #include "huffman.h"
-#include <inttypes.h>
-#include <stddef.h>
-#include <stdlib.h>
 #include "pq.h"
 #include "io.h"
 #include "stack.h"
+#include <inttypes.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 // Used TA Eugene's pseudocode for build_tree from his section
 // Based my build_codes function off of  Dr. Long's python pseudocode

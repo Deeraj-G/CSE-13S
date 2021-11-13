@@ -10,5 +10,5 @@ void randstate_init(uint64_t seed) {
 }
 
 void randstate_clear(void) { 
-    mpz_clear(state);
+    gmp_randclear(state);
 }

@@ -1,12 +1,14 @@
 #include <stdint.h>
 #include <gmp.h>
+#include "randstate.h"
 
 extern gmp_randstate_t state;
 
 void randstate_init(uint64_t seed) {
-
+    gmp_randinit_mt(state);
+    gmp_randseed_ui(state, seed);
 }
 
 void randstate_clear(void) { 
-
+    mpz_clear(state);
 }

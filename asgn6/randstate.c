@@ -2,7 +2,7 @@
 #include <gmp.h>
 #include "randstate.h"
 
-extern gmp_randstate_t state;
+gmp_randstate_t state;
 
 void randstate_init(uint64_t seed) {
     gmp_randinit_mt(state);

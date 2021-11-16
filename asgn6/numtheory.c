@@ -78,10 +78,10 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 // Got most of is_prime from TA Eric Hernandez's section
 bool is_prime(mpz_t n, uint64_t iters) {
 
-    if (mpz_cmp_ui(n, 0) == 0) {
+    if (mpz_cmp_ui(n, 0) == 0 || mpz_cmp_ui(n, 1) == 0) {
         return false;
     }
-    if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 1) == 0) {
+    if (mpz_cmp_ui(n, 3) == 0) {
         return true;
     }
 

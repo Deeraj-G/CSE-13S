@@ -78,12 +78,13 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 // Got most of is_prime from TA Eric Hernandez's section
 bool is_prime(mpz_t n, uint64_t iters) {
 
-    printf("0");
+    if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 1) == 0) {
+        return true;
+    }
+
     // Initialize mpz's
     mpz_t n_min_one, two, r, a, upper_bound, y, j;
     mpz_inits(n_min_one, two, r, a, upper_bound, y, j, NULL);
-
-    printf("1");
 
     // Set n_min_one equal to n-1
     mpz_sub_ui(n_min_one, n, 1);
@@ -92,8 +93,6 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_set_ui(two, 2);
 
     mp_bitcnt_t s = 2;
-
-    printf("2");
 
     while (mpz_divisible_2exp_p(n_min_one, s)) {
         s++;

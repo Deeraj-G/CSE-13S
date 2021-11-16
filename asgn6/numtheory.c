@@ -29,39 +29,36 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
     }
 
     // Set d equal to a
-    d = a;
+    mpz_set(d, a);
 }
-/*
-void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
 
+// Pass the Makefile
+void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
+    mpz_set(i, a);
+    mpz_set(n, i);
 }
-*/
+
 void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
     // Initialize a mpz_t of value 0
-    mpz_t zero;
-    mpz_init(zero);
+    mpz_t v, p, d;
+    mpz_inits(v, p, d);
     
     // Set v equal to 1
-    mpz_t v;
-    mpz_init(v);
     mpz_set_ui(v, 1);
 
     // Set p equal to the base
-    mpz_t p;
-    mpz_init(p);
     mpz_set(p, base);
 
     // While loop
-    while (exponent > zero) {
+    while (mpz_cmp_ui(exponent, 0) > 0) {
         
         // Create a temporary variable to check if the exponent is odd
-        mpz_t temp;
-        mpz_init(temp);
-        mpz_set(temp, exponent);
+        mpz_set(d, exponent);
 
-        // Check if temp is odd
-        if (mpz_mod_ui(temp, temp, 2) == 1) {
+        // Check if d is odd
+        if (mpz_mod_ui(d, d, 2) == 1) {
+
             // Set v equal to (v*p) mod n
             mpz_mul(v, v, p);
             mpz_mod(v, v, modulus);
@@ -73,24 +70,22 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
         // Set d equal to d / 2
         mpz_fdiv_q_ui(exponent, exponent, 2);
-
-        mpz_clear(temp);
     }
-
-    mpz_clears(zero, v, p, NULL);
-    out = v;
+    mpz_set(out, v);
+    mpz_clears(v, p, d, NULL);
 }
 
 // Got most of is_prime from TA Eric Hernandez's section
 bool is_prime(mpz_t n, uint64_t iters) {
+    gmp_randstate_t state;
 
     // Initialize mpz's
-    mpz_t n_min_one, two, r, a, upper_bound, y;
-    mpz_inits(n_min_one, two, r, a, upper_bound, y, NULL);
+    mpz_t n_min_one, two, r, a, upper_bound, y, j;
+    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, NULL);
 
     // Bit shifting for the n-1 = (2^s)r
     mpz_sub_ui(n_min_one, n, 1);
-    mpz_set_str(two, "2", 10);
+    mpz_set_ui(two, 2);
 
     mp_bitcnt_t s = 2;
 
@@ -106,13 +101,17 @@ bool is_prime(mpz_t n, uint64_t iters) {
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);
         mpz_add_ui(a, a, 2);
+
+        printf("reached\n");
+        
         pow_mod(y, a, r, n);
 
-        if ((mpz_cmp_ui(y, 1) != 0) && mpz_cmp(n_min_one, y) != 0) {
+        printf("reached\n");
 
+        if ((mpz_cmp_ui(y, 1) != 0) && mpz_cmp(y, n_min_one) != 0) {
+
+            printf("inreached\n");
             // Set j to 1
-            mpz_t j;
-            mpz_init(j);
             mpz_set_ui(j, 1);
 
             // Set sdec equal to s-1
@@ -121,7 +120,9 @@ bool is_prime(mpz_t n, uint64_t iters) {
             while ((mpz_cmp_ui(j, sdec) <= 0) && (mpz_cmp(y, n_min_one) != 0)) {
 
                 // Set y equal to power_mod(y,2,n)
+                printf("reached\n");
                 pow_mod(y, y, two, n);
+                printf("reached\n");
 
                 if (mpz_cmp_ui(y, 1) == 0) {
                     return false;
@@ -132,21 +133,16 @@ bool is_prime(mpz_t n, uint64_t iters) {
             if (mpz_cmp(y, n-1) != 0) {
                 return false;
             }
-
-//            mpz_clears(sdec, ndec, NULL);
         }
     }
-    mpz_clears(n_min_one, two, r, a, upper_bound, y, NULL);
+    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, NULL);
     return true;
 }
 
+// Pass the Makefile
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
     mpz_set_ui(p, 3);
     bits = 0;
     iters = 0;
 }
 
-int main() {
-    uint64_t seed = 2021;
-    randstate_init(seed);
-}

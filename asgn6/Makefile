@@ -2,19 +2,13 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wpedantic
 LFLAGS = $(shell pkg-config --libs gmp)
 
-all: encrypt decrypt
+all: encrypt
 
 encrypt: encrypt.o keygen.o numtheory.o randstate.o rsa.o
 	$(CC) $(CFLAGS) -o encrypt encrypt.o keygen.o numtheory.o randstate.o rsa.o $(LFLAGS)
 
-decrypt: decrypt.o keygen.o numtheory.o randstate.o rsa.o
-	$(CC) $(CFLAGS) -o decrypt decrypt.o keygen.o numtheory.o randstate.o rsa.o $(LFLAGS)
-
 encrypt.o: encrypt.c
 	$(CC) $(CFLAGS) -c encrypt.c
-
-decrypt.o: decrypt.c
-	$(CC) $(CFLAGS) -c decrypt.c
 
 keygen.o: keygen.c
 	$(CC) $(CFLAGS) -c keygen.c

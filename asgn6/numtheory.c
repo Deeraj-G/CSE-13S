@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <gmp.h>
 #include "numtheory.h"
+#include <inttypes.h>
+
+// Got most of is_prime from TA Eric Hernandez's section
 
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
     
@@ -72,6 +75,7 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
     out = v;
 }
 
+// Got most of is_prime from TA Eric Hernandez's section
 bool is_prime(mpz_t n, uint64_t iters) {
 
     // Bit shifting for the n-1 = (2^s)r
@@ -92,22 +96,44 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_tdiv_q_2exp(r, n_min_one, s);
 
     // Initialize mpz's for the for loop
-    mpz_t a, upper_bound, y;
-    mpz_inits(a, upper_bound, y);
+    mpz_t a, upper_bound, y, j;
+    mpz_inits(a, upper_bound, y, j);
 
-    for (i = 0; i < iters; i++) {
+    for (uint64_t i = 0; i < iters; i++) {
+        
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);
         mpz_add_ui(a, a, 2);
-        power_mod(y, a, r, n);
-        if ((mpz_cmp_ui(y, 1) != 0) && mpz_cmp(m_min_one, y) != 0) {
+        pow_mod(y, a, r, n);
 
+        if ((mpz_cmp_ui(y, 1) != 0) && mpz_cmp(n_min_one, y) != 0) {
 
+            // Set j to 1
+            mpz_set_ui(j, 1);
+
+            // Set sdec equal to s-1
+            mp_bitcnt_t sdec = s - 1;
+
+            // Set ndec equal to n-1
+            mp_bitcnt_t ndec = n - 1;
+
+            while ((mpz_cmp(j, sdec) <= 0) && (mpz_cmp(y, ndec) != 0)) {
+
+                // Set y equal to power_mod(y,2,n)
+                pow_mod(y, y, two, n);
+
+                if (mpz_cmp_ui(y, 1) == 0) {
+                    return false;
+                }
+                mpz_add_ui(j, j, 1);
+            }
+
+            if (mpz_cmp(y, n-1) != 0) {
+                return false;
+            }
         }
-
     }
-
-
+    return true;
 }
 /*
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {

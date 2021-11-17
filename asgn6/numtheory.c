@@ -81,7 +81,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
     // Initialize mpz's
     mpz_t n_min_one, two, r, a, upper_bound, y, j, test, i;
-    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, i,  NULL);
+    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, i, NULL);
 
     // Hardcoded some values
     if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
@@ -108,7 +108,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
     s--;
 
     mpz_tdiv_q_2exp(r, n_min_one, s);
- 
+
     //for (uint64_t i = 0; i < iters; i++) {
     for (mpz_set_ui(i, 0); mpz_cmp_ui(i, iters) < 0; mpz_add_ui(i, i, 1)) {
 

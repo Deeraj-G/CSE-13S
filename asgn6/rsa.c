@@ -48,7 +48,7 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fprintf(pbfile, "\n");
 
     // Print the char username to pbfile
-    gmp_fprintf(pbfile, username);
+    gmp_fprintf(pbfile, "%s", username);
     gmp_fprintf(pbfile, "\n");
 }
 
@@ -65,7 +65,7 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fscanf(pbfile, "%ZX", s);
     gmp_fscanf(pbfile, "%c", str3);
 
-    gmp_fscanf(pbfile, username);
+    gmp_fscanf(pbfile, "%s", username);
     gmp_fscanf(pbfile, "%c", str4);
 }
 

@@ -36,8 +36,54 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
 // Pass the Makefile
 void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
-    mpz_set(i, a);
-    mpz_set(n, i);
+
+    // Initialize the mpz's
+    mpz_t r, r_prime, t, t_prime, q, temp;
+    mpz_inits(r, r_prime, t, t_prime, q, temp, NULL);
+
+    // Set r equal to n
+    mpz_set(r, n);
+
+    // Set r_prime equal to a
+    mpz_set(r_prime, a);
+
+    // Set t equal to 0
+    mpz_set_ui(t, 0);
+
+    // Set t_prime equal to 1
+    mpz_set_ui(t_prime, 1);
+
+    while (mpz_cmp_ui(r_prime, 0) != 0) {
+
+        // Set q equal to r/r_prime
+        mpz_fdiv_q(q, r, r_prime);
+
+        // Create temporary variable to hold original value of r
+        //mpz_set(temp, r);
+
+        // Set r equal to r_prime
+        mpz_set(r, r_prime);
+
+        // Set r_prime equal to r - (q * r_prime)
+        mpz_mul(r_prime, q, r_prime);
+        mpz_sub(r_prime, r, r_prime);
+
+        // Set r equal to r_prime
+        mpz_set(t, t_prime);
+
+        // Set r_prime equal to r - (q * r_prime)
+        mpz_mul(t_prime, q, t_prime);
+        mpz_sub(t_prime, t, t_prime);
+    }
+
+    if (mpz_cmp_ui(r, 1) > 0) {
+        mpz_set_ui(i, 0);
+    }
+    if (mpz_cmp_ui(t, 0) < 0) {
+        mpz_add(t, t, n);
+    }
+
+    mpz_set(i, t);
 }
 
 void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {

@@ -7,8 +7,9 @@
 #include "numtheory.h"
 #include "randstate.h"
 
-// Used Dr. Long's explanation of the steps for this function
-// Also used TA Eric Hernandez's pseudocode for this funcion
+// Used Dr. Long's explanation of each function to base my code off of
+
+// Used TA Eric Hernandez's pseudocode for this funcion
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
 
     mpz_t p_min_one, q_min_one, gcd_e_n;
@@ -65,15 +66,19 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
 
+    // Initialize mpz's
     mpz_t p_min_one, q_min_one, n;
     mpz_inits(p_min_one, q_min_one, n, NULL);
 
+    // Find the totient
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
     mpz_mul(n, p_min_one, q_min_one);
 
+    // Set d equal to the mod inverse of e and the totient
     mod_inverse(d, e, n);
 
+    // Clear the mpz's
     mpz_clears(p_min_one, q_min_one, n, NULL);
 }
 
@@ -96,19 +101,22 @@ void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 }
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
-    mpz_set(c, m);
-    mpz_set(e, n);
+
+    // Find m^e mod n and store the result in c
+    pow_mod(c, m, e, n);
 }
 
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
+
     if (infile && outfile) {
         mpz_set(n, e);
     }
 }
 
 void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
-    mpz_set(m, c);
-    mpz_set(d, n);
+
+    // Find c^d mod n and store the result in m
+    pow_mod(m, c, d, n);
 }
 
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {

@@ -35,15 +35,19 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
+    // Print the mpz_t n to pbfile in base 16
     mpz_out_str(pbfile, 16, n);
     fprintf(pbfile, "\n");
 
+    // Print the mpz_t e to pbfile in base 16
     mpz_out_str(pbfile, 16, e);
     fprintf(pbfile, "\n");
 
+    // Print the mpz_t s to pbfile in base 16
     mpz_out_str(pbfile, 16, s);
     fprintf(pbfile, "\n");
 
+    // Print the char username to pbfile
     gmp_fprintf(pbfile, username);
     fprintf(pbfile, "\n");
 }

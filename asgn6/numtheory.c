@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include <gmp.h>
 #include "numtheory.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <inttypes.h>
 #include "randstate.h"
 

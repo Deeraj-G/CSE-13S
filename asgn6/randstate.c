@@ -1,5 +1,6 @@
-#include <stdint.h>
+#include <stdio.h>
 #include <gmp.h>
+#include <stdint.h>
 #include "randstate.h"
 
 gmp_randstate_t state;

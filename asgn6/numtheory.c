@@ -43,16 +43,9 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
     mpz_t r, r_prime, t, t_prime, q, temp, temp2;
     mpz_inits(r, r_prime, t, t_prime, q, temp, temp2, NULL);
 
-    // Set r equal to n
     mpz_set(r, n);
-
-    // Set r_prime equal to a
     mpz_set(r_prime, a);
-
-    // Set t equal to 0
     mpz_set_ui(t, 0);
-
-    // Set t_prime equal to 1
     mpz_set_ui(t_prime, 1);
 
     while (mpz_cmp_ui(r_prime, 0) != 0) {
@@ -63,24 +56,18 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         // Create temporary variable to hold original value of r
         mpz_set(temp, r_prime);
 
-        // Set r_prime equal to (q * r_prime)
+        // Set r_prime equal to r - (q * r_prime)
         mpz_mul(r_prime, q, r_prime);
-
-        // Set r_prime equal to temp - the current value of r_prime
         mpz_sub(r_prime, r, r_prime);
 
         // Set r equal to r_prime
         mpz_set(r, temp);
 
-        // Blank line
-
-        // Set temp2 equal to t
+        // Create temporary variable to hold original value of t
         mpz_set(temp2, t_prime);
 
-        // Set t_prime equal to (q * t_prime)
+        // Set t_prime equal to t - (q * t_prime)
         mpz_mul(t_prime, q, t_prime);
-
-        // Set t_prime equal to temp2 - the current value of t_prime
         mpz_sub(t_prime, t, t_prime);
 
         // Set t equal to t_prime
@@ -101,17 +88,13 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
 // Used the pseudocode by Dr. Long for this function
 void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
-    // Initialize a mpz_t of value 0
     mpz_t v, p, d;
     mpz_inits(v, p, d, NULL);
 
-    // Set v equal to 1
     mpz_set_ui(v, 1);
 
-    // Set p equal to the base
     mpz_set(p, base);
 
-    // While loop
     while (mpz_cmp_ui(exponent, 0) > 0) {
 
         // Create a temporary variable to check if the exponent is odd

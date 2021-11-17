@@ -10,11 +10,11 @@
 
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
-    while (mpz_cmp_ui(b, 0) != 0) {
+    // Initialize an mpz_t
+    mpz_t t;
+    mpz_init(t);
 
-        // Initialize an mpz_t variable
-        mpz_t t;
-        mpz_init(t);
+    while (mpz_cmp_ui(b, 0) != 0) {
 
         // Set t to b
         mpz_set(t, b);
@@ -24,9 +24,10 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
         // Set a to t
         mpz_set(a, t);
-
-        mpz_clear(t);
     }
+
+    // Clear the initialized mpz_t
+    mpz_clear(t);
 
     // Set d equal to a
     mpz_set(d, a);
@@ -79,9 +80,10 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 bool is_prime(mpz_t n, uint64_t iters) {
 
     // Initialize mpz's
-    mpz_t n_min_one, two, r, a, upper_bound, y, j, test;
-    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    mpz_t n_min_one, two, r, a, upper_bound, y, j, test, i;
+    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, i,  NULL);
 
+    // Hardcoded some values
     if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
         return false;
     }
@@ -106,8 +108,9 @@ bool is_prime(mpz_t n, uint64_t iters) {
     s--;
 
     mpz_tdiv_q_2exp(r, n_min_one, s);
-
-    for (uint64_t i = 0; i < iters; i++) {
+ 
+    //for (uint64_t i = 0; i < iters; i++) {
+    for (mpz_set_ui(i, 0); mpz_cmp_ui(i, iters) < 0; mpz_add_ui(i, i, 1)) {
 
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);
@@ -139,7 +142,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
             }
         }
     }
-    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, i, NULL);
     return true;
 }
 

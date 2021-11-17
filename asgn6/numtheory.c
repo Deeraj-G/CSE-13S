@@ -81,10 +81,10 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         mpz_sub(t_prime, temp2, t_prime);
     }
 
-    if (mpz_cmp_ui(r, 1) > 0) {
+    if (mpz_cmp_ui(temp, 1) > 0) {
         mpz_set_ui(i, 0);
     }
-    if (mpz_cmp_ui(t, 0) < 0) {
+    if (mpz_cmp_ui(temp2, 0) < 0) {
         mpz_add(t, t, n);
     }
 

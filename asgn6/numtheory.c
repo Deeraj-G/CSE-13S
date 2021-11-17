@@ -10,7 +10,7 @@
 
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
-    while (b != 0) {
+    while (mpz_cmp_ui(b, 0) != 0) {
 
         // Initialize an mpz_t variable
         mpz_t t;
@@ -134,7 +134,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
                 mpz_add_ui(j, j, 1);
             }
 
-            if (mpz_cmp(y, n - 1) != 0) {
+            if (mpz_cmp(y, n_min_one) != 0) {
                 return false;
             }
         }

@@ -54,24 +54,24 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
-    // Initialize strings to hold the trailing newlines
-    char str1[1], str2[1], str3[1], str4[1];
+    // Initialize character arrays to hold the trailing newlines
+    //    char str1[1], str2[1], str3[1], str4[1];
 
     // Scan n from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX", n);
-    gmp_fscanf(pbfile, "%c", str1);
+    gmp_fscanf(pbfile, "%ZX\n", n);
+    //gmp_fscanf(pbfile, "%c", str1);
 
     // Scan e from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX", e);
-    gmp_fscanf(pbfile, "%c", str2);
+    gmp_fscanf(pbfile, "%ZX\n", e);
+    //gmp_fscanf(pbfile, "%c", str2);
 
     // Scan s from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX", s);
-    gmp_fscanf(pbfile, "%c", str3);
+    gmp_fscanf(pbfile, "%ZX\n", s);
+    //gmp_fscanf(pbfile, "%c", str3);
 
     // Scan username from the pbfile with the string format specifier
-    gmp_fscanf(pbfile, "%s", username);
-    gmp_fscanf(pbfile, "%c", str4);
+    gmp_fscanf(pbfile, "%s\n", username);
+    //gmp_fscanf(pbfile, "%c", str4);
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
@@ -80,15 +80,28 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
 }
 
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile) {
-    if (pvfile) {
-        mpz_set(n, d);
-    }
+
+    // Print n to the pvfile using the mpz_t format specifier
+    gmp_fprintf(pvfile, "%ZX", n);
+    gmp_fprintf(pvfile, "\n");
+
+    // Print d to the pvfile using the mpz_t format specifier
+    gmp_fprintf(pvfile, "%ZX", d);
+    gmp_fprintf(pvfile, "\n");
 }
 
 void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {
-    if (pvfile) {
-        mpz_set(n, d);
-    }
+
+    // Initialize character arrays to hold the trailing newlines
+    char str1[1], str2[1];
+
+    // Scan n from the pvfile with the mpz_t format specifier
+    gmp_fscanf(pvfile, "%ZX", n);
+    gmp_fscanf(pvfile, "%c", str1);
+
+    // Scan d from the pvfile with the mpz_t format specifier
+    gmp_fscanf(pvfile, "%ZX", d);
+    gmp_fscanf(pvfile, "%c", str2);
 }
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {

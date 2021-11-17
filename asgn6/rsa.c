@@ -54,19 +54,20 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
-    //    char str1[1], str2[1], str3[1], str4[1];
+    char str1[1], str2[1], str3[1], str4[255], str5[1];
 
     mpz_inp_str(n, pbfile, 16);
-    //fscanf(pbfile, "%c", str1);
+    fscanf(pbfile, "%c", str1);
 
     mpz_inp_str(e, pbfile, 16);
-    //fscanf(pbfile, "%c", str2);
+    fscanf(pbfile, "%c", str2);
 
     mpz_inp_str(s, pbfile, 16);
-    //fscanf(pbfile, "%c", str3);
+    fscanf(pbfile, "%c", str3);
 
-    gmp_fscanf(pbfile, username);
-    //fscanf(pbfile, "%c", str4);
+    fscanf(pbfile, "%c", str4);
+    gmp_sscanf(str4, username);
+    fscanf(pbfile, "%c", str5);
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {

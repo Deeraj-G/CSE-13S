@@ -35,36 +35,41 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
-    // Print the mpz_t n to pbfile in base 16
+    // Print n to the pbfile using the mpz_t format specifier
     gmp_fprintf(pbfile, "%ZX", n);
     gmp_fprintf(pbfile, "\n");
 
-    // Print the mpz_t e to pbfile in base 16
+    // Print e to the pbfile using the mpz_t format specifier
     gmp_fprintf(pbfile, "%ZX", e);
     gmp_fprintf(pbfile, "\n");
 
-    // Print the mpz_t s to pbfile in base 16
+    // Print s to the pbfile using the mpz_t format specifier
     gmp_fprintf(pbfile, "%ZX", s);
     gmp_fprintf(pbfile, "\n");
 
-    // Print the char username to pbfile
+    // Print username to pbfile with a string format specifier
     gmp_fprintf(pbfile, "%s", username);
     gmp_fprintf(pbfile, "\n");
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
+    // Initialize strings to hold the trailing newlines
     char str1[1], str2[1], str3[1], str4[1];
 
+    // Scan n from the pbfile with the mpz_t format specifier
     gmp_fscanf(pbfile, "%ZX", n);
     gmp_fscanf(pbfile, "%c", str1);
 
+    // Scan e from the pbfile with the mpz_t format specifier
     gmp_fscanf(pbfile, "%ZX", e);
     gmp_fscanf(pbfile, "%c", str2);
 
+    // Scan s from the pbfile with the mpz_t format specifier
     gmp_fscanf(pbfile, "%ZX", s);
     gmp_fscanf(pbfile, "%c", str3);
 
+    // Scan username from the pbfile with the string format specifier
     gmp_fscanf(pbfile, "%s", username);
     gmp_fscanf(pbfile, "%c", str4);
 }

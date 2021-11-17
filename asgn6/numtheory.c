@@ -40,8 +40,8 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
 void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
 
     // Initialize the mpz's
-    mpz_t r, r_prime, t, t_prime, q, temp;
-    mpz_inits(r, r_prime, t, t_prime, q, temp, NULL);
+    mpz_t r, r_prime, t, t_prime, q, temp, temp2;
+    mpz_inits(r, r_prime, t, t_prime, q, temp, temp2, NULL);
 
     // Set r equal to n
     mpz_set(r, n);
@@ -61,21 +61,24 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         mpz_fdiv_q(q, r, r_prime);
 
         // Create temporary variable to hold original value of r
-        //mpz_set(temp, r);
+        mpz_set(temp, r);
 
         // Set r equal to r_prime
         mpz_set(r, r_prime);
 
         // Set r_prime equal to r - (q * r_prime)
         mpz_mul(r_prime, q, r_prime);
-        mpz_sub(r_prime, r, r_prime);
+        mpz_sub(r_prime, temp, r_prime);
 
-        // Set r equal to r_prime
+        // Set temp2 equal to t
+        mpz_set(temp2, t);
+
+        // Set t equal to t_prime
         mpz_set(t, t_prime);
 
-        // Set r_prime equal to r - (q * r_prime)
+        // Set t_prime equal to t - (q * t_prime)
         mpz_mul(t_prime, q, t_prime);
-        mpz_sub(t_prime, t, t_prime);
+        mpz_sub(t_prime, temp2, t_prime);
     }
 
     if (mpz_cmp_ui(r, 1) > 0) {
@@ -86,6 +89,7 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
     }
 
     mpz_set(i, t);
+    mpz_clears(r, r_prime, t, t_prime, q, temp, temp2, NULL);
 }
 
 // Used the pseudocode by Dr. Long for this function
@@ -131,8 +135,8 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 bool is_prime(mpz_t n, uint64_t iters) {
 
     // Initialize mpz's
-    mpz_t n_min_one, two, r, a, upper_bound, y, j, test, i;
-    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, i, NULL);
+    mpz_t n_min_one, two, r, a, upper_bound, y, j, test;
+    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
 
     // Hardcoded some values
     if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
@@ -162,7 +166,6 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_tdiv_q_2exp(r, n_min_one, s);
 
     for (uint64_t i = 0; i < iters; i++) {
-        //for (mpz_set_ui(i, 0); mpz_cmp_ui(i, iters) < 0; mpz_add_ui(i, i, 1)) {
 
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);
@@ -194,7 +197,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
             }
         }
     }
-    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, i, NULL);
+    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
     return true;
 }
 

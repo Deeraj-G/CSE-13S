@@ -1,11 +1,38 @@
+#include <gmp.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include <gmp.h>
+#include <inttypes.h>
+#include "numtheory.h"
+#include "randstate.h"
 
+// Used Dr. Long's explanation of the steps for this function
+// Also used TA Eric Hernandez's pseudocode for this funcion
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
-}
 
+    mpz_t p_min_one, q_min_one, gcd_e_n;
+    mpz_inits(p_min_one, q_min_one, gcd_e_n, NULL);
+
+    uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
+    uint64_t qbits = nbits - pbits;
+
+    make_prime(p, pbits, iters);
+    make_prime(q, qbits, iters);
+
+    mpz_sub_ui(p_min_one, p, 1);
+    mpz_sub_ui(q_min_one, q, 1);
+    mpz_mul(n, p_min_one, q_min_one);
+
+    do {
+        mpz_urandomb(e, state, nbits);
+        gcd(gcd_e_n, e, n);
+    } while (mpz_cmp_ui(gcd_e_n, 1));
+
+    mpz_set(e, gcd_e_n);
+    mpz_clears(p_min_one, q_min_one, gcd_e_n, NULL);
+}
+/*
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 }
 
@@ -35,6 +62,7 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {
 }
-
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
+
 }
+*/

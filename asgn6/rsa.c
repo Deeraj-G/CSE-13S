@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include <gmp.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <inttypes.h>
 #include "numtheory.h"
 #include "randstate.h"
@@ -34,12 +34,18 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 }
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
-    if (username) {
-        mpz_set(n, e);
-    }
-    if (pbfile) {
-        mpz_set(s, n);
-    }
+
+    mpz_out_str(pbfile, 16, n);
+    fprintf(pbfile, "\n");
+
+    mpz_out_str(pbfile, 16, e);
+    fprintf(pbfile, "\n");
+
+    mpz_out_str(pbfile, 16, s);
+    fprintf(pbfile, "\n");
+
+    gmp_fprintf(pbfile, username);
+    fprintf(pbfile, "\n");
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {

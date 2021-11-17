@@ -36,20 +36,16 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     // Print n to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX", n);
-    gmp_fprintf(pbfile, "\n");
+    gmp_fprintf(pbfile, "%ZX\n", n);
 
     // Print e to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX", e);
-    gmp_fprintf(pbfile, "\n");
+    gmp_fprintf(pbfile, "%ZX\n", e);
 
     // Print s to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX", s);
-    gmp_fprintf(pbfile, "\n");
+    gmp_fprintf(pbfile, "%ZX\n", s);
 
-    // Print username to pbfile with a string format specifier
-    gmp_fprintf(pbfile, "%s", username);
-    gmp_fprintf(pbfile, "\n");
+    // Print username to the pbfile using the string format specifier
+    gmp_fprintf(pbfile, "%s\n", username);
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
@@ -75,12 +71,10 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 
     // Print n to the pvfile using the mpz_t format specifier
-    gmp_fprintf(pvfile, "%ZX", n);
-    gmp_fprintf(pvfile, "\n");
+    gmp_fprintf(pvfile, "%ZX\n", n);
 
     // Print d to the pvfile using the mpz_t format specifier
-    gmp_fprintf(pvfile, "%ZX", d);
-    gmp_fprintf(pvfile, "\n");
+    gmp_fprintf(pvfile, "%ZX\n", d);
 }
 
 void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {

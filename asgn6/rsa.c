@@ -56,13 +56,13 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     char str1[1], str2[1], str3[1], str4[1];
 
-    mpz_inp_str(n, pbfile, 16);
+    gmp_fscanf(pbfile, "%ZX", n);
     gmp_fscanf(pbfile, str1);
 
-    mpz_inp_str(e, pbfile, 16);
+    gmp_fscanf(pbfile, "%ZX", e);
     gmp_fscanf(pbfile, str2);
 
-    mpz_inp_str(s, pbfile, 16);
+    gmp_fscanf(pbfile, "%ZX", s);
     gmp_fscanf(pbfile, str3);
 
     gmp_fscanf(pbfile, username);

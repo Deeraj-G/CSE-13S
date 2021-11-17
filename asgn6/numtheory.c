@@ -61,33 +61,34 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         mpz_fdiv_q(q, r, r_prime);
 
         // Create temporary variable to hold original value of r
-        mpz_set(temp, r);
-
-        // Set r equal to r_prime
-        mpz_set(r, r_prime);
+        mpz_set(temp, r_prime);
 
         // Set r_prime equal to (q * r_prime)
         mpz_mul(r_prime, q, r_prime);
 
         // Set r_prime equal to temp - the current value of r_prime
-        mpz_sub(r_prime, temp, r_prime);
-        
+        mpz_sub(r_prime, r, r_prime);
+
+        // Set r equal to r_prime
+        mpz_set(r, temp);
+
+        // Blank line
 
         // Set temp2 equal to t
-        mpz_set(temp2, t);
-
-        // Set t equal to t_prime
-        mpz_set(t, t_prime);
+        mpz_set(temp2, t_prime);
 
         // Set t_prime equal to (q * t_prime)
         mpz_mul(t_prime, q, t_prime);
-        
+
         // Set t_prime equal to temp2 - the current value of t_prime
         mpz_sub(t_prime, t, t_prime);
+
+        // Set t equal to t_prime
+        mpz_set(t, temp2);
     }
 
     if (mpz_cmp_ui(r, 1) > 0) {
-        mpz_set_ui(i, 0);
+        mpz_set_ui(t, 0);
     }
     if (mpz_cmp_ui(t, 0) < 0) {
         mpz_add(t, t, n);

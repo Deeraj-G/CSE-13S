@@ -36,19 +36,19 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     // Print the mpz_t n to pbfile in base 16
-    mpz_out_str(pbfile, 16, n);
+    gmp_fprintf(pbfile, "%ZX", n);
     gmp_fprintf(pbfile, "\n");
 
     // Print the mpz_t e to pbfile in base 16
-    mpz_out_str(pbfile, 16, e);
+    gmp_fprintf(pbfile, "%ZX", e);
     gmp_fprintf(pbfile, "\n");
 
     // Print the mpz_t s to pbfile in base 16
-    mpz_out_str(pbfile, 16, s);
+    gmp_fprintf(pbfile, "%ZX", s);
     gmp_fprintf(pbfile, "\n");
 
     // Print the char username to pbfile
-    gmp_fprintf(pbfile, username);
+    gmp_fprintf(pbfile, "%c", username);
     gmp_fprintf(pbfile, "\n");
 }
 
@@ -57,16 +57,16 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     char str1[1], str2[1], str3[1], str4[1];
 
     gmp_fscanf(pbfile, "%ZX", n);
-    gmp_fscanf(pbfile, str1);
+    gmp_fscanf(pbfile, "%c", str1);
 
     gmp_fscanf(pbfile, "%ZX", e);
-    gmp_fscanf(pbfile, str2);
+    gmp_fscanf(pbfile, "%c", str2);
 
     gmp_fscanf(pbfile, "%ZX", s);
-    gmp_fscanf(pbfile, str3);
+    gmp_fscanf(pbfile, "%c", str3);
 
-    gmp_fscanf(pbfile, username);
-    gmp_fscanf(pbfile, str4);
+    gmp_fscanf(pbfile, "%c", username);
+    gmp_fscanf(pbfile, "%c", str4);
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {

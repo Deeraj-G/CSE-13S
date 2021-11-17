@@ -6,9 +6,11 @@
 #include <inttypes.h>
 #include "randstate.h"
 
+// Used Dr. Long's pseudocode for gcd, mod_inverse, pow_mod, and is_prime
 // Got most of is_prime from TA Eric Hernandez's section
 // Used the pseudocode for make_prime from TA Eric Hernandez's section
 
+// Used the pseudocode by Dr. Long for this function
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
     // Initialize an mpz_t
@@ -34,7 +36,7 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
     mpz_set(d, a);
 }
 
-// Pass the Makefile
+// Used the pseudocode by Dr. Long for this function
 void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
 
     // Initialize the mpz's
@@ -86,6 +88,7 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
     mpz_set(i, t);
 }
 
+// Used the pseudocode by Dr. Long for this function
 void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
     // Initialize a mpz_t of value 0
@@ -124,6 +127,7 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 }
 
 // Got most of is_prime from TA Eric Hernandez's section
+// Used the pseudocode by Dr. Long for this function
 bool is_prime(mpz_t n, uint64_t iters) {
 
     // Initialize mpz's
@@ -157,8 +161,8 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
     mpz_tdiv_q_2exp(r, n_min_one, s);
 
-    //for (uint64_t i = 0; i < iters; i++) {
-    for (mpz_set_ui(i, 0); mpz_cmp_ui(i, iters) < 0; mpz_add_ui(i, i, 1)) {
+    for (uint64_t i = 0; i < iters; i++) {
+        //for (mpz_set_ui(i, 0); mpz_cmp_ui(i, iters) < 0; mpz_add_ui(i, i, 1)) {
 
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);

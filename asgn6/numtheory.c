@@ -7,6 +7,7 @@
 #include "randstate.h"
 
 // Got most of is_prime from TA Eric Hernandez's section
+// Used the pseudocode for make_prime from TA Eric Hernandez's section
 
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 

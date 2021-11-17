@@ -9,7 +9,7 @@
 // Got most of is_prime from TA Eric Hernandez's section
 
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
-    
+
     while (b != 0) {
 
         // Initialize an mpz_t variable
@@ -43,7 +43,7 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
     // Initialize a mpz_t of value 0
     mpz_t v, p, d;
     mpz_inits(v, p, d, NULL);
-    
+
     // Set v equal to 1
     mpz_set_ui(v, 1);
 
@@ -52,7 +52,7 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
     // While loop
     while (mpz_cmp_ui(exponent, 0) > 0) {
-        
+
         // Create a temporary variable to check if the exponent is odd
         mpz_set(d, exponent);
 
@@ -108,7 +108,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_tdiv_q_2exp(r, n_min_one, s);
 
     for (uint64_t i = 0; i < iters; i++) {
-        
+
         mpz_sub_ui(upper_bound, n, 3);
         mpz_urandomm(a, state, upper_bound);
         mpz_add_ui(a, a, 2);
@@ -134,7 +134,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
                 mpz_add_ui(j, j, 1);
             }
 
-            if (mpz_cmp(y, n-1) != 0) {
+            if (mpz_cmp(y, n - 1) != 0) {
                 return false;
             }
         }

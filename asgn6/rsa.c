@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <gmp.h>
-
+/*
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
 
 }
@@ -46,7 +46,9 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {
 
 }
-
+*/
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
-
+    mpz_set(m, s);
+    mpz_set(e, n);
+    return false;
 }

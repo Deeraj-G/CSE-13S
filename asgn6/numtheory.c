@@ -70,6 +70,9 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         mpz_mul(temp, q, r_prime);
         mpz_sub(r_prime, r, temp);
 
+        // Set r equal to r_prime
+        mpz_set(r, r_prime);
+
         // Set temp2 equal to t
         mpz_set(temp2, t_prime);
 
@@ -79,6 +82,9 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
         // Set t_prime equal to t - (q * t_prime)
         mpz_mul(temp2, q, t_prime);
         mpz_sub(t_prime, t, temp2);
+
+        // Set t equal to t_prime
+        mpz_set(t, t_prime);
     }
 
     if (mpz_cmp_ui(r, 1) > 0) {

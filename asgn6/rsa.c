@@ -64,8 +64,17 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
-    mpz_set(d, e);
-    mpz_set(p, q);
+
+    mpz_t p_min_one, q_min_one, n;
+    mpz_inits(p_min_one, q_min_one, n, NULL);
+
+    mpz_sub_ui(p_min_one, p, 1);
+    mpz_sub_ui(q_min_one, q, 1);
+    mpz_mul(n, p_min_one, q_min_one);
+
+    mod_inverse(d, e, n);
+
+    mpz_clears(p_min_one, q_min_one, n, NULL);
 }
 
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile) {

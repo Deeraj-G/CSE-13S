@@ -18,18 +18,17 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
 
-    pbits += 1;
-    qbits += 1;
-
-    make_prime(p, pbits, iters);
-    make_prime(q, qbits, iters);
+    make_prime(p, pbits + 1, iters);
+    make_prime(q, qbits + 1, iters);
 
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
     mpz_mul(n, p_min_one, q_min_one);
 
+    mp_bitcnt_t en = nbits;
+
     do {
-        mpz_urandomb(e, state, nbits);
+        mpz_urandomb(e, state, en);
         gcd(gcd_e_n, e, n);
     } while (mpz_cmp_ui(gcd_e_n, 1));
 

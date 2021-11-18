@@ -131,19 +131,15 @@ bool is_prime(mpz_t n, uint64_t iters) {
     if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
         return false;
     }
-    if (mpz_cmp_ui(n, 0) == 0 || mpz_cmp_ui(n, 1) == 0) {
+    if (mpz_cmp_ui(n, 0) == 0 || mpz_cmp_ui(n, 1) == 0 || mpz_sgn(n) < 0) {
         return false;
     }
-    if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 5) == 0 || mpz_cmp_ui(n, 17) == 0
-        || mpz_cmp_ui(n, 280001) == 0) {
+    if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 5) == 0 || mpz_cmp_ui(n, 280001) == 0) {
         return true;
     }
 
     // Set n_min_one equal to n-1
     mpz_sub_ui(n_min_one, n, 1);
-
-    // Set mpz two equal to 2
-    mpz_set_ui(two, 2);
 
     mp_bitcnt_t s = 2;
 
@@ -171,6 +167,9 @@ bool is_prime(mpz_t n, uint64_t iters) {
             mp_bitcnt_t sdec = s - 1;
 
             while ((mpz_cmp_ui(j, sdec) <= 0) && (mpz_cmp(y, n_min_one) != 0)) {
+
+                // Set mpz two equal to 2
+                mpz_set_ui(two, 2);
 
                 // Set y equal to power_mod(y,2,n)
                 pow_mod(y, y, two, n);

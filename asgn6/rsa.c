@@ -6,7 +6,6 @@
 #include <inttypes.h>
 #include "numtheory.h"
 #include "randstate.h"
-gmp_randstate_t state;
 
 // Used Dr. Long's explanation of each function to base my code off of
 
@@ -19,10 +18,8 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
 
-    //randstate_init(state);
-
-    make_prime(p, pbits + 1, iters);
-    make_prime(q, qbits + 1, iters);
+    make_prime(p, pbits - 1, iters);
+    make_prime(q, qbits - 1, iters);
 
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);

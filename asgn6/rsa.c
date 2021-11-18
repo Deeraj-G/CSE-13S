@@ -124,26 +124,21 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
     uint32_t k = (lg(n) - 1) / 8;
     uint8_t *array = (uint8_t *) calloc(k, sizeof(uint8_t));
 
-    // Reallocate the array to make it size k
-    uint8_t *arr = realloc(array, sizeof(uint8_t));
-
     mpz_t m, c;
     mpz_inits(m, c, NULL);
 
-    arr[0] = 0xFF;
+    array[0] = 0xFF;
 
+    uint32_t j;
     //fopen(infile, "w+");
     //fopen(outfile, "w+");
 
     // Make sure all bytes in the file have been read
     // If the return value != k-1, it means an error occurred or the EOF was reached
-    while (fread(arr, sizeof(uint8_t), k-1, infile) == k-1) {
-        
-        // Read in at most k-1 bytes from the infile 
-        uint32_t j = fread(arr, sizeof(uint8_t), k-1, infile);
+    while ((j = fread(array + 1, sizeof(uint8_t), k-1, infile)) == k-1) {
         
         // Convert the read bytes into an mpz_t m
-        mpz_import(m, j, 1, sizeof(uint8_t), 1, 0, arr);
+        mpz_import(m, j, 1, sizeof(uint8_t), 1, 0, array);
         
         // Encrypt m
         rsa_encrypt(c, m, e, n);
@@ -170,11 +165,22 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {
-    mpz_set(s, m);
-    mpz_set(d, n);
+    pow_mod(s, m, d, n);
 }
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
-    mpz_set(m, s);
-    mpz_set(e, n);
-    return false;
+    
+    mpz_t t;
+    mpz_init(t);
+
+    pow_mod(t, s, e, n);
+    if (mpz_cmp(t, m) == 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+    mpz_clear(t);
+
+
 }

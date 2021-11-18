@@ -18,8 +18,8 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
 
-    make_prime(p, pbits - 1, iters);
-    make_prime(q, qbits - 1, iters);
+    make_prime(p, pbits + 1, iters);
+    make_prime(q, qbits + 1, iters);
 
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
@@ -160,9 +160,28 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 
 // Used the steps from Dr. Long for this function
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
-    if (infile && outfile) {
-        mpz_set(n, d);
+
+    uint32_t k = (lg(n) - 1) / 8;
+    uint8_t *array = (uint8_t *) calloc(k, sizeof(uint8_t));
+
+    mpz_t m, c;
+    mpz_inits(m, c, NULL);
+
+    array[0] = 0xFF;
+
+    uint32_t j;
+
+    // Make sure all bytes in the file have been read
+    // If the return value != k-1, it means an error occurred or the EOF was reached
+    while ((j = fread(array + 1, sizeof(uint8_t), k - 1, infile)) == k - 1) {
+
+        // Convert the read bytes into an mpz_t m
+        mpz_export(c, j, 1, sizeof(uint8_t), 1, 0, array);
+
+        fwrite(array + 1, sizeof(uint8_t), j - 1, outfile);
     }
+
+    mpz_clears(m, c, NULL);
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {

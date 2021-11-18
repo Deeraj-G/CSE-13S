@@ -18,8 +18,8 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
 
-    make_prime(p, pbits, iters);
-    make_prime(q, qbits, iters);
+    make_prime(p, pbits + 1, iters);
+    make_prime(q, qbits + 1, iters);
 
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
@@ -101,24 +101,68 @@ void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 }
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
-
     // Find m^e mod n and store the result in c
     pow_mod(c, m, e, n);
 }
 
-void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
-
-    if (infile && outfile) {
-        mpz_set(n, e);
+// Used the provided pseudocode for this function from Elmer in Discord
+uint32_t lg(mpz_t n) {
+    
+    uint32_t k = 0;
+    mpz_abs(n, n);
+    while (mpz_cmp(n, 0) > 0) {
+        mpz_fdiv_q_ui(n, n, 2);
+        k += 1;
     }
+    return k;
+}
+
+
+// Used the steps from Dr. Long for this function
+void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
+    
+    uint32_t k = (lg(n) - 1) / 8;
+    uint8_t *array = (uint8_t *) calloc(k, sizeof(uint8_t));
+
+    // Reallocate the array to make it size k
+    uint8_t *arr = realloc(array, sizeof(uint8_t));
+
+    mpz_t m, c;
+    mpz_inits(m, c, NULL);
+
+    arr[0] = 0xFF;
+
+    //fopen(infile, "w+");
+    //fopen(outfile, "w+");
+
+    // Make sure all bytes in the file have been read
+    // If the return value != k-1, it means an error occurred or the EOF was reached
+    while (fread(arr, sizeof(uint8_t), k-1, infile) == k-1) {
+        
+        // Read in at most k-1 bytes from the infile 
+        uint32_t j = fread(arr, sizeof(uint8_t), k-1, infile);
+        
+        // Convert the read bytes into an mpz_t m
+        mpz_import(m, j, 1, sizeof(uint8_t), 1, 0, arr);
+        
+        // Encrypt m
+        rsa_encrypt(c, m, e, n);
+
+        // Write the encrypted number c to the outfile
+        gmp_fprintf(outfile, "%ZX\n", c);
+    }
+
+    //fclose(infile);
+    //fclose(outfile);
+    mpz_clears(m, c, NULL);
 }
 
 void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
-
     // Find c^d mod n and store the result in m
     pow_mod(m, c, d, n);
 }
 
+// Used the steps from Dr. Long for this function
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
     if (infile && outfile) {
         mpz_set(n, d);

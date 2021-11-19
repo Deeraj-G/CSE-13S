@@ -19,7 +19,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     uint64_t qbits = nbits - pbits;
 
     make_prime(p, pbits + 1, iters);
-    make_prime(q, qbits + 1, iters);
+    make_prime(q, qbits + 2, iters);
 
     mpz_mul(product, p, q);
     mpz_set(n, product);

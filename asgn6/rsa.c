@@ -12,8 +12,8 @@
 // Used TA Eric Hernandez's pseudocode for this funcion
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
 
-    mpz_t p_min_one, q_min_one, gcd_e_n, one;
-    mpz_inits(p_min_one, q_min_one, gcd_e_n, one, NULL);
+    mpz_t p_min_one, q_min_one, gcd_e_n, one, product, t;
+    mpz_inits(p_min_one, q_min_one, gcd_e_n, one, product, t, NULL);
 
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
@@ -21,21 +21,24 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     make_prime(p, pbits + 1, iters);
     make_prime(q, qbits + 1, iters);
 
+    mpz_mul(product, p, q);
+    mpz_set(n, product);
+
     mpz_set_ui(one, 1);
 
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
-    mpz_mul(n, p_min_one, q_min_one);
+    mpz_mul(t, p_min_one, q_min_one);
 
     mp_bitcnt_t en = nbits;
 
     do {
         mpz_urandomb(e, state, en);
-        gcd(gcd_e_n, e, n);
+        gcd(gcd_e_n, e, t);
     } while (mpz_cmp(gcd_e_n, one) > 0);
 
     //mpz_set(e, gcd_e_n);
-    mpz_clears(p_min_one, q_min_one, gcd_e_n, one, NULL);
+    mpz_clears(p_min_one, q_min_one, gcd_e_n, one, product, t, NULL);
 }
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {

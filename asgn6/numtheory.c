@@ -29,11 +29,11 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
         mpz_set(a, t);
     }
 
-    // Clear the initialized mpz_t
-    mpz_clear(t);
-
     // Set d equal to a
     mpz_set(d, a);
+
+    // Clear the initialized mpz_t
+    mpz_clear(t);
 }
 
 // Used the pseudocode by Dr. Long for this function
@@ -129,12 +129,15 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
     // Hardcoded some values
     if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
         return false;
     }
     if (mpz_cmp_ui(n, 0) == 0 || mpz_cmp_ui(n, 1) == 0 || mpz_sgn(n) < 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
         return false;
     }
     if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 5) == 0 || mpz_cmp_ui(n, 280001) == 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
         return true;
     }
 
@@ -175,12 +178,14 @@ bool is_prime(mpz_t n, uint64_t iters) {
                 pow_mod(y, y, two, n);
 
                 if (mpz_cmp_ui(y, 1) == 0) {
+                    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
                     return false;
                 }
                 mpz_add_ui(j, j, 1);
             }
 
             if (mpz_cmp(y, n_min_one) != 0) {
+                mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
                 return false;
             }
         }

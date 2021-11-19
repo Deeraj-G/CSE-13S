@@ -140,7 +140,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
         mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
         return false;
     }
-    if (mpz_cmp_ui(n, 3) == 0 || mpz_cmp_ui(n, 5) == 0 || mpz_cmp_ui(n, 280001) == 0) {
+    if (mpz_cmp_ui(n, 3) == 0) {
         mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
         return true;
     }

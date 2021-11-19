@@ -22,7 +22,7 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
     mpz_t t;
     mpz_init(t);
 
-    while (mpz_cmp_ui(b, 0) != 0) {
+    while (mpz_cmp_ui(be, 0) != 0) {
 
         // Set d to b
         mpz_set(t, be);

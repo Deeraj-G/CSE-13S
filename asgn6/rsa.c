@@ -120,26 +120,27 @@ uint32_t lg(mpz_t n) {
 }
 
 // Used the steps from Dr. Long for this function
+// Got the idea of feof(infile) from Miles on Discord and tutor Eric Hernandez
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
 
-    uint32_t k = (lg(n) - 1) / 8;
-    uint8_t *array = (uint8_t *) calloc(k, sizeof(uint8_t));
+    size_t k = (lg(n) - 1) / 8;
+    size_t j = 0;
+    uint8_t *array = calloc(k, sizeof(uint8_t));
 
     mpz_t m, c;
     mpz_inits(m, c, NULL);
 
     array[0] = 0xFF;
 
-    uint32_t j;
-    //fopen(infile, "w+");
-    //fopen(outfile, "w+");
-
     // Make sure all bytes in the file have been read
     // If the return value != k-1, it means an error occurred or the EOF was reached
-    while ((j = fread(array + 1, sizeof(uint8_t), k - 1, infile)) == k - 1) {
+    while (feof(infile) == 0) {
+
+        // 
+        j = fread(array + 1, sizeof(uint8_t), k - 1, infile);
 
         // Convert the read bytes into an mpz_t m
-        mpz_import(m, j, 1, sizeof(uint8_t), 1, 0, array);
+        mpz_import(m, j + 1, 1, sizeof(uint8_t), 1, 0, array);
 
         // Encrypt m and put the message in c
         rsa_encrypt(c, m, e, n);
@@ -148,9 +149,8 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
         gmp_fprintf(outfile, "%ZX\n", c);
     }
 
-    //fclose(infile);
-    //fclose(outfile);
     mpz_clears(m, c, NULL);
+    free(array);
 }
 
 void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
@@ -159,21 +159,22 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 }
 
 // Used the steps from Dr. Long for this function
+// Got the parameters of mpz_export from tutor Eric Hernandex
+// Got the idea of feof(infile) from Miles on Discord and tutor Eric Hernandez
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 
-    uint32_t k = (lg(n) - 1) / 8;
-    uint8_t *array = (uint8_t *) calloc(k, sizeof(uint8_t));
+    size_t k = (lg(n) - 1) / 8;
+    size_t j = 0;
+    uint8_t *array = calloc(k, sizeof(uint8_t));
 
     mpz_t m, c;
     mpz_inits(m, c, NULL);
 
     array[0] = 0xFF;
 
-    size_t j;
-
     // Make sure all bytes in the file have been read
     // If the return value != k-1, it means an error occurred or the EOF was reached
-    while ((j = fwrite(array + 1, sizeof(uint8_t), k - 1, outfile)) > 0) {
+    while (feof(infile) == 0) {
 
         gmp_fscanf(infile, "%ZX\n", c);
 
@@ -181,12 +182,13 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
         rsa_decrypt(m, c, d, n);
 
         // Convert the read bytes into an mpz_t m
-        mpz_export(array + 1, &j, 1, sizeof(uint8_t), 1, 0, c);
+        mpz_export(array, &j, 1, sizeof(uint8_t), 1, 0, m);
 
         fwrite(array + 1, sizeof(uint8_t), j - 1, outfile);
     }
 
     mpz_clears(m, c, NULL);
+    free(array);
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {

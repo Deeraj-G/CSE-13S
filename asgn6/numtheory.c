@@ -200,8 +200,9 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
 // Used the pseudocode from TA Eric Hernandez's section
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
+
     mpz_urandomb(p, state, bits);
-    while (!is_prime(p, iters)) {
+    while (!is_prime(p, iters) || mpz_sizeinbase(p, 2) < bits) {
         mpz_urandomb(p, state, bits);
     }
 }

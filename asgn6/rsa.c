@@ -30,7 +30,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     do {
         mpz_urandomb(e, state, en);
         gcd(gcd_e_n, e, n);
-    } while (mpz_cmp_ui(gcd_e_n, 1) != 0);
+    } while (mpz_cmp_ui(gcd_e_n, 1) > 0);
 
     mpz_set(e, gcd_e_n);
     mpz_clears(p_min_one, q_min_one, gcd_e_n, NULL);
@@ -141,7 +141,7 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
         // Convert the read bytes into an mpz_t m
         mpz_import(m, j, 1, sizeof(uint8_t), 1, 0, array);
 
-        // Encrypt m
+        // Encrypt m and put the message in c
         rsa_encrypt(c, m, e, n);
 
         // Write the encrypted number c to the outfile
@@ -169,14 +169,19 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 
     array[0] = 0xFF;
 
-    uint32_t j;
+    size_t j;
 
     // Make sure all bytes in the file have been read
     // If the return value != k-1, it means an error occurred or the EOF was reached
-    while ((j = fread(array + 1, sizeof(uint8_t), k - 1, infile)) == k - 1) {
+    while ((j = fwrite(array + 1, sizeof(uint8_t), k - 1, outfile)) > 0) {
+
+        gmp_fscanf(infile, "%ZX\n", c);
+
+        // Decrypt c and put the message in m
+        rsa_decrypt(m, c, d, n);
 
         // Convert the read bytes into an mpz_t m
-        mpz_export(c, j, 1, sizeof(uint8_t), 1, 0, array);
+        mpz_export(array + 1, &j, 1, sizeof(uint8_t), 1, 0, c);
 
         fwrite(array + 1, sizeof(uint8_t), j - 1, outfile);
     }

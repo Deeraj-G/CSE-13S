@@ -15,7 +15,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_t p_min_one, q_min_one, gcd_e_n, one, product, t, rand;
     mpz_inits(p_min_one, q_min_one, gcd_e_n, one, product, t, rand, NULL);
 
-    uint64_t pbits = (random() % (nbits / 2) + 1) + (nbits / 4);
+    uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
     uint64_t qbits = nbits - pbits;
 
     make_prime(p, pbits + 1, iters);

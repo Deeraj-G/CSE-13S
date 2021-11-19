@@ -206,4 +206,3 @@ void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
         mpz_urandomb(p, state, bits);
     }
 }
-

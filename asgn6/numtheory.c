@@ -19,22 +19,25 @@ void gcd(mpz_t d, mpz_t a, mpz_t b) {
     mpz_set(ay, a);
     mpz_set(be, b);
 
+    mpz_t t;
+    mpz_init(t);
+
     while (mpz_cmp_ui(b, 0) != 0) {
 
         // Set d to b
-        mpz_set(d, be);
+        mpz_set(t, be);
 
         // Set b to a mod b
         mpz_mod(be, ay, be);
 
         // Set a to d
-        mpz_set(ay, d);
+        mpz_set(ay, t);
     }
 
     // Set d equal to a
     mpz_set(d, ay);
 
-    mpz_clears(ay, be, NULL);
+    mpz_clears(ay, be, t, NULL);
 }
 
 // Used the pseudocode by Dr. Long for this function

@@ -131,19 +131,19 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_t n_min_one, two, r, a, upper_bound, y, j, test, n_copy;
     mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
 
-    mpz_set(n, n_copy);
+    mpz_set(n_copy, n);
 
     // Hardcoded some values
     if (mpz_mod_ui(test, n_copy, 2) == 0 && mpz_cmp_ui(n_copy, 2) != 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n, NULL);
         return false;
     }
     if (mpz_cmp_ui(n_copy, 0) == 0 || mpz_cmp_ui(n_copy, 1) == 0 || mpz_sgn(n_copy) < 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n, NULL);
         return false;
     }
     if (mpz_cmp_ui(n_copy, 3) == 0 || mpz_cmp_ui(n_copy, 5) == 0 || mpz_cmp_ui(n_copy, 280001) == 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n, NULL);
         return true;
     }
 

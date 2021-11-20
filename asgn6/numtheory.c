@@ -130,25 +130,28 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 bool is_prime(mpz_t n, uint64_t iters) {
 
     // Initialize mpz's
-    mpz_t n_min_one, two, r, a, upper_bound, y, j, test;
-    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    mpz_t n_min_one, two, r, a, upper_bound, y, j, test, n_copy;
+    mpz_inits(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
+
+    // Temp variable for n
+    mpz_set(n_copy, n);
 
     // Hardcoded some values
-    if (mpz_mod_ui(test, n, 2) == 0 && mpz_cmp_ui(n, 2) != 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    if (mpz_mod_ui(test, n_copy, 2) == 0 && mpz_cmp_ui(n_copy, 2) != 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
         return false;
     }
-    if (mpz_cmp_ui(n, 0) == 0 || mpz_cmp_ui(n, 1) == 0 || mpz_sgn(n) < 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    if (mpz_cmp_ui(n_copy, 0) == 0 || mpz_cmp_ui(n_copy, 1) == 0 || mpz_sgn(n_copy) < 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
         return false;
     }
-    if (mpz_cmp_ui(n, 3) == 0) {
-        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    if (mpz_cmp_ui(n_copy, 3) == 0) {
+        mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
         return true;
     }
 
     // Set n_min_one equal to n-1
-    mpz_sub_ui(n_min_one, n, 1);
+    mpz_sub_ui(n_min_one, n_copy, 1);
 
     mp_bitcnt_t s = 2;
 
@@ -161,11 +164,11 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
     for (uint64_t i = 0; i < iters; i++) {
 
-        mpz_sub_ui(upper_bound, n, 3);
+        mpz_sub_ui(upper_bound, n_copy, 3);
         mpz_urandomm(a, state, upper_bound);
         mpz_add_ui(a, a, 2);
 
-        pow_mod(y, a, r, n);
+        pow_mod(y, a, r, n_copy);
 
         if ((mpz_cmp_ui(y, 1) != 0) && mpz_cmp(y, n_min_one) != 0) {
 
@@ -181,22 +184,22 @@ bool is_prime(mpz_t n, uint64_t iters) {
                 mpz_set_ui(two, 2);
 
                 // Set y equal to power_mod(y,2,n)
-                pow_mod(y, y, two, n);
+                pow_mod(y, y, two, n_copy);
 
                 if (mpz_cmp_ui(y, 1) == 0) {
-                    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+                    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
                     return false;
                 }
                 mpz_add_ui(j, j, 1);
             }
 
             if (mpz_cmp(y, n_min_one) != 0) {
-                mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+                mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
                 return false;
             }
         }
     }
-    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, NULL);
+    mpz_clears(n_min_one, two, r, a, upper_bound, y, j, test, n_copy, NULL);
     return true;
 }
 

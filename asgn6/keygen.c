@@ -68,7 +68,6 @@ int main(int argc, char **argv) {
     }
 
     fchmod(fileno(pvfile), 0600);
-    fchmod(fileno(pbfile), 0600);
 
     randstate_init(seed);
 

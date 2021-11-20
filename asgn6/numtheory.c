@@ -92,35 +92,37 @@ void mod_inverse(mpz_t i, mpz_t a, mpz_t n) {
 // Used the pseudocode by Dr. Long for this function
 void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
-    mpz_t v, p, d;
-    mpz_inits(v, p, d, NULL);
+    mpz_t v, p, d, exp, mod;
+    mpz_inits(v, p, d, exp, mod, NULL);
 
     mpz_set_ui(v, 1);
 
     mpz_set(p, base);
+    mpz_set(exp, exponent);
+    mpz_set(mod, modulus);
 
-    while (mpz_cmp_ui(exponent, 0) > 0) {
+    while (mpz_cmp_ui(exp, 0) > 0) {
 
         // Create a temporary variable to check if the exponent is odd
-        mpz_set(d, exponent);
+        mpz_set(d, exp);
 
         // Check if d is odd
         if (mpz_mod_ui(d, d, 2) == 1) {
 
             // Set v equal to (v*p) mod n
             mpz_mul(v, v, p);
-            mpz_mod(v, v, modulus);
+            mpz_mod(v, v, mod);
         }
 
         // Set p equal to (p*p) mod n
         mpz_mul(p, p, p);
-        mpz_mod(p, p, modulus);
+        mpz_mod(p, p, mod);
 
         // Set d equal to d / 2
-        mpz_fdiv_q_ui(exponent, exponent, 2);
+        mpz_fdiv_q_ui(exp, exp, 2);
     }
     mpz_set(out, v);
-    mpz_clears(v, p, d, NULL);
+    mpz_clears(v, p, d, exp, mod, NULL);
 }
 
 // Got most of is_prime from TA Eric Hernandez's section

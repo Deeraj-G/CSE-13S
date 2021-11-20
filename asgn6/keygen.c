@@ -13,6 +13,8 @@
 
 #define OPTIONS "hvb:i:n:d:s:"
 
+// Used pseudocode from tutor Eric Hernandez for this file
+
 void usage(char *exec) {
     fprintf(stderr,
         "SYNOPSIS\n"

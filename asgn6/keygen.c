@@ -93,5 +93,7 @@ int main(int argc, char **argv) {
     fclose(pvfile);
     fclose(pbfile);
 
+    randstate_clear();
+
     mpz_clears(s, p, q, n, e, d, NULL);
 }

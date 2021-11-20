@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <gmp.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -38,7 +39,7 @@ int main(int argc, char **argv) {
     char *pvname = "rsa.priv";
 
     int opt = 0;
-    int seed = 2021;
+    int seed = time(NULL);
     int iters = 50;
     int bits = 256;
     bool verbose = false;

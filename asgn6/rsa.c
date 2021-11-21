@@ -208,5 +208,4 @@ bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
     }
 
     mpz_clear(t);
-
 }

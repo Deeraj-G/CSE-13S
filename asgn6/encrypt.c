@@ -12,7 +12,7 @@
 #include "rsa.h"
 #include "randstate.h"
 
-# define OPTIONS "hvi:o:n:"
+#define OPTIONS "hvi:o:n:"
 
 void usage(char *exec) {
     fprintf(stderr,
@@ -90,10 +90,4 @@ int main(int argc, char **argv) {
     fclose(pbfile);
 
     mpz_clears(m, n, e, s, NULL);
-
-
-
-
-
-
 }

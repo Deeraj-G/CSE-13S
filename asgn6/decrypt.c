@@ -69,21 +69,21 @@ int main(int argc, char **argv) {
         printf("ERROR: Invalid Private File");
     }
 
-    mpz_t n, e;
-    mpz_inits(n, e, NULL);
+    mpz_t n, d;
+    mpz_inits(n, d, NULL);
 
-    rsa_read_priv(n, e, pvfile);
+    rsa_read_priv(n, d, pvfile);
 
     if (verbose == true) {
-        gmp_printf("n (%Zu bits) = %Zd\n", mpz_sizeinbase(n, 2), n);
-        gmp_printf("e (%Zu bits) = %Zd\n", mpz_sizeinbase(e, 2), e);
+        gmp_printf("n (%zu bits) = %Zd\n", mpz_sizeinbase(n, 2), n);
+        gmp_printf("e (%zu bits) = %Zd\n", mpz_sizeinbase(d, 2), d);
     }
 
-    rsa_decrypt_file(infile, outfile, n, e);
+    rsa_decrypt_file(infile, outfile, n, d);
 
     fclose(infile);
     fclose(outfile);
     fclose(pvfile);
 
-    mpz_clears(n, e, NULL);
+    mpz_clears(n, d, NULL);
 }

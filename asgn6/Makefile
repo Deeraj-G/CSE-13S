@@ -32,7 +32,7 @@ rsa.o: rsa.c
 	$(CC) $(CFLAGS) -c rsa.c
 
 clean:
-	rm -f encrypt keygen *.o
+	rm -f encrypt decrypt keygen *.o
 
 format:
 	clang-format -i -style=file *.c *.h

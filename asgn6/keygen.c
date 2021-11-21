@@ -87,7 +87,13 @@ int main(int argc, char **argv) {
     rsa_write_priv(n, d, pvfile);
 
     if (verbose == true) {
-        gmp_fprintf(pvfile, "%Zx", getenv("USER"));
+        gmp_printf("user = %Zs", getenv("USER"));
+        gmp_printf("%s (%Zu bits) = %Zd\n", s, mpz_sizeinbase(s, 2), s);
+        gmp_printf("%s (%Zu bits) = %Zd\n", p, mpz_sizeinbase(p, 2), p);
+        gmp_printf("%s (%Zu bits) = %Zd\n", q, mpz_sizeinbase(q, 2), q);
+        gmp_printf("%s (%Zu bits) = %Zd\n", n, mpz_sizeinbase(n, 2), n);
+        gmp_printf("%s (%Zu bits) = %Zd\n", e, mpz_sizeinbase(e, 2), e);
+        gmp_printf("%s (%Zu bits) = %Zd\n", d, mpz_sizeinbase(d, 2), d);
     }
 
     fclose(pvfile);

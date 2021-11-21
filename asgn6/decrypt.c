@@ -75,9 +75,8 @@ int main(int argc, char **argv) {
     rsa_read_priv(n, e, pvfile);
 
     if (verbose == true) {
-
-        gmp_printf("%s (%Zu bits) = %Zd\n", n, mpz_sizeinbase(n, 2), n);
-        gmp_printf("%s (%Zu bits) = %Zd\n", e, mpz_sizeinbase(e, 2), e);
+        gmp_printf("n (%Zu bits) = %Zd\n", mpz_sizeinbase(n, 2), n);
+        gmp_printf("e (%Zu bits) = %Zd\n", mpz_sizeinbase(e, 2), e);
     }
 
     rsa_decrypt_file(infile, outfile, n, e);

@@ -46,13 +46,13 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     // Print n to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX\n", n);
+    gmp_fprintf(pbfile, "%Zx\n", n);
 
     // Print e to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX\n", e);
+    gmp_fprintf(pbfile, "%Zx\n", e);
 
     // Print s to the pbfile using the mpz_t format specifier
-    gmp_fprintf(pbfile, "%ZX\n", s);
+    gmp_fprintf(pbfile, "%Zx\n", s);
 
     // Print username to the pbfile using the string format specifier
     gmp_fprintf(pbfile, "%s\n", username);
@@ -61,13 +61,13 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 
     // Scan n from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX\n", n);
+    gmp_fscanf(pbfile, "%Zx\n", n);
 
     // Scan e from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX\n", e);
+    gmp_fscanf(pbfile, "%Zx\n", e);
 
     // Scan s from the pbfile with the mpz_t format specifier
-    gmp_fscanf(pbfile, "%ZX\n", s);
+    gmp_fscanf(pbfile, "%Zx\n", s);
 
     // Scan username from the pbfile with the string format specifier
     gmp_fscanf(pbfile, "%s\n", username);
@@ -94,19 +94,19 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 
     // Print n to the pvfile using the mpz_t format specifier
-    gmp_fprintf(pvfile, "%ZX\n", n);
+    gmp_fprintf(pvfile, "%Zx\n", n);
 
     // Print d to the pvfile using the mpz_t format specifier
-    gmp_fprintf(pvfile, "%ZX\n", d);
+    gmp_fprintf(pvfile, "%Zx\n", d);
 }
 
 void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 
     // Scan n from the pvfile with the mpz_t format specifier
-    gmp_fscanf(pvfile, "%ZX\n", n);
+    gmp_fscanf(pvfile, "%Zx\n", n);
 
     // Scan d from the pvfile with the mpz_t format specifier
-    gmp_fscanf(pvfile, "%ZX\n", d);
+    gmp_fscanf(pvfile, "%Zx\n", d);
 }
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
@@ -114,23 +114,11 @@ void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
     pow_mod(c, m, e, n);
 }
 
-// Used the provided pseudocode for this function from Elmer in Discord
-uint32_t lg(mpz_t n) {
-
-    uint32_t k = 0;
-    mpz_abs(n, n);
-    while (mpz_cmp(n, 0) > 0) {
-        mpz_fdiv_q_ui(n, n, 2);
-        k += 1;
-    }
-    return k;
-}
-
 // Used the steps from Dr. Long for this function
 // Got the idea of feof(infile) from Miles on Discord and tutor Eric Hernandez
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
 
-    size_t k = (lg(n) - 1) / 8;
+    size_t k = (mpz_sizeinbase(n, 2) - 1) / 8;
     size_t j = 0;
     uint8_t *array = calloc(k, sizeof(uint8_t));
 
@@ -153,7 +141,7 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
         rsa_encrypt(c, m, e, n);
 
         // Write the encrypted number c to the outfile
-        gmp_fprintf(outfile, "%ZX\n", c);
+        gmp_fprintf(outfile, "%Zx\n", c);
     }
 
     mpz_clears(m, c, NULL);
@@ -170,28 +158,32 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 // Got the idea of feof(infile) from Miles on Discord and tutor Eric Hernandez
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 
-    size_t k = (lg(n) - 1) / 8;
-    size_t j = 0;
+    size_t k = (mpz_sizeinbase(n, 2) - 1) / 8;
     uint8_t *array = calloc(k, sizeof(uint8_t));
+    size_t j;
 
     mpz_t m, c;
     mpz_inits(m, c, NULL);
 
-    array[0] = 0xFF;
+    //array[0] = 0xFF;
 
     // Make sure all bytes in the file have been read
     // If the return value != k-1, it means an error occurred or the EOF was reached
     while (feof(infile) == 0) {
 
-        gmp_fscanf(infile, "%ZX\n", c);
+        gmp_fscanf(infile, "%Zx\n", c);
 
-        // Decrypt c and put the message in m
-        rsa_decrypt(m, c, d, n);
+        // c should return a valid value
+        if (mpz_cmp_ui(c, 0) > 0) {
 
-        // Convert the read bytes into an mpz_t m
-        mpz_export(array, &j, 1, sizeof(uint8_t), 1, 0, m);
+            // Decrypt c and put the message in m
+            rsa_decrypt(m, c, d, n);
 
-        fwrite(array + 1, sizeof(uint8_t), j - 1, outfile);
+            // Convert the read bytes into an mpz_t m
+            mpz_export(array, &j, 1, sizeof(uint8_t), 1, 0, m);
+
+            fwrite(array + 1, sizeof(uint8_t), j - 1, outfile);
+        }
     }
 
     mpz_clears(m, c, NULL);

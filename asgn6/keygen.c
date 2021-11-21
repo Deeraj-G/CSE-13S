@@ -88,12 +88,12 @@ int main(int argc, char **argv) {
 
     if (verbose == true) {
         printf("user = %s\n", getenv("USER"));
-        gmp_printf("s (%zu bits) = %Zd\n", mpz_sizeinbase(s, 2), s);
-        gmp_printf("p (%zu bits) = %Zd\n", mpz_sizeinbase(p, 2), p);
-        gmp_printf("q (%zu bits) = %Zd\n", mpz_sizeinbase(q, 2), q);
-        gmp_printf("n (%zu bits) = %Zd\n", mpz_sizeinbase(n, 2), n);
-        gmp_printf("e (%zu bits) = %Zd\n", mpz_sizeinbase(e, 2), e);
-        gmp_printf("d (%zu bits) = %Zd\n", mpz_sizeinbase(d, 2), d);
+        gmp_printf("s (%d bits) = %Zd\n", mpz_sizeinbase(s, 2), s);
+        gmp_printf("p (%d bits) = %Zd\n", mpz_sizeinbase(p, 2), p);
+        gmp_printf("q (%d bits) = %Zd\n", mpz_sizeinbase(q, 2), q);
+        gmp_printf("n (%d bits) = %Zd\n", mpz_sizeinbase(n, 2), n);
+        gmp_printf("e (%d bits) = %Zd\n", mpz_sizeinbase(e, 2), e);
+        gmp_printf("d (%d bits) = %Zd\n", mpz_sizeinbase(d, 2), d);
     }
 
     fclose(pvfile);

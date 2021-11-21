@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
     rsa_write_priv(n, d, pvfile);
 
     if (verbose == true) {
-        gmp_fprintf(pvfile, "%ZX", getenv("USER"));
+        gmp_fprintf(pvfile, "%Zx", getenv("USER"));
     }
 
     fclose(pvfile);

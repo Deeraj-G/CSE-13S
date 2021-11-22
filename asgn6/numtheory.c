@@ -14,14 +14,11 @@
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
     // Initialize variables to hold the values of the parameters
-    mpz_t ay, be;
-    mpz_inits(ay, be, NULL);
+    mpz_t ay, be, t;
+    mpz_inits(ay, be, t, NULL);
 
     mpz_set(ay, a);
     mpz_set(be, b);
-
-    mpz_t t;
-    mpz_init(t);
 
     while (mpz_cmp_ui(be, 0) != 0) {
 

@@ -17,6 +17,7 @@
 // Used pseudocode from tutor Eric Hernandez for this file
 // Used the steps listed in the asgn6.pdf doc by Dr. Long for this program
 
+// Print this by default or when -h is specified
 void usage(char *exec) {
     fprintf(stderr,
         "SYNOPSIS\n"
@@ -36,15 +37,18 @@ void usage(char *exec) {
 
 int main(int argc, char **argv) {
 
+    // Initialize the default file for pbfile and pvfile
     char *pbname = "rsa.pub";
     char *pvname = "rsa.priv";
 
+    // Initialize the default values of the command line specifications
     int opt = 0;
     int seed = time(NULL);
     int iters = 50;
     int bits = 256;
     bool verbose = false;
 
+    // Loop through the command line options
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'b': bits = atoi(optarg); break;
@@ -58,23 +62,29 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Open the pbfile
     FILE *pbfile = fopen(pbname, "w");
     if (pbfile == NULL) {
         printf("ERROR: Invalid Public File");
     }
 
+    // Open the pvfile
     FILE *pvfile = fopen(pvname, "w");
     if (pvfile == NULL) {
         printf("ERROR: Invalid Private File");
     }
 
+    // Set the permissions for the pvfile
     fchmod(fileno(pvfile), 0600);
 
+    // Initialize the rand seed and state
     randstate_init(seed);
 
+    // Initialize the mpz's
     mpz_t s, p, q, n, e, d;
     mpz_inits(s, p, q, n, e, d, NULL);
 
+    // Followed Dr. Long's steps for the rest of the code
     rsa_make_pub(p, q, n, e, bits, iters);
 
     rsa_make_priv(d, e, p, q);
@@ -87,6 +97,7 @@ int main(int argc, char **argv) {
 
     rsa_write_priv(n, d, pvfile);
 
+    // Print out the key generation statistics if verbose is true
     if (verbose == true) {
         printf("user = %s\n", getenv("USER"));
         gmp_printf("s (%d bits) = %Zd\n", mpz_sizeinbase(s, 2), s);
@@ -97,10 +108,13 @@ int main(int argc, char **argv) {
         gmp_printf("d (%d bits) = %Zd\n", mpz_sizeinbase(d, 2), d);
     }
 
+    // Close the files
     fclose(pvfile);
     fclose(pbfile);
 
+    // Clear the randstate
     randstate_clear();
 
+    // Clear the mpz's
     mpz_clears(s, p, q, n, e, d, NULL);
 }

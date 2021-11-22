@@ -16,6 +16,7 @@
 
 // Used the steps listed in the asgn6.pdf doc by Dr. Long for this program
 
+// Print this by default or when -h is specified
 void usage(char *exec) {
     fprintf(stderr,
         "SYNOPSIS\n"
@@ -36,13 +37,16 @@ void usage(char *exec) {
 
 int main(int argc, char **argv) {
 
+    // Initialize the default file for pbfile, infile, and outfile
     char *pbname = "rsa.pub";
     FILE *infile = stdin;
     FILE *outfile = stdout;
 
+    // Initialize the default values of the command line specifications
     int opt = 0;
     bool verbose = false;
 
+    // Loop through the command line options
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'i':
@@ -64,16 +68,20 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Open the pbfile
     FILE *pbfile = fopen(pbname, "r");
     if (pbfile == NULL) {
         printf("ERROR: Invalid Public File");
     }
 
+    // Initialize the mpz's
     mpz_t m, n, e, s;
     mpz_inits(m, n, e, s, NULL);
 
+    // Read the public key from the pbfile
     rsa_read_pub(n, e, s, getenv("USER"), pbfile);
 
+    // Print out the encryption statistics if verbose is true
     if (verbose == true) {
         printf("user = %s\n", getenv("USER"));
         gmp_printf("s (%d bits) = %Zd\n", mpz_sizeinbase(s, 2), s);
@@ -81,15 +89,20 @@ int main(int argc, char **argv) {
         gmp_printf("e (%d bits) = %Zd\n", mpz_sizeinbase(e, 2), e);
     }
 
+    // Set the username
     mpz_set_str(m, getenv("USER"), 62);
 
+    // Make sure the message is the same as m
     rsa_verify(m, s, e, n);
 
+    // Encrypt the file and store the contents in the outfile
     rsa_encrypt_file(infile, outfile, n, e);
 
+    // Close the files
     fclose(infile);
     fclose(outfile);
     fclose(pbfile);
 
+    // Clear the mpz's
     mpz_clears(m, n, e, s, NULL);
 }

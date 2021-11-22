@@ -115,7 +115,7 @@ void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
 }
 
 // Used the steps from Dr. Long for this function
-// Got the idea of feof(infile) from Miles on Discord and tutor Eric Hernandez
+// Got the idea of using feof(infile) from Miles on Discord and tutor Eric Hernandez
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
 
     size_t k = (mpz_sizeinbase(n, 2) - 1) / 8;

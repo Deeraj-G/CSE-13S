@@ -2,7 +2,7 @@
 
 ## Description of Program
 
-This assignment consists of 3 different programs that  accomplish different tasks. The first program file is keygen.c, and is used as the key generator which produces RSA public and private key pairs. The second program file is encrypt.c which will encrypt files using the public key. The last program file is decrypt.c which will decrypt the encrypted files using the corresponding private key. Keygen.c accepts command line input to specify various values in and inputs. The encryptor and decryptor functions similarly take in command line inputs that specify values like the input and output files to encrypt/decrypt and enable verbose printing.
+This assignment consists of 3 different programs that  accomplish different tasks. The first program file is keygen.c, and is used as the key generator which produces RSA public and private key pairs. The second program file is encrypt.c which will encrypt files using the public key. The last program file is decrypt.c which will decrypt the encrypted files using the corresponding private key. Keygen.c accepts command line input to specify various values in and inputs. The encryptor and decryptor functions similarly take in command line inputs that specify values like the input and output files to encrypt/decrypt and enable verbose printing. There are also 3 other files called randstad.c which is used to initialize a randstad and clear a randstate, numtheory.c which computes the mathematical portion of the code such as `pow_mod`, `is_prime`, and `mod_inverse`, and rsa.c which does the reading and writing to files portion as well as the encryption and decryption of files.
 
 ## Building the Program
 

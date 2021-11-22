@@ -7,8 +7,8 @@
 #include "randstate.h"
 
 // Used Dr. Long's pseudocode for gcd, mod_inverse, pow_mod, and is_prime
-// Got most of is_prime from TA Eric Hernandez's section
-// Used the pseudocode for make_prime from TA Eric Hernandez's section
+// Got most of is_prime from tutor Eric Hernandez's section
+// Used the pseudocode for make_prime from tutor Eric Hernandez's section
 
 // Used the pseudocode by Dr. Long for this function
 void gcd(mpz_t d, mpz_t a, mpz_t b) {

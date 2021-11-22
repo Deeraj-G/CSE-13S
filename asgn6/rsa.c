@@ -12,20 +12,27 @@
 // Used TA Eric Hernandez's pseudocode for this funcion
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
 
+    // Initialize mpz's
     mpz_t p_min_one, q_min_one, gcd_e_n, one, product, t, rand;
     mpz_inits(p_min_one, q_min_one, gcd_e_n, one, product, t, rand, NULL);
 
+    // Choose a randome number between the bounds for pbits
     uint64_t pbits = (random() % (nbits / 2)) + (nbits / 4);
+
+    // Assign the rest of the bits to qbits
     uint64_t qbits = nbits - pbits;
 
+    // Make p and q prime
     make_prime(p, pbits + 1, iters);
     make_prime(q, qbits + 1, iters);
 
+    // Calculate n
     mpz_mul(product, p, q);
     mpz_set(n, product);
 
     mpz_set_ui(one, 1);
 
+    // Calculate the totient
     mpz_sub_ui(p_min_one, p, 1);
     mpz_sub_ui(q_min_one, q, 1);
     mpz_mul(t, p_min_one, q_min_one);
@@ -34,6 +41,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
     mpz_set(rand, e);
 
+    // Find a number coprime with the totient
     do {
         mpz_urandomb(rand, state, en);
         gcd(gcd_e_n, rand, t);
@@ -191,6 +199,7 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {
+    // Calculate the sign according to the formula
     pow_mod(s, m, d, n);
 }
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
@@ -198,7 +207,10 @@ bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
     mpz_t t;
     mpz_init(t);
 
+    // Calculate t according to the formula
     pow_mod(t, s, e, n);
+
+    // Make sure t equals m
     if (mpz_cmp(t, m) == 0) {
         mpz_clear(t);
         return true;

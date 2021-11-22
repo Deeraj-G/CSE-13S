@@ -13,6 +13,7 @@
 // Used the pseudocode by Dr. Long for this function
 void gcd(mpz_t d, mpz_t a, mpz_t b) {
 
+    // Initialize variables to hold the values of the parameters
     mpz_t ay, be;
     mpz_inits(ay, be, NULL);
 

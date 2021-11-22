@@ -14,6 +14,8 @@
 
 #define OPTIONS "hvi:o:n:"
 
+// Used the steps listed in the asgn6.pdf doc by Dr. Long for this program
+
 void usage(char *exec) {
     fprintf(stderr,
         "SYNOPSIS\n"

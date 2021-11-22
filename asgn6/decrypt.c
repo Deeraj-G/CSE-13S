@@ -15,6 +15,7 @@
 #define OPTIONS "i:o:n:vh"
 
 // Used pseudocode from tutor Eric Hernandez for this file
+// Used the steps listed in the asgn6.pdf doc by Dr. Long for this program
 
 void usage(char *exec) {
     fprintf(stderr,

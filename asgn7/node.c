@@ -3,12 +3,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 // Create a node with struct members initialized
 Node *node_create(char *oldspeak, char *newspeak) {
     Node *n = (Node *) malloc(sizeof(Node));
-    n->oldspeak = oldspeak;
-    n->newspeak = newspeak;
+    n->oldspeak = strdup(oldspeak);
+    n->newspeak = strdup(newspeak);
     Node *left = NULL;
     Node *right = = NULL;
     return n;
@@ -16,13 +17,18 @@ Node *node_create(char *oldspeak, char *newspeak) {
 
 // Delete the node and free the allocated memory
 void node_delete(Node **n) {
-    // Don't have to free the left and right child because a recursive call will free them
+    free(n->oldspeak);
+    free(n->newspeak);
     free(*n);
-    *n = NULL;
+    *n = NULL; 
 }
 
 // Print the struct members
 void node_print(Node *n) {
-    printf("The oldspeak is: %s\n", n->oldspeak);
-    printf("The newspeak  is: %s\n", n->newspeak);
+    if ((n->oldspeak != NULL) && (n->newspeak != NULL)) {
+        printf("%s -> %s\n", n->oldspeak , n->newspeak);
+    }
+    else if ((n->oldspeak != NULL) && (n->newspeak == NULL)) {
+        printf("%s\n", n->oldspeak);
+    }
 }

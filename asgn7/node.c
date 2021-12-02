@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+// Got node_print from the asgn7 pdf by Dr. Long
+
 // Create a node with struct members initialized
 Node *node_create(char *oldspeak, char *newspeak) {
     Node *n = (Node *) malloc(sizeof(Node));
@@ -21,7 +23,10 @@ Node *node_create(char *oldspeak, char *newspeak) {
 // Delete the node and free the allocated memory
 void node_delete(Node **n) {
     free((*n)->oldspeak);
-    free((*n)->newspeak);
+    // Take care of the case where newspeak equals NULL
+    if ((*n)->newspeak != NULL) {
+        free((*n)->newspeak);
+    }
     free(*n);
     *n = NULL;
 }

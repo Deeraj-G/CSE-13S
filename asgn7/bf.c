@@ -7,9 +7,9 @@
 #include <stdlib.h>
 
 struct BloomFilter {
-    uint64_t primary [2]; // Primary hash function salt .
-    uint64_t secondary [2]; // Secondary hash function salt .
-    uint64_t tertiary [2]; // Tertiary hash function salt .
+    uint64_t primary[2]; // Primary hash function salt .
+    uint64_t secondary[2]; // Secondary hash function salt .
+    uint64_t tertiary[2]; // Tertiary hash function salt .
     BitVector *filter;
 };
 

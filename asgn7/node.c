@@ -16,8 +16,8 @@ Node *node_create(char *oldspeak, char *newspeak) {
 
 // Delete the node and free the allocated memory
 void node_delete(Node **n) {
-    free(n->oldspeak);
-    free(n->newspeak);
+    free((*n)->oldspeak);
+    free((*n)->newspeak);
     free(*n);
     *n = NULL;
 }

@@ -1,5 +1,4 @@
 #include "node.h"
-#include "defines.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,8 +9,8 @@ Node *node_create(char *oldspeak, char *newspeak) {
     Node *n = (Node *) malloc(sizeof(Node));
     n->oldspeak = strdup(oldspeak);
     n->newspeak = strdup(newspeak);
-    Node *left = NULL;
-    Node *right = = NULL;
+    n->left = NULL;
+    n->right = NULL;
     return n;
 }
 
@@ -20,15 +19,14 @@ void node_delete(Node **n) {
     free(n->oldspeak);
     free(n->newspeak);
     free(*n);
-    *n = NULL; 
+    *n = NULL;
 }
 
 // Print the struct members
 void node_print(Node *n) {
     if ((n->oldspeak != NULL) && (n->newspeak != NULL)) {
-        printf("%s -> %s\n", n->oldspeak , n->newspeak);
-    }
-    else if ((n->oldspeak != NULL) && (n->newspeak == NULL)) {
+        printf("%s -> %s\n", n->oldspeak, n->newspeak);
+    } else if ((n->oldspeak != NULL) && (n->newspeak == NULL)) {
         printf("%s\n", n->oldspeak);
     }
 }

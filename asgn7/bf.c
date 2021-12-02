@@ -21,5 +21,6 @@ BloomFilter *bf_create(uint32_t size) {
     bf->secondary[1] = SALT_SECONDARY_HI;
     bf->tertiary[0] = SALT_HASHTABLE_LO;
     bf->tertiary[1] = SALT_HASHTABLE_HI;
-    *filter = bv_create(size);
+    bf->filter = bv_create(size);
+    return bf;
 }

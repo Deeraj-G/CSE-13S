@@ -5,11 +5,10 @@
 #include <inttypes.h>
 #include <stdlib.h>
 
-
 struct HashTable {
-    uint64_t salt [2];
-    uint32_t size ;
-    Node ** trees ;
+    uint64_t salt[2];
+    uint32_t size;
+    Node **trees;
 };
 
 HashTable *ht_create(uint32_t size) {
@@ -18,4 +17,3 @@ HashTable *ht_create(uint32_t size) {
     ht->salt[1] = SALT_HASHTABLE_HI;
     // Create a Node *trees
 }
-

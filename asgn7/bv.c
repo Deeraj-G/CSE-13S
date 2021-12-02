@@ -19,7 +19,7 @@ BitVector *bv_create(uint32_t length) {
         return NULL;
     } else {
         bv->length = length;
-        bv->vector = NULL;
+        bv->vector = 0;
         for (uint8_t i = 0; i < bv->length * 8; i++) {
             bv->vector[i] = 0;
         }

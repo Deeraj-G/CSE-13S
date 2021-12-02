@@ -5,6 +5,7 @@
 #include <string.h>
 
 // Got node_print from the asgn7 pdf by Dr. Long
+// Got the idea to do the if/else statement for n->oldspeak from tutor Eric Hernandez
 
 // Create a node with struct members initialized
 Node *node_create(char *oldspeak, char *newspeak) {

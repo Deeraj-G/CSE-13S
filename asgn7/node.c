@@ -35,7 +35,11 @@ Node *node_create(char *oldspeak, char *newspeak) {
 
 // Delete the node and free the allocated memory
 void node_delete(Node **n) {
-    free((*n)->oldspeak);
+
+    // Take care of the case where oldspeak equals NULL
+    if ((*n)->oldspeak != NULL) {
+        free((*n)->oldspeak);
+    }
     // Take care of the case where newspeak equals NULL
     if ((*n)->newspeak != NULL) {
         free((*n)->newspeak);

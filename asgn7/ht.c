@@ -76,6 +76,5 @@ double ht_avg_bst_height(HashTable *ht) {
 }
 
 void ht_print(HashTable *ht) {
-    // Just have something so makefile passes
-    ht->size = 1;
+    printf("Hash Table Size: %d\n", ht_size(ht));
 }

@@ -75,7 +75,8 @@ bool bv_clr_bit(BitVector *bv, uint32_t i) {
 bool bv_get_bit(BitVector *bv, uint32_t i) {
 
     // Make sure i is within bounds
-    if (i < 0 || i >= (bv->length) || ((bv->vector[i / 8] >> i % 8) & 0x1) == 0) {
+    if (i < 0 || i >= (bv->length)
+        || ((bv->vector[i / BITS_PER_UNIT] >> i % BITS_PER_UNIT) & 0x1) == 0) {
         return false;
     }
     // Got this from the bv8.h file by Dr. Long

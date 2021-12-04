@@ -47,6 +47,7 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     Node *a = root;
     Node *b = NULL;
     if (oldspeak != NULL) {
+        // Make sure there aren't any duplicates of the oldspeak
         while ((a != NULL) && (a->oldspeak != oldspeak)) {
             b = a;
             if (strcmp(a->oldspeak, oldspeak) > 0) {

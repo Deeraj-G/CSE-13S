@@ -49,7 +49,7 @@ uint32_t bv_length(BitVector *bv) {
 bool bv_set_bit(BitVector *bv, uint32_t i) {
 
     // Make sure i is within bounds
-    if (i < 0 || i >= (bv->length * 8)) {
+    if (i < 0 || i >= (bv->length)) {
         return false;
     } else if (bv && bv->vector) {
         // Got this from the bv8.h file by Dr. Long
@@ -62,7 +62,7 @@ bool bv_set_bit(BitVector *bv, uint32_t i) {
 bool bv_clr_bit(BitVector *bv, uint32_t i) {
 
     // Make sure i is within bounds
-    if (i < 0 || i >= (bv->length * 8)) {
+    if (i < 0 || i >= (bv->length)) {
         return false;
     } else if (bv && bv->vector) {
         // Got this from the bv8.h file by Dr. Long

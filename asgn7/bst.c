@@ -7,7 +7,7 @@
 #include <string.h>
 #define max(x, y) x > y ? x : y
 
-// Got most of bst.c from tutor Eric Hernandez
+// Got bst.c from tutor Eric Hernandez
 
 extern uint64_t branches;
 
@@ -42,13 +42,39 @@ Node *bst_find(Node *root, char *oldspeak) {
     }
     return curr;
 }
-/*
+
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
+    Node *a = root;
+    Node *b = NULL;
+    // Make sure there aren't any duplicates of the oldspeak
+    if (bst_find(root, oldspeak) != NULL) {
+        if (oldspeak != NULL) {
+            while (a != NULL) {
+                b = a;
+                if (strcmp(a->oldspeak, oldspeak) > 0) {
+                    a = a->left;
+                } else {
+                    a = a->right;
+                }
+            }
+        }
+
+        if (b == NULL) {
+            b = node_create(oldspeak, newspeak);
+        } else if (strcmp(b->oldspeak, oldspeak) > 0) {
+            b->left = node_create(oldspeak, newspeak);
+        } else {
+            b->right = node_create(oldspeak, newspeak);
+        }
+    }
+    return b;
 }
 
 void bst_print(Node *root) {
+    Node *a = root;
+    a = a->left;
 }
-*/
+
 void bst_delete(Node **root) {
     if (&(*root) != NULL) {
         if ((*root)->left != NULL) {

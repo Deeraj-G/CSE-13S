@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 // Got everything except bf_create from tutor Eric Hernandez
 

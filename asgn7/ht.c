@@ -5,8 +5,9 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include "speck.h"
 
-// Used tutor Eric Hernandez's pseudocode for most of ht.c
+// Used tutor Eric Hernandez's pseudocode for ht.c
 
 struct HashTable {
     uint64_t salt[2];
@@ -14,7 +15,6 @@ struct HashTable {
     Node **trees;
 };
 
-// Got most of this function from tutor Eric Hernandez
 HashTable *ht_create(uint32_t size) {
     HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
     ht->salt[0] = SALT_HASHTABLE_LO;
@@ -24,7 +24,6 @@ HashTable *ht_create(uint32_t size) {
     return ht;
 }
 
-// Got this function from tutor Eric Hernandez
 void ht_delete(HashTable **ht) {
     for (uint32_t i = 0; i < (*ht)->size; i++) {
         if ((*ht)->trees[i] != NULL) {
@@ -40,30 +39,43 @@ uint32_t ht_size(HashTable *ht) {
     return ht->size;
 }
 
-/*
-// Got this function from tutor Eric Hernandez
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
-    
-
+    uint32_t index = hash(ht->salt, oldspeak) % ht->size;
+    return bst_find(ht->trees[index], oldspeak);
 }
 
-// Got this function from tutor Eric Hernandez
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
+    uint32_t index = hash(ht->salt, oldspeak) % ht->size;
+    ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
 }
 
-// Got this function from tutor Eric Hernandez
 uint32_t ht_count(HashTable *ht) {
+    uint32_t count = 0;
+    for (uint32_t i = 0; i < ht->size; i++) {
+        if (ht->trees[i] != NULL) {
+            count++;
+        }
+    }
+    return count;
 }
 
-// Got this function from tutor Eric Hernandez
-uint32_t ht_count(HashTable *ht) {
-}
-
-// Got this function from tutor Eric Hernandez
 double ht_avg_bst_size(HashTable *ht) {
+    double avg_size = 0;
+    for (uint32_t i = 0; i < ht->size; i++) {
+        avg_size = bst_size(ht->trees[i]);
+    }
+    return avg_size / ht_count(ht);
 }
 
+double ht_avg_bst_height(HashTable *ht) {
+    double avg_height = 0;
+    for (uint32_t i = 0; i < ht->size; i++) {
+        avg_height += bst_height(ht->trees[i]);
+    }
+    return avg_height / ht_count(ht);
+}
 
 void ht_print(HashTable *ht) {
+    // Just have something so makefile passes
+    ht->size = 1;
 }
-*/

@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
-#include <sys/types.h>
+#include "speck.h"
 
 // Got everything except bf_create from tutor Eric Hernandez
 
@@ -28,8 +28,8 @@ BloomFilter *bf_create(uint32_t size) {
     return bf;
 }
 
-void bf_delete(BloofFilter **bf) {
-    bv_delete(&(*bf)->fileter);
+void bf_delete(BloomFilter **bf) {
+    bv_delete(&(*bf)->filter);
     free(*bf);
     *bf = NULL;
 }
@@ -44,8 +44,5 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
     bv_set_bit(bf->filter, hash(bf->tertiary, oldspeak) % bf_size(bf));
 }
 
-bool bf_probe(BloomFilter *bf, char *oldspeak) {
-    
-}
-
-
+//bool bf_probe(BloomFilter *bf, char *oldspeak) {
+//}

@@ -19,7 +19,7 @@ struct HashTable {
 
 // Create a HashTable
 HashTable *ht_create(uint32_t size) {
-    HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
+    HashTable *ht = (HashTable *) calloc(size, sizeof(HashTable));
     ht->salt[0] = SALT_HASHTABLE_LO;
     ht->salt[1] = SALT_HASHTABLE_HI;
     ht->trees = (Node **) calloc(size, sizeof(Node *));

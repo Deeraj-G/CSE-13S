@@ -133,12 +133,9 @@ int main(int argc, char **argv) {
 
         if (bf_probe(bf, word) == true) {
             Node *n = ht_lookup(ht, word);
-            printf("oldspeak: %s, newspeak: %s\n", n->oldspeak, n->newspeak);
             if (n != NULL && n->newspeak == NULL) {
-                printf("ded\n");
                 badmsg = bst_insert(badmsg, n->oldspeak, n->newspeak);
             } else if (n != NULL && n->newspeak != NULL) {
-                printf("ded\n");
                 mixedmsg = bst_insert(mixedmsg, n->oldspeak, n->newspeak);
             }
         }
@@ -151,18 +148,14 @@ int main(int argc, char **argv) {
     }
 
     else {
-        printf("mixed size: %d, bad size: %d\n", bst_size(mixedmsg), bst_size(badmsg));
         if (bst_size(mixedmsg) > 0 && bst_size(badmsg) == 0) {
-            printf("entered1\n");
             printf("%s", goodspeak_message);
             bst_print(mixedmsg);
         } else if ((bst_size(mixedmsg) > 0) && bst_size(badmsg) > 0) {
-            printf("entered2\n");
             printf("%s", mixspeak_message);
             bst_print(badmsg);
             bst_print(mixedmsg);
         } else if (bst_size(mixedmsg) == 0 && bst_size(badmsg) > 0) {
-            printf("entered3\n");
             printf("%s", badspeak_message);
             bst_print(badmsg);
         }

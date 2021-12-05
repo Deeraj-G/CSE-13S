@@ -171,6 +171,7 @@ int main(int argc, char **argv) {
             bst_print(badmsg);
         }
     }
+
     clear_words();
     regfree(&reg);
     ht_delete(&ht);

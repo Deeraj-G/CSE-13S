@@ -5,23 +5,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define max(x, y) x > y ? x : y
+//#define max(x, y) x > y ? x : y
 
-// Got bst.c from tutor Eric Hernandez
-
+// Got everything except bst_find, bst_insert, and max from tutor Eric Hernandez
+// Got bst_find from Dr. Long's Lecture 18 slides on page 57
 uint64_t branches;
 
 Node *bst_create(void) {
     return NULL;
 }
 
+// Got this function from Dr. Long on Lecture 18 page 55
+static int max(int x, int y) {
+    return x > y ? x : y;
+}
+
+// Used Dr. Long's code from Lecture 18 slide 55 for this function
 uint32_t bst_height(Node *root) {
     // If the root node is NULL, then there is no bst
-    if (root == NULL) {
-        return 0;
+    if (root) {
+        return 1 + max(bst_height(root->left), bst_height(root->right));
     }
-    // Else return the max height of the bst
-    return max(bst_height(root->left), bst_height(root->right)) + 1;
+    return 0;
 }
 
 uint32_t bst_size(Node *root) {
@@ -33,62 +38,44 @@ uint32_t bst_size(Node *root) {
     return bst_size(root->left) + bst_size(root->right) + 1;
 }
 
+// Used the Professor's code from the Lecture 18 slides on page 57 for this function
 Node *bst_find(Node *root, char *oldspeak) {
-    // Set curr equal to the root
-    Node *curr = root;
-    // If the root node exists and the oldspeak exists then execute the rest of the code
-    if (root != NULL && oldspeak != NULL) {
-        // Make sure the current node exists and there aren't any duplicates in the code
-        while (curr != NULL && strcmp(curr->oldspeak, oldspeak) != 0) {
-            // If the current oldspeak is more lexicographically significant than oldspeak take the left node
-            if (strcmp(curr->oldspeak, oldspeak) > 0) {
-                curr = curr->left;
-            } else {
-                curr = curr->right;
-            }
+    // Make sure the root node isn't NULL
+    if (root) {
+        // If the current oldspeak is more lexicographically significant than argument oldspeak take the left node
+        if (root->oldspeak > oldspeak) {
+            return bst_find(root->left, oldspeak);
+        }
+        // If the current oldspeak is less lexicographically significant than argument oldspeak take the right node
+        else if (root->oldspeak < oldspeak) {
+            return bst_find(root->right, oldspeak);
         }
     }
-    return curr;
+    return root;
 }
 
+// Used Dr. Long's code from Lecture 18 page 62 for this function
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
-    // Initialize a as the root node
-    Node *a = root;
-    Node *b = NULL;
-    // Make sure the oldspeak isn't NULL
-    if (oldspeak != NULL) {
-        // Make sure there aren't any duplicates of the oldspeak
-        while ((a != NULL) && (strcmp(a->oldspeak, oldspeak) != 0)) {
-            // Set Node b as the the value of a before it equals the node's children
-            b = a;
-            // If the current oldspeak is more lexicographically significant than oldspeak take the left node
-            if (strcmp(a->oldspeak, oldspeak) > 0) {
-                a = a->left;
-            } else {
-                a = a->right;
-            }
+    // Make sure root isn't NULL
+    if (root) {
+        // If the current oldspeak is more lexicographically significant than argument oldspeak take the left node
+        if (root->oldspeak > oldspeak) {
+            root->left = bst_insert(root->left, oldspeak, newspeak);
         }
+        // Else take the right node
+        else {
+            root->right = bst_insert(root->right, oldspeak, newspeak);
+        }
+        // If there are duplicates of the oldspeak, return root
+        return root;
     }
-
-    // If b is NULL, set it's current position as a new node
-    if (b == NULL) {
-        b = node_create(oldspeak, newspeak);
-    }
-    // If b's oldspeak is more lexicographically significant than argument oldspeak set the left node as the new node
-    else if (strcmp(b->oldspeak, oldspeak) > 0) {
-        b->left = node_create(oldspeak, newspeak);
-    }
-    // If b's oldspeak is less lexicographically significant than argument oldspeak set the right node as the new node
-    else {
-        b->right = node_create(oldspeak, newspeak);
-    }
-    return b;
+    // Return the newly created node
+    return node_create(oldspeak, newspeak);
 }
 
-// Make an actual print statement later
+// Print the root node
 void bst_print(Node *root) {
-    Node *a = root;
-    a = a->left;
+    node_print(root);
 }
 
 // Delete the binary search tree

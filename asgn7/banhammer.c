@@ -176,7 +176,7 @@ int main(int argc, char **argv) {
     regfree(&reg);
     ht_delete(&ht);
     bf_delete(&bf);
-    node_delete(&mixedmsg);
-    node_delete(&badmsg);
+    bst_delete(&mixedmsg);
+    bst_delete(&badmsg);
     return 0;
 }

@@ -15,10 +15,11 @@
 #include "speck.h"
 #include "salts.h"
 #include <ctype.h>
-
-// Got the regex pattern from tutor Eric Hernandez
 #define REG_PATTERN "[A-Za-z0-9_]+(('|-)[A-Za-z0-9_]+)*"
 #define OPTIONS     "ht:f:s"
+
+uint64_t lookups;
+uint64_t branches;
 
 // Credit:
 // Used the while (word[i]) from https://www.educative.io/edpresso/what-is-the-tolower-function-in-c
@@ -26,6 +27,7 @@
 // Used Dr. Long's banhammer steps/description from the asgn7.pdf
 // Got the idea to use left shifting from miles on Discord
 // Used the parsing module provided in the asgn7.pdf by Dr. Long
+// Got the regex pattern from tutor Eric Hernandez
 
 // Print this by default or when -h is specified
 void usage(char *exec) {
@@ -144,7 +146,16 @@ int main(int argc, char **argv) {
     if (stats == true) {
         printf("Average BST size: %f\n", ht_avg_bst_size(ht));
         printf("Average BST height: %f\n", ht_avg_bst_height(ht));
-        //printf("Average branches traversed: %f", branches / lookups);
+        // Allow precise division by turning the ints into doubles
+        double b = branches;
+        double l = lookups;
+        printf("Average branches traversed: %f\n", b / l);
+        double htc = ht_count(ht);
+        double hts = ht_size(ht);
+        printf("Hash table load: %f%%\n", 100 * (htc / hts));
+        double bfc = bf_count(bf);
+        double bfs = bf_size(bf);
+        printf("Bloom filter load: %f%%\n", 100 * (bfc / bfs));
     }
 
     else {
@@ -162,11 +173,9 @@ int main(int argc, char **argv) {
     }
     clear_words();
     regfree(&reg);
-    /*
     ht_delete(&ht);
     bf_delete(&bf);
     node_delete(&mixedmsg);
     node_delete(&badmsg);
-    */
     return 0;
 }

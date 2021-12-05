@@ -32,11 +32,15 @@ BloomFilter *bf_create(uint32_t size) {
 
 // Delete a BloomFilter
 void bf_delete(BloomFilter **bf) {
-    // Call bv_delete on BitVector filter
-    bv_delete(&(*bf)->filter);
-    // Free the allocated memory of the BloomFilter
-    free(*bf);
-    *bf = NULL;
+    if (*bf) {
+        // Call bv_delete on BitVector filter
+        if ((*bf)->filter) {
+            bv_delete(&(*bf)->filter);
+        }
+        // Free the allocated memory of the BloomFilter
+        free(*bf);
+        *bf = NULL;
+    }
 }
 
 // Return the size of the BitVector filter

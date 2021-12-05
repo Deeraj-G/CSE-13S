@@ -29,18 +29,22 @@ HashTable *ht_create(uint32_t size) {
 
 // Delete a HashTable
 void ht_delete(HashTable **ht) {
-    // Loop through the entire hash table
-    for (uint32_t i = 0; i < (*ht)->size; i++) {
-        // If the current node isn't empty, recursively delete its bst
-        if ((*ht)->trees[i] != NULL) {
-            bst_delete(&(*ht)->trees[i]);
+    if (*ht) {
+        // Loop through the entire hash table
+        for (uint32_t i = 0; i < (*ht)->size; i++) {
+            // If the current node isn't empty, recursively delete its bst
+            if ((*ht)->trees[i] != NULL) {
+                bst_delete(&(*ht)->trees[i]);
+            }
         }
+        // Free the allocated memory for the nodes
+        if ((*ht)->trees) {
+            free((*ht)->trees);
+        }
+        // Free the allocated memory for the HashTable
+        free(*ht);
+        *ht = NULL;
     }
-    // Free the allocated memory for the nodes
-    free((*ht)->trees);
-    // Free the allocated memory for the HashTable
-    free(*ht);
-    *ht = NULL;
 }
 
 // Return the size of the HashTable
@@ -53,6 +57,7 @@ Node *ht_lookup(HashTable *ht, char *oldspeak) {
     // Set the index to the hashed oldspeak
     uint32_t index = hash(ht->salt, oldspeak) % ht->size;
     // Go through the current bst and see if there are any Nodes with oldspeak that match the argument
+    lookups += 1;
     return bst_find(ht->trees[index], oldspeak);
 }
 
@@ -61,6 +66,7 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     // Set the index to the hashed oldspeak
     uint32_t index = hash(ht->salt, oldspeak) % ht->size;
     // Insert the new Node in the correct position in the bst, store the result in the index element of the HashTable
+    lookups += 1;
     ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
 }
 

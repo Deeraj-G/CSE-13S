@@ -30,8 +30,8 @@ BitVector *bv_create(uint32_t length) {
 
 // Got this function from Dr. Long in bv8.h
 void bv_delete(BitVector **bv) {
-    // Check if bv exists, then free its contents if it does
-    if (*bv && (*bv)->vector) {
+    // Check if bv->vector exists, then free its contents if it does
+    if ((*bv)->vector) {
         free((*bv)->vector);
     }
     if (*bv) {

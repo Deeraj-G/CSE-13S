@@ -7,8 +7,10 @@
 #include <string.h>
 //#define max(x, y) x > y ? x : y
 
-// Got everything except bst_find, bst_insert, and max from tutor Eric Hernandez
-// Got bst_find from Dr. Long's Lecture 18 slides on page 57
+// Got bst_find, bst_insert, bst_height, bst_print, and max from Dr. Long's Lecture 18 slides
+// Followed the inorder traversal example from Lecture 18 page 22
+// Got bst_create and bst_delete from tutor Eric Hernandez
+
 uint64_t branches;
 
 Node *bst_create(void) {
@@ -60,10 +62,12 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     if (root) {
         // If the current oldspeak is more lexicographically significant than argument oldspeak take the left node
         if (strcmp(root->oldspeak, oldspeak) > 0) {
+            branches += 1;
             root->left = bst_insert(root->left, oldspeak, newspeak);
         }
         // Else take the right node
         else if (strcmp(root->oldspeak, oldspeak) < 0) {
+            branches += 1;
             root->right = bst_insert(root->right, oldspeak, newspeak);
         }
         // If there are duplicates of the oldspeak, return root
@@ -74,6 +78,7 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
 }
 
 // Recursively print all the nodes
+// Followed the inorder traversal example from Lecture 18 page 22
 void bst_print(Node *root) {
     // Make sure the root isn't NULL
     if (root) {

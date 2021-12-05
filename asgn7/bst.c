@@ -73,9 +73,14 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     return node_create(oldspeak, newspeak);
 }
 
-// Print the root node
+// Recursively print all the nodes
 void bst_print(Node *root) {
-    node_print(root);
+    // Make sure the root isn't NULL
+    if (root) {
+        bst_print(root->left);
+        node_print(root);
+        bst_print(root->right);
+    }
 }
 
 // Delete the binary search tree

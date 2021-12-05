@@ -89,18 +89,12 @@ void bst_print(Node *root) {
 }
 
 // Delete the binary search tree
+// Used Dr. Long's code from Lecture 18 page 76 for this function
 void bst_delete(Node **root) {
     // Make sure the root exists
-    if (&(*root) != NULL) {
-        // Make sure the left root exists before deleting it
-        if ((*root)->left != NULL) {
-            bst_delete(&(*root)->left);
-        }
-        // Make sure the right root exists before deleting it
-        if ((*root)->right != NULL) {
-            bst_delete(&(*root)->right);
-        }
-        // Delete the root node once the left and right side have been recursively deleted
-        node_delete(&(*root));
+    if (*root) {
+        bst_delete(&(*root)->left);
+        bst_delete(&(*root)->right);
+        node_delete(root);
     }
 }

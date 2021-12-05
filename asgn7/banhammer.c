@@ -90,15 +90,17 @@ int main(int argc, char **argv) {
 
     if (bf_size(bf) <= 0) {
         printf("ERROR: Invalid BloomFilter size");
+        return EXIT_FAILURE;
     }
 
     if (ht_size(ht) <= 0) {
         printf("ERROR: Invalid HashTable size");
+        return EXIT_FAILURE;
     }
 
     while (fscanf(badfile, "%s\n", badspeak) != EOF) {
         bf_insert(bf, badspeak);
-        ht_insert(ht, badspeak, newspeak);
+        ht_insert(ht, badspeak, NULL);
     }
 
     // Close the badfile
@@ -114,9 +116,10 @@ int main(int argc, char **argv) {
 
     regex_t reg;
 
+    // Used the example parsing module from asgn7.pdf for this
     if (regcomp(&reg, REG_PATTERN, REG_EXTENDED)) {
         fprintf(stderr, "ERROR: Failed to compile regex\n");
-        return EXIT_FAILURE;
+        return 1;
     }
 
     while ((word = next_word(stdin, &reg)) != NULL) {
@@ -127,36 +130,50 @@ int main(int argc, char **argv) {
             word[i] = tolower(word[i]);
             i++;
         }
+
         if (bf_probe(bf, word) == true) {
             Node *n = ht_lookup(ht, word);
-            if (n != NULL && n->newspeak != NULL) {
+            printf("oldspeak: %s, newspeak: %s\n", n->oldspeak, n->newspeak);
+            if (n != NULL && n->newspeak == NULL) {
+                printf("ded\n");
+                badmsg = bst_insert(badmsg, n->oldspeak, n->newspeak);
+            } else if (n != NULL && n->newspeak != NULL) {
+                printf("ded\n");
                 mixedmsg = bst_insert(mixedmsg, n->oldspeak, n->newspeak);
-            } else if (n != NULL && n->newspeak == NULL) {
-                badmsg = bst_insert(mixedmsg, n->oldspeak, n->newspeak);
             }
         }
     }
 
     if (stats == true) {
-        /*
-        printf("Average bst size: %f", ht_avg_bst_size(ht));
-        printf("Average bst height: %f", ht_avg_bst_height(ht));
-        printf("Average branches traversed: %f", branches / lookups);
-        */
+        printf("Average BST size: %f\n", ht_avg_bst_size(ht));
+        printf("Average BST height: %f\n", ht_avg_bst_height(ht));
+        //printf("Average branches traversed: %f", branches / lookups);
     }
 
     else {
-        if (bst_size(mixedmsg) > 0 && bst_size(mixedmsg) == 0) {
+        printf("mixed size: %d, bad size: %d\n", bst_size(mixedmsg), bst_size(badmsg));
+        if (bst_size(mixedmsg) > 0 && bst_size(badmsg) == 0) {
+            printf("entered1\n");
             printf("%s", goodspeak_message);
             bst_print(mixedmsg);
         } else if ((bst_size(mixedmsg) > 0) && bst_size(badmsg) > 0) {
+            printf("entered2\n");
             printf("%s", mixspeak_message);
             bst_print(badmsg);
             bst_print(mixedmsg);
         } else if (bst_size(mixedmsg) == 0 && bst_size(badmsg) > 0) {
+            printf("entered3\n");
             printf("%s", badspeak_message);
             bst_print(badmsg);
         }
     }
-    return EXIT_SUCCESS;
+    clear_words();
+    regfree(&reg);
+    /*
+    ht_delete(&ht);
+    bf_delete(&bf);
+    node_delete(&mixedmsg);
+    node_delete(&badmsg);
+    */
+    return 0;
 }

@@ -19,7 +19,7 @@ struct BloomFilter {
 
 // Create a BloomFilter
 BloomFilter *bf_create(uint32_t size) {
-    BloomFilter *bf = (BloomFilter *) malloc(sizeof(BloomFilter));
+    BloomFilter *bf = (BloomFilter *) calloc(size, sizeof(BloomFilter));
     bf->primary[0] = SALT_PRIMARY_LO;
     bf->primary[1] = SALT_PRIMARY_HI;
     bf->secondary[0] = SALT_SECONDARY_LO;

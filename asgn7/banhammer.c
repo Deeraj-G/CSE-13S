@@ -20,6 +20,13 @@
 #define REG_PATTERN "[A-Za-z0-9_]+(('|-)[A-Za-z0-9_]+)*"
 #define OPTIONS     "ht:f:s"
 
+// Credit:
+// Used the while (word[i]) from https://www.educative.io/edpresso/what-is-the-tolower-function-in-c
+// Got the bulk of the banhammer code from tutor Eric Hernandez
+// Used Dr. Long's banhammer steps/description from the asgn7.pdf
+// Got the idea to use left shifting from miles on Discord
+// Used the parsing module provided in the asgn7.pdf by Dr. Long
+
 // Print this by default or when -h is specified
 void usage(char *exec) {
     fprintf(stderr,
@@ -43,20 +50,22 @@ int main(int argc, char **argv) {
     // Create default values for the command line specifications
     int opt = 0;
     bool stats = false;
-    char oldspeak[1024];
-    char newspeak[1024];
-    char badspeak[1024];
-    char *word = NULL;
 
     // Got the idea to use left shifting from miles on Discord
     uint32_t htsize = 1 << 16;
     uint32_t bfsize = 1 << 20;
 
+    // Initialize variables to hold the various speaks
+    char oldspeak[1024];
+    char newspeak[1024];
+    char badspeak[1024];
+    char *word = NULL;
+
     // Open the badfile and oldfile
     FILE *badfile = fopen("badspeak.txt", "r");
-    FILE *oldfile = fopen("newspwak.txt", "r");
+    FILE *oldfile = fopen("newspeak.txt", "r");
 
-    // Store the violations to print reg
+    // Store the violations to print the messages
     Node *mixedmsg = bst_create();
     Node *badmsg = bst_create();
 
@@ -129,7 +138,11 @@ int main(int argc, char **argv) {
     }
 
     if (stats == true) {
-        // Print stats
+        /*
+        printf("Average bst size: %f", ht_avg_bst_size(ht));
+        printf("Average bst height: %f", ht_avg_bst_height(ht));
+        printf("Average branches traversed: %f", branches / lookups);
+        */
     }
 
     else {
@@ -145,4 +158,5 @@ int main(int argc, char **argv) {
             bst_print(badmsg);
         }
     }
+    return EXIT_SUCCESS;
 }

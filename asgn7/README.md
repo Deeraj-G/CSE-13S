@@ -34,7 +34,7 @@ No errors found so far
 
 Got `bst_find`, `bst_insert`, `bst_height`, `bst_print`, and `max` from Dr. Long's Lecture 18 slides
 
-Followed the inorder traversal example from Lecture 18 page 22
+Followed the inorder traversal example from Lecture 18 page 22 for `bst_print`
 
 Got `bst_create` and `bst_delete` from tutor Eric Hernandez
 
@@ -46,19 +46,19 @@ Used the bitwise operators and shifts code for `bv_set_bit`, `bv_clr_bit`, and `
 
 Also got `bv_create` and `bv_delete` from Dr. Long's `bv8.h` file
 
-Used tutor Eric Hernandez's pseudocode for `ht.c`
+Used tutor Eric Hernandez's pseudocode for all of `ht.c`
 
-Got everything except `bf_create` from tutor Eric Hernandez
+Got everything in `bf.c` except `bf_create` from tutor Eric Hernandez
 
-Used the `while (word[i])` from https://www.educative.io/edpresso/what-is-the-tolower-function-in-c
+Used the `while (word[i])` from https://www.educative.io/edpresso/what-is-the-tolower-function-in-c for the while loop in `banhammer.c`
 
-Got the bulk of the `banhammer` code from tutor Eric Hernandez
+Got the bulk of the `banhammer.c` code from tutor Eric Hernandez
 
-Used Dr. Long's `banhammer` steps/description from the asgn7.pdf
+Used Dr. Long's `banhammer.c` steps/description from the asgn7.pdf
 
-Got the idea to use left shifting from miles on Discord
+Got the idea to use left shifting from miles on Discord to set the default values for the command line options
 
-Used the parsing module provided in the asgn7.pdf by Dr. Long
+Used the parsing module provided in the asgn7.pdf by Dr. Long in `banhammer.c`
 
-Got the regex pattern from tutor Eric Hernandez
+Got the regex pattern from tutor Eric Hernandez for `banhammer.c`
 

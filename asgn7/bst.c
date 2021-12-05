@@ -9,7 +9,7 @@
 
 // Got bst.c from tutor Eric Hernandez
 
-extern uint64_t branches;
+uint64_t branches;
 
 Node *bst_create(void) {
     return NULL;

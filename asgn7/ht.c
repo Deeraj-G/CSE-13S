@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include "speck.h"
 
+uint64_t lookups;
+
 // Used tutor Eric Hernandez's pseudocode for ht.c
 
 struct HashTable {

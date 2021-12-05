@@ -12,25 +12,27 @@ Node *node_create(char *oldspeak, char *newspeak) {
 
     Node *n = (Node *) malloc(sizeof(Node));
 
-    // I had the if/else statement for newspeak before going to tutor Eric Hernandez's section,
-    // but going to the section informed me that I needed to do the same for oldspeak
+    if (n) {
+        n->left = NULL;
+        n->right = NULL;
 
-    // If oldspeak is NULL, n->oldspeak should equal NULL
-    if (oldspeak != NULL) {
-        n->oldspeak = strdup(oldspeak);
-    } else {
-        n->oldspeak = NULL;
+        // I had the if/else statement for newspeak before going to tutor Eric Hernandez's section,
+        // but going to the section informed me that I needed to do the same for oldspeak
+
+        // If oldspeak is NULL, n->oldspeak should equal NULL
+        if (oldspeak != NULL) {
+            n->oldspeak = strdup(oldspeak);
+        } else {
+            n->oldspeak = NULL;
+        }
+
+        // If newspeak is NULL, n->newspeak should equal NULL
+        if (newspeak != NULL) {
+            n->newspeak = strdup(newspeak);
+        } else {
+            n->newspeak = NULL;
+        }
     }
-
-    // If newspeak is NULL, n->newspeak should equal NULL
-    if (newspeak != NULL) {
-        n->newspeak = strdup(newspeak);
-    } else {
-        n->newspeak = NULL;
-    }
-
-    n->left = NULL;
-    n->right = NULL;
     return n;
 }
 

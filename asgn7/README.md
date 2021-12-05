@@ -28,7 +28,7 @@ As a summary of the command line options:
 
 ## Errors in Code
 
-No errors found so far
+The Bloom filter load statistic is off by around 0.00534% when compared to the resources statistics 
 
 ## Credit
 

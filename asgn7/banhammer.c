@@ -18,9 +18,6 @@
 #define REG_PATTERN "[A-Za-z0-9_]+(('|-)[A-Za-z0-9_]+)*"
 #define OPTIONS     "ht:f:s"
 
-uint64_t lookups;
-uint64_t branches;
-
 // Credit:
 // Used the while (word[i]) from https://www.educative.io/edpresso/what-is-the-tolower-function-in-c
 // Got the bulk of the banhammer code from tutor Eric Hernandez

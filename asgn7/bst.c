@@ -43,11 +43,11 @@ Node *bst_find(Node *root, char *oldspeak) {
     // Make sure the root node isn't NULL
     if (root) {
         // If the current oldspeak is more lexicographically significant than argument oldspeak take the left node
-        if (root->oldspeak > oldspeak) {
+        if (strcmp(root->oldspeak, oldspeak) > 0) {
             return bst_find(root->left, oldspeak);
         }
         // If the current oldspeak is less lexicographically significant than argument oldspeak take the right node
-        else if (root->oldspeak < oldspeak) {
+        else if (strcmp(root->oldspeak, oldspeak) < 0) {
             return bst_find(root->right, oldspeak);
         }
     }
@@ -59,11 +59,11 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     // Make sure root isn't NULL
     if (root) {
         // If the current oldspeak is more lexicographically significant than argument oldspeak take the left node
-        if (root->oldspeak > oldspeak) {
+        if (strcmp(root->oldspeak, oldspeak) > 0) {
             root->left = bst_insert(root->left, oldspeak, newspeak);
         }
         // Else take the right node
-        else {
+        else if (strcmp(root->oldspeak, oldspeak) < 0) {
             root->right = bst_insert(root->right, oldspeak, newspeak);
         }
         // If there are duplicates of the oldspeak, return root

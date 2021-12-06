@@ -40,7 +40,7 @@ Got `bst_create` and `bst_delete` from tutor Eric Hernandez
 
 Got `node_print` from the asgn7 pdf by Dr. Long
 
-Got the idea to do the if/else statement for `n->oldspeak` from tutor Eric Hernandez in `node.c`
+Got the idea to do the if/else statement for `n->oldspeak` from tutor Eric Hernandez in `node_create`
 
 Used the bitwise operators and shifts code for `bv_set_bit`, `bv_clr_bit`, and `bv_get_bit` from the example provided by Dr. Long in the CSE 13S Code Comments `bv8.h` file
 
